@@ -1,0 +1,4 @@
+include 'messaging-commons'
+
+include 'messaging-application-teacher'
+include 'messaging-application-student'
