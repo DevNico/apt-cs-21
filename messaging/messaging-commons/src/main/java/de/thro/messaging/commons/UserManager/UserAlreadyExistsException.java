@@ -1,2 +1,15 @@
-package de.thro.messaging.commons.UserManager;public class UserAlreadyExistsException {
+package de.thro.messaging.commons.UserManager;
+
+/**
+ * Fehler wenn ein Hauptbenutzer schon existiert!!
+ * @author Franz Murner
+ */
+public class UserAlreadyExistsException extends Exception{
+
+
+    public UserAlreadyExistsException(){
+
+    }
+
+
 }
