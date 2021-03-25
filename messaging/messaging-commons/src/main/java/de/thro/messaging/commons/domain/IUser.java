@@ -6,5 +6,5 @@ public interface IUser {
     UserType getUserType();
     void setUserType(UserType userType);
     IUser getFromConfig(IConfigUser configUser);
-    IConfiguser converToConfigUser(IUser user);
+    IConfigUser convertToConfigUser(IUser user);
 }
