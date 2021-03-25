@@ -7,8 +7,8 @@ package de.thro.messaging.commons.UserManager;
 public class UserNotExistsException extends Exception{
 
 
-    public UserNotExistsException(){
-
+    public UserNotExistsException(String msg){
+        super(msg);
     }
 
 

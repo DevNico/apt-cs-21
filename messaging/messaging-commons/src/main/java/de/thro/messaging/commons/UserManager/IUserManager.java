@@ -9,7 +9,7 @@ import javax.naming.ConfigurationException;
  * Bei Zusatzwünschen melde dich einfach bei mir!!!
  */
 
-public interface UserManager {
+public interface IUserManager {
 
     /**
      * Hauptuser erstellen:
