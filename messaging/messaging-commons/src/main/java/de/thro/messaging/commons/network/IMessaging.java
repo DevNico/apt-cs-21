@@ -1,5 +1,9 @@
 package de.thro.messaging.commons.network;
 
+import de.thro.messaging.commons.domain.IMessage;
+import de.thro.messaging.commons.domain.IUser;
+import java.util.List;
+
 /**
  * Schnittstelle für einen Nachrichtenbroker. <br>
  * Dieser wird für die Zustellung und den Erhalt von Nachrichten verwendet. <br>
