@@ -22,4 +22,14 @@ public class NetworkException extends Exception {
   public NetworkException(String message) {
     super(message);
   }
+
+  /**
+   * Constructor - Erstellt eine neue NetworkException
+   *
+   * @param message Detaillierte Fehlermeldung über die Ursache
+   * @param e       Ursprüngliche Exception, welche durch die NetworkException ersetzt werden soll
+   */
+  public NetworkException(String message, Exception e) {
+    super(message, e);
+  }
 }

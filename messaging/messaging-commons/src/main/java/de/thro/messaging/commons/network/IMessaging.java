@@ -2,11 +2,15 @@ package de.thro.messaging.commons.network;
 
 /**
  * Schnittstelle für einen Nachrichtenbroker. <br>
- * Dieser wird für die Zustellung und den Erhalt von Nachrichten verwendet.
+ * Dieser wird für die Zustellung und den Erhalt von Nachrichten verwendet. <br>
+ * <br>
+ * Diese Schnittstelle verwendet die {@link AutoCloseable} Schnittstelle, <br>
+ * diese bietet eine "close" Methode an, welche zum Trennen der Verbindung verwendet wird. <br>
+ * Zusätzlich erlaubt sie das "try-with-resources" - Pattern.
  *
  * @author Thomas Linner
  */
-public interface IMessaging {
+public interface IMessaging extends AutoCloseable {
 
   /**
    * Sende eine Direkt-Nachricht an einen angegebenen Benutzer.
@@ -34,7 +38,7 @@ public interface IMessaging {
    * Erhalte alle Nachrichten für den im Nachrichtenbroker angemeldeten Benutzer. <br>
    * Die Nachrichten sind nach dem Sende-Zeitstempel sortiert.
    *
-   * @return Liste aller erhaltenen Nachrichten
+   * @return Liste aller erhaltenen Nachrichten seit dem letzten Abruf
    */
   public List<IMessage> receiveAll();
 }
