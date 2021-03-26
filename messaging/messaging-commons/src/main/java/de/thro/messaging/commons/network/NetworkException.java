@@ -9,6 +9,13 @@ public class NetworkException extends Exception {
 
   /**
    * Constructor - Erstellt eine neue NetworkException
+   */
+  public NetworkException() {
+    super();
+  }
+
+  /**
+   * Constructor - Erstellt eine neue NetworkException
    *
    * @param message Detaillierte Fehlermeldung über die Ursache
    */
