@@ -39,6 +39,9 @@ public interface IMessaging extends AutoCloseable {
    * Die Nachrichten sind nach dem Sende-Zeitstempel sortiert.
    *
    * @return Liste aller erhaltenen Nachrichten seit dem letzten Abruf
+   *
+   * @throws NetworkException Nachrichten konnten nicht empfangen werden:
+   * <li> Verbindung zum Nachrichtenbroker konnte nicht hergestellt werden </li>
    */
-  public List<IMessage> receiveAll();
+  public List<IMessage> receiveAll() throws NetworkException;
 }
