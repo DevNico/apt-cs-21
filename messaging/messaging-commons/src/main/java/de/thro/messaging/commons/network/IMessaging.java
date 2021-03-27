@@ -11,9 +11,12 @@ import java.util.List;
  * diese bietet eine "close" Methode an, welche zum Trennen der Verbindung verwendet wird. <br>
  * Zusätzlich erlaubt sie das "try-with-resources" - Pattern.
  *
+ * @param <T> Der generische Typ gibt an, mit welcher Implementierung der {@link IMessage} Schnittstelle <br>
+ *            der Nachrichtenbroker arbeiten soll.
+ *
  * @author Thomas Linner
  */
-public interface IMessaging extends AutoCloseable {
+public interface IMessaging<T extends IMessage> extends AutoCloseable {
 
   /**
    * Sende eine Direkt-Nachricht an einen Benutzer.
@@ -25,7 +28,7 @@ public interface IMessaging extends AutoCloseable {
    * <li> Verbindung zu Nachrichtenbroker konnte nicht hergestellt werden </li>
    * <li> Der angegebene Benutzer konnte nicht gefunden werden </li>
    */
-  public void sendDirect(IMessage message) throws NetworkException;
+  public void sendDirect(T message) throws NetworkException;
 
   /**
    * Sende eine Rund-Nachricht an alle im Nachrichtenbroker registrierten Benutzer.
@@ -35,7 +38,7 @@ public interface IMessaging extends AutoCloseable {
    * @throws NetworkException Nachricht konnte nicht versendet werden:
    * <li> Verbindung zum Nachrichtenbroker konnte nicht hergestellt werden </li>
    */
-  public void sendBroadcast(IMessage message) throws NetworkException;
+  public void sendBroadcast(T message) throws NetworkException;
 
   /**
    * Erhalte alle Nachrichten für den im Nachrichtenbroker angemeldeten Benutzer. <br>
@@ -46,5 +49,5 @@ public interface IMessaging extends AutoCloseable {
    * @throws NetworkException Nachrichten konnten nicht empfangen werden:
    * <li> Verbindung zum Nachrichtenbroker konnte nicht hergestellt werden </li>
    */
-  public List<IMessage> receiveAll() throws NetworkException;
+  public List<T> receiveAll() throws NetworkException;
 }

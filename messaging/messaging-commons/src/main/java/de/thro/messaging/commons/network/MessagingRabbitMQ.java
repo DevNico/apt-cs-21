@@ -30,15 +30,18 @@ import java.util.regex.Pattern;
  *
  * @see <a href="https://www.rabbitmq.com/">https://www.rabbitmq.com/</a>
  *
+ * @param <T> Der generische Typ gibt an, mit welcher Implementierung der {@link IMessage} Schnittstelle <br>
+ *            der Nachrichtenbroker arbeiten soll.
+ *
  * @author Thomas Linner
  */
-public class MessagingRabbitMQ implements IMessaging {
+public class MessagingRabbitMQ<T extends IMessage> implements IMessaging<T> {
 
   private static final String EXCHANGE_DIRECT = "exchange_direct";
   private static final String EXCHANGE_BROADCAST = "exchange_broadcast";
 
   private final IUser user;
-  private final ISerializer<IMessage> serializer;
+  private final ISerializer<T> serializer;
 
   private final Connection connection;
   private final Channel channel;
@@ -55,7 +58,7 @@ public class MessagingRabbitMQ implements IMessaging {
    * <li> URI konnte nicht konfiguriert werden </li>
    * <li> Verbindung / Kanal konnte nicht geöffnet werden </li>
    */
-  public MessagingRabbitMQ(ConfigMessaging config, IUser user, ISerializer<IMessage> serializer) throws NetworkException {
+  public MessagingRabbitMQ(ConfigMessaging config, IUser user, ISerializer<T> serializer) throws NetworkException {
     this.user = user;
     this.serializer = serializer;
 
@@ -167,7 +170,7 @@ public class MessagingRabbitMQ implements IMessaging {
    * <li> Der angegebene Benutzer konnte nicht gefunden werden </li>
    */
   @Override
-  public void sendDirect(IMessage message) throws NetworkException {
+  public void sendDirect(T message) throws NetworkException {
     try {
       this.channel.basicPublish(EXCHANGE_DIRECT, message.getReciever(), null,
           this.serializer.serialize(message).getBytes());
@@ -191,7 +194,7 @@ public class MessagingRabbitMQ implements IMessaging {
    * <li> Verbindung zum Nachrichtenbroker konnte nicht hergestellt werden </li>
    */
   @Override
-  public void sendBroadcast(IMessage message) throws NetworkException {
+  public void sendBroadcast(T message) throws NetworkException {
     try {
       this.channel.basicPublish(EXCHANGE_BROADCAST, "", null,
           this.serializer.serialize(message).getBytes());
@@ -215,10 +218,10 @@ public class MessagingRabbitMQ implements IMessaging {
    * <li> Verbindung zum Nachrichtenbroker konnte nicht hergestellt werden </li>
    */
   @Override
-  public List<IMessage> receiveAll() throws NetworkException {
+  public List<T> receiveAll() throws NetworkException {
     // Das TreeSet wird verwendet um die Nachrichten beim Hinzufügen automatisch
     // nach ihrem Zeitstempel zu sortieren
-    Set<IMessage> messages = new TreeSet<>(Comparator.comparing(IMessage::getTime));
+    Set<T> messages = new TreeSet<>(Comparator.comparing(T::getTime));
 
     String queueName = this.user.getName();
 
@@ -227,7 +230,7 @@ public class MessagingRabbitMQ implements IMessaging {
       while (this.channel.messageCount(queueName) > 0) {
         // Erhalte Nachricht und konvertiere in IMessaging
         GetResponse response = this.channel.basicGet(queueName, true);
-        IMessage message = this.serializer.deserialize(new String(response.getBody()));
+        T message = this.serializer.deserialize(new String(response.getBody()));
 
         messages.add(message);
       }
