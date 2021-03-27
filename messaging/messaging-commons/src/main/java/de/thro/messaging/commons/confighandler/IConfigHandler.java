@@ -2,7 +2,7 @@ package de.thro.messaging.commons.confighandler;
 
 /**
  * Dieses Interface stellt die Schnittstelle zum ConfigHandler bereit.
- * ConfigHandler ist dafür da, die Klasse in eine Datei zu speichern oder auszulesen. 
+ * ConfigHandler ist dafür da, die Klasse in eine Datei zu speichern oder auszulesen.
  * @author Tristan Eckstaller
  */
 public interface IConfigHandler<T> {
