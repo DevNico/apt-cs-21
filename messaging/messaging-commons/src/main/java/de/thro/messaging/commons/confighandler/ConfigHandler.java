@@ -72,7 +72,6 @@ public class ConfigHandler<T extends IConfigHandable> implements IConfigHandler<
             filename = filename + "." + serializer.getFormatExtension();
         else filename = filename + serializer.getFormatExtension();
 
-
         //wenn path == null dann soll er einfach nen ordner in home erstellen und das dort ablegen.
         if(path==null || path.isEmpty()) {
             pathfile.append("messaging").append(fileSeperator).append("config")
@@ -94,7 +93,6 @@ public class ConfigHandler<T extends IConfigHandable> implements IConfigHandler<
             else
                 pathfile.append(c);
         }
-
 
         //gibt's 'nen filesperator am Ende?
         if (pathfile.charAt(pathfile.length()-1) != fileSeperator.charAt(0))
