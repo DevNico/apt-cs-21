@@ -17,11 +17,20 @@ public class ConfigMessaging {
     private final String username;
     private final String password;
 
+
     public ConfigMessaging(String ip, String port, String username, String password) {
-        this.ip=ip;
-        this.port=port;
-        this.username=username;
-        this.password = password;
+        //wenn die Strings null sind dann Standardwerte setzen
+        if(ip == null || port == null || username == null || password == null) {
+            this.ip = default_ip;
+            this.port = default_port;
+            this.username = default_username;
+            this.password = default_password;
+        } else {
+            this.ip = ip;
+            this.port = port;
+            this.username = username;
+            this.password = password;
+        }
     }
 
     public ConfigMessaging() {
