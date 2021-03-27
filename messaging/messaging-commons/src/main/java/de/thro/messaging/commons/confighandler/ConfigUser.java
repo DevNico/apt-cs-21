@@ -24,6 +24,6 @@ public class ConfigUser implements IConfigHandable{
 
     @Override
     public String getClassName() {
-        return this.getClass().getName();
+        return this.getClass().getSimpleName();
     }
 }

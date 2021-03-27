@@ -57,6 +57,6 @@ public class ConfigMessaging implements IConfigHandable{
 
     @Override
     public String getClassName() {
-        return this.getClass().getName();
+        return this.getClass().getSimpleName();
     }
 }
