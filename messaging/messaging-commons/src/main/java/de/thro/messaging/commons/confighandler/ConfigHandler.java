@@ -61,7 +61,7 @@ public class ConfigHandler<T extends IConfigHandable> implements IConfigHandler<
         StringBuilder pathfile = new StringBuilder(home);
 
         //gibt's 'nen filesperator am Ende vom Home String?
-        if (pathfile.charAt(pathfile.length() + 1) != fileSeperator.charAt(0))
+        if (pathfile.charAt(pathfile.length()-1) != fileSeperator.charAt(0))
             pathfile.append(fileSeperator);
 
         //die Datei bekommt den Namen der entsprechenden Klasse
@@ -75,7 +75,7 @@ public class ConfigHandler<T extends IConfigHandable> implements IConfigHandler<
 
         //wenn path == null dann soll er einfach nen ordner in home erstellen und das dort ablegen.
         if(path==null) {
-            pathfile.append("messaging").append(fileSeperator).append("config");
+            pathfile.append("messaging").append(fileSeperator).append("config").append(filename);
             return pathfile.toString();
         }
 
@@ -96,7 +96,7 @@ public class ConfigHandler<T extends IConfigHandable> implements IConfigHandler<
         }
 
         //gibt's 'nen filesperator am Ende?
-        if (pathfile.charAt(pathfile.length() + 1) != fileSeperator.charAt(0))
+        if (pathfile.charAt(pathfile.length()) != fileSeperator.charAt(0))
             pathfile.append(fileSeperator);
 
         //Dateipfad mit der Datei verbinden
