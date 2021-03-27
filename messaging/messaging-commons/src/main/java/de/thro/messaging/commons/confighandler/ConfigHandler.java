@@ -74,7 +74,7 @@ public class ConfigHandler<T extends IConfigHandable> implements IConfigHandler<
 
 
         //wenn path == null dann soll er einfach nen ordner in home erstellen und das dort ablegen.
-        if(path==null) {
+        if(path==null || path.isEmpty()) {
             pathfile.append("messaging").append(fileSeperator).append("config")
                     .append(fileSeperator).append(filename);
             return pathfile.toString();
