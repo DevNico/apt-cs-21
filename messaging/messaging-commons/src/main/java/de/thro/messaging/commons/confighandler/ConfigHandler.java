@@ -3,7 +3,7 @@ import de.thro.messaging.commons.serialization.ISerializer;
 
 import java.io.*;
 
-public class ConfigHandler<T> implements IConfigHandler<T>{
+public class ConfigHandler<T extends IConfigHandable> implements IConfigHandler<T>{
 
     //lokale Variable ISerializer, damit man die Daten persistieren kann in einem Format, die der Serializer bereitstellt.
     private final ISerializer<T> serializer;
