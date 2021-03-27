@@ -1,5 +1,8 @@
 package de.thro.messaging.commons.UserManager;
 
+import de.thro.messaging.commons.domain.IUser;
+import de.thro.messaging.commons.domain.UserType;
+
 import javax.naming.ConfigurationException;
 
 /**
@@ -17,7 +20,7 @@ public interface IUserManager {
      * Wenn diese Methode ausgeführt wird, dann wird der User auch gleich als Instanz im Usermanager hinterlegt und kann mit getMainUser() abgefragt werden!
      * @param name Der Name der vom User aus der Konsole abgefragt wurde.
      * @param type Der Typ der Person (Professor oder Student).
-     * @throws UserAlreadyExistsException Gibt eine Fehlermeldung zurück wenn bereits
+     * UserAlreadyExistsException Gibt eine Fehlermeldung zurück wenn bereits
      * ein User existiert und versucht wird einen neuen User anzulegen!
      * @throws ConfigurationException
      * Außerdem gibt es einen Fehler wenn irgendetwas in dem Aufruf der Config.write falsch gelaufen ist!
@@ -39,8 +42,8 @@ public interface IUserManager {
      * isUserInConfig() darüber vergewissern, dass es einen User gibt.
      * @return User
      * @throws ConfigurationException Gibt einen Konfigurationsfehler zurück etwas schiefgelaufen ist
-     * @throws UserNotExistsException Fehler wenn kein User in der Config Existiert
+     * de.thro.messaging.commons.UserManager.UserNotExistsException wenn kein User in der Config Existiert
      */
-    public User getMainUser() throws ConfigurationException, UserNotExistsException;
+    public IUser getMainUser() throws ConfigurationException, UserNotExistsException;
 
 }
