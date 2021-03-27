@@ -37,5 +37,9 @@ public class SerializerJson<T> implements ISerializer<T>{
         return deserializedData;
     }
 
+    public String getFormatExtension(){
+        return ".json";
+    }
+
 }
 

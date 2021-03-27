@@ -9,4 +9,6 @@ public interface ISerializer <T> {
     public String serialize(T data);
 
     public T deserialize(String data);
+
+    public String getFormatExtension();
 }
