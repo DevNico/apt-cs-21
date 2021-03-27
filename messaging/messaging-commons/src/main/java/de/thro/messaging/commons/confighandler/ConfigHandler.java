@@ -64,7 +64,7 @@ public class ConfigHandler<T> implements IConfigHandler<T>{
         if (pathfile.charAt(pathfile.length() + 1) != fileSeperator.charAt(0))
             pathfile.append(fileSeperator);
 
-        //String file = 
+        //String file =
 
         //wenn path == null dann soll er einfach nen ordner in home erstellen und das dort ablegen.
         if(path==null) {
