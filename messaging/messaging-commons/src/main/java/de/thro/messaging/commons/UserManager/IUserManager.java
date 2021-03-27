@@ -35,7 +35,7 @@ public interface IUserManager {
      * @throws ConfigHandlerException Falls bei der Abfrage aus der Config ein Fehler passiert!
      */
 
-    public boolean isUserInConfig() throws ConfigHandlerException;
+    public boolean isMainUserInConfig() throws ConfigHandlerException;
     /**
      * User aus Config laden:
      * Die Methode holt sich die Userdaten aus der Config.
@@ -47,12 +47,4 @@ public interface IUserManager {
      */
     public IUser getMainUser() throws ConfigHandlerException, UserNotExistsException;
 
-    /**
-     * Diese Methode dient dem erstellen eines normalen Users...
-     * welcher dann zum Definieren des Absenders verwendet werden kann...
-     * @param name Namen des Users
-     * @param type Typ des Users
-     * @return Gibt einen User zurück, welcher dann für das Erstellen einer Nachricht verwendet werden kann.
-     */
-    public IUser createUser(String name, UserType type);
 }
