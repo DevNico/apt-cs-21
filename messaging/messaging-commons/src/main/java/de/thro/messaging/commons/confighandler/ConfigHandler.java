@@ -27,7 +27,7 @@ public class ConfigHandler<T extends IConfigHandable> implements IConfigHandler<
 
     @Override
     public void writeConfig(String path, T fileToSerialize) throws ConfigHandlerException {
-        try (Writer writer = new FileWriter(path)){
+        try (Writer writer = new FileWriter(buildPathFile(path, fileToSerialize))){
             //write into File:
             writer.write(serializer.serialize(fileToSerialize));
         } catch (Exception ex) {
@@ -37,10 +37,10 @@ public class ConfigHandler<T extends IConfigHandable> implements IConfigHandler<
 
     @Override
     public boolean isFileAvailable(String path, T file) throws ConfigHandlerException {
-        try (Reader reader = new FileReader(path)){
+        try (Reader reader = new FileReader(buildPathFile(path, file))){
             String read = reader.toString();
             //abgleich ob strings gleich
-            return read.equals(serializer.serialize(file));
+            return true;
         } catch (IOException ie) {
             //return false wenn es Probleme Gab die Datei zu finden
             return false;
