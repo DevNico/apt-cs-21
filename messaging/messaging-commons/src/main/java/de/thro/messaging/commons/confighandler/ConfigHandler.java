@@ -64,7 +64,14 @@ public class ConfigHandler<T extends IConfigHandable> implements IConfigHandler<
         if (pathfile.charAt(pathfile.length() + 1) != fileSeperator.charAt(0))
             pathfile.append(fileSeperator);
 
-        //String file =
+        //die Datei bekommt den Namen der entsprechenden Klasse
+        String filename = file.getClassName();
+
+        //die Datei bekommt ihre entsprechende Endung vom Serializer
+        if(serializer.getFormatExtension().charAt(0) != '.')
+            filename = filename + "." + serializer.getFormatExtension();
+        else filename = filename + serializer.getFormatExtension();
+
 
         //wenn path == null dann soll er einfach nen ordner in home erstellen und das dort ablegen.
         if(path==null) {
@@ -92,7 +99,8 @@ public class ConfigHandler<T extends IConfigHandable> implements IConfigHandler<
         if (pathfile.charAt(pathfile.length() + 1) != fileSeperator.charAt(0))
             pathfile.append(fileSeperator);
 
-
+        //Dateipfad mit der Datei verbinden
+        pathfile.append(filename);
 
         //pathfile ausgeben - endlich :D
         return pathfile.toString();
