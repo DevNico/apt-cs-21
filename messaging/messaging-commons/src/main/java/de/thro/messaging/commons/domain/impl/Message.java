@@ -8,11 +8,11 @@ import java.time.LocalDateTime;
 public class Message implements IMessage {
 
     private IUser sender;
-    private IUser reciever;
+    private String reciever;
     private String messageText;
     private LocalDateTime dateTime;
 
-    public Message (IUser sender, IUser reciever, String messageText){
+    public Message (IUser sender, String reciever, String messageText){
         this.sender = sender;
         this.reciever = reciever;
         this.messageText = messageText;
@@ -25,7 +25,7 @@ public class Message implements IMessage {
     }
 
     @Override
-    public IUser getReciever() {
+    public String getReciever() {
         return this.reciever;
     }
 
