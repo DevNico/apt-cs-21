@@ -7,10 +7,6 @@ public class User implements IUser {
     private String name;
     private UserType userType;
 
-    public  User (){
-
-    }
-
     public  User (String name, UserType type){
         this.name = name;
         this.userType = type;
@@ -18,21 +14,21 @@ public class User implements IUser {
 
     @Override
     public String getName() {
-        return null;
+        return this.name;
     }
 
     @Override
     public void setName(String name) {
-
+        this.name = name;
     }
 
     @Override
     public UserType getUserType() {
-        return null;
+        return this.userType;
     }
 
     @Override
     public void setUserType(UserType userType) {
-
+        this.userType = userType;
     }
 }

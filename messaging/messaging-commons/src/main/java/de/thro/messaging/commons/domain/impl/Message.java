@@ -6,23 +6,36 @@ import de.thro.messaging.commons.domain.IUser;
 import java.time.LocalDateTime;
 
 public class Message implements IMessage {
+
+    private IUser sender;
+    private IUser reciever;
+    private String messageText;
+    private LocalDateTime dateTime;
+
+    public Message (IUser sender, IUser reciever, String messageText){
+        this.sender = sender;
+        this.reciever = reciever;
+        this.messageText = messageText;
+        this.dateTime = LocalDateTime.now();
+    }
+
     @Override
     public IUser getSender() {
-        return null;
+        return this.sender;
     }
 
     @Override
     public IUser getReciever() {
-        return null;
+        return this.reciever;
     }
 
     @Override
     public LocalDateTime getTime() {
-        return null;
+        return this.dateTime;
     }
 
     @Override
     public String getMessageText() {
-        return null;
+        return this.messageText;
     }
 }
