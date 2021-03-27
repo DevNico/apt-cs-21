@@ -89,12 +89,12 @@ public class ConfigHandler<T extends IConfigHandable> implements IConfigHandler<
         //wenn der path die falschen fileSeperator benutzt,
         // dann bitte für das System austauschen und gleich dem pathfile anhängen
         for (char c: pathchecked.toCharArray()) {
-            if(fileSeperator.charAt(0) == '/') {
-                if(c == '\\') pathfile.append(fileSeperator);
-            } else if(fileSeperator.charAt(0) == '\\') {
-                if(c == '/') pathfile.append(fileSeperator);
-            } else pathfile.append(c);
+            if (c == '\\' || c == '/')
+                pathfile.append(fileSeperator);
+            else
+                pathfile.append(c);
         }
+
 
         //gibt's 'nen filesperator am Ende?
         if (pathfile.charAt(pathfile.length()-1) != fileSeperator.charAt(0))
