@@ -97,7 +97,7 @@ public class ConfigHandler<T extends IConfigHandable> implements IConfigHandler<
         }
 
         //gibt's 'nen filesperator am Ende?
-        if (pathfile.charAt(pathfile.length()) != fileSeperator.charAt(0))
+        if (pathfile.charAt(pathfile.length()-1) != fileSeperator.charAt(0))
             pathfile.append(fileSeperator);
 
         //Dateipfad mit der Datei verbinden
