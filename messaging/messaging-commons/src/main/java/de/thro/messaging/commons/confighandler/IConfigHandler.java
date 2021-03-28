@@ -8,7 +8,7 @@ package de.thro.messaging.commons.confighandler;
 public interface IConfigHandler<T> {
     /**
      * Liest Config-File aus.
-     * @param path beschreibt den Dateienpfad als String, aus dem gelesen werden soll
+     * @param path beschreibt den Dateienpfad als String, aus dem gelesen werden soll. Wenn null oder leerer String wird ein Pfad im Userverzeichnis abgecheckt
      * @return gibt Objekt vom Typ T zurück
      * @throws ConfigHandlerException Exception falls es Probleme beim lesen der Configuration gab
      */
@@ -16,7 +16,7 @@ public interface IConfigHandler<T> {
 
     /**
      * schreibt T in Config-File im Pfad path
-     * @param path Dateienpfad als String, in den Gespeichert werden soll
+     * @param path Dateienpfad als String, in den Gespeichert werden soll. Wenn null oder leerer String wird ein Pfad im Userverzeichnis angelegt
      * @param fileToSerialize Datei, die als Configdatei persistiert werden soll
      * @throws ConfigHandlerException Exception falls es Probleme beim schreiben der Configuration gab
      */
@@ -24,7 +24,7 @@ public interface IConfigHandler<T> {
 
     /**
      * Überprüft ob bereits eine Configdatei für T existiert
-     * @param path gibt den Dateipfad an
+     * @param path gibt den Dateipfad an. Wenn null oder leerer String wird ein Pfad im Userverzeichnis abgecheckt
      * @param file Datei die überprüft werden soll
      * @return boolean-Wert ob es die Configdatei gibt
      * @throws ConfigHandlerException Exception falls es Probleme beim lesen der Configuration gab
