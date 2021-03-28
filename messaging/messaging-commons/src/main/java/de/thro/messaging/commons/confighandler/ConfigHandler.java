@@ -3,7 +3,7 @@ import de.thro.messaging.commons.serialization.ISerializer;
 
 import java.io.*;
 
-public class ConfigHandler<T extends IConfigHandable> implements IConfigHandler<T>{
+public class ConfigHandler<T> implements IConfigHandler<T>{
 
     //lokale Variable ISerializer, damit man die Daten persistieren kann in einem Format, die der Serializer bereitstellt.
     private final ISerializer<T> serializer;
@@ -48,7 +48,7 @@ public class ConfigHandler<T extends IConfigHandable> implements IConfigHandler<
             throw new ConfigHandlerException("Error while reading config-file, error-message: " + ex.getMessage());
         }
     }
-    
+
     private String buildPathFile(String path) {
 
         //Userverzeichnis vom System über Systemvariable ausgeben lassen

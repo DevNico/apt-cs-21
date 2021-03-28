@@ -1,7 +1,7 @@
 package de.thro.messaging.commons.confighandler;
 import de.thro.messaging.commons.domain.UserType;
 
-public class ConfigUser implements IConfigHandable{
+public class ConfigUser{
     private String name;
     private UserType type;
 
@@ -20,10 +20,5 @@ public class ConfigUser implements IConfigHandable{
 
     public UserType getType() {
         return type;
-    }
-
-    @Override
-    public String getClassName() {
-        return this.getClass().getSimpleName();
     }
 }

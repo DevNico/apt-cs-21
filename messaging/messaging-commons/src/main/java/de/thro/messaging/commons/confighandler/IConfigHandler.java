@@ -5,7 +5,7 @@ package de.thro.messaging.commons.confighandler;
  * ConfigHandler ist dafür da, die Klasse in eine Datei zu speichern oder auszulesen.
  * @author Tristan Eckstaller
  */
-public interface IConfigHandler<T extends IConfigHandable> {
+public interface IConfigHandler<T> {
     /**
      * Liest Config-File aus.
      * @param path beschreibt den Dateienpfad als String, aus dem gelesen werden soll
