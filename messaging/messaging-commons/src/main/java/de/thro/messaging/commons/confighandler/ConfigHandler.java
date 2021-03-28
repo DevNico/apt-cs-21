@@ -35,6 +35,7 @@ public class ConfigHandler<T> implements IConfigHandler<T>{
         try (Writer writer = new FileWriter(buildPathFile(path))){
             //write into File:
             writer.write(serializer.serialize(fileToSerialize));
+            System.out.println("File succesfully saved at " + buildPathFile(path));
         } catch (Exception ex) {
         throw new ConfigHandlerException("Error while creating config-file, error-message: " + ex.getMessage());
         }
