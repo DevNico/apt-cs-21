@@ -10,5 +10,5 @@ public interface ISerializer <T> {
 
     public T deserialize(String data);
 
-    public String getFormatExtension();
+    public String getFileName();
 }
