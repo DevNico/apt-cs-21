@@ -15,7 +15,7 @@ public class ConfigHandler<T extends IConfigHandable> implements IConfigHandler<
 
     @Override
     public T readConfig(String path) throws ConfigHandlerException {
-        try (Reader reader = new FileReader(path)){
+        try (Reader reader = new FileReader(buildPathFile(path))){
             //read file into string
             String read = reader.toString();
 
@@ -27,7 +27,7 @@ public class ConfigHandler<T extends IConfigHandable> implements IConfigHandler<
 
     @Override
     public void writeConfig(String path, T fileToSerialize) throws ConfigHandlerException {
-        try (Writer writer = new FileWriter(buildPathFile(path, fileToSerialize))){
+        try (Writer writer = new FileWriter(buildPathFile(path))){
             //write into File:
             writer.write(serializer.serialize(fileToSerialize));
         } catch (Exception ex) {
@@ -37,7 +37,7 @@ public class ConfigHandler<T extends IConfigHandable> implements IConfigHandler<
 
     @Override
     public boolean isFileAvailable(String path, T file) throws ConfigHandlerException {
-        try (Reader reader = new FileReader(buildPathFile(path, file))){
+        try (Reader reader = new FileReader(buildPathFile(path))){
             String read = reader.toString();
             //abgleich ob strings gleich
             return true;
@@ -48,8 +48,8 @@ public class ConfigHandler<T extends IConfigHandable> implements IConfigHandler<
             throw new ConfigHandlerException("Error while reading config-file, error-message: " + ex.getMessage());
         }
     }
-
-    private String buildPathFile(String path, T file) {
+    
+    private String buildPathFile(String path) {
 
         //Userverzeichnis vom System über Systemvariable ausgeben lassen
         String home = System.getProperty("user.home");
@@ -64,13 +64,8 @@ public class ConfigHandler<T extends IConfigHandable> implements IConfigHandler<
         if (pathfile.charAt(pathfile.length()-1) != fileSeperator.charAt(0))
             pathfile.append(fileSeperator);
 
-        //die Datei bekommt den Namen der entsprechenden Klasse
-        String filename = file.getClassName();
-
         //die Datei bekommt ihre entsprechende Endung vom Serializer
-        if(serializer.getFormatExtension().charAt(0) != '.')
-            filename = filename + "." + serializer.getFormatExtension();
-        else filename = filename + serializer.getFormatExtension();
+        String filename = serializer.getFileName();
 
         //wenn path == null dann soll er einfach nen ordner in home erstellen und das dort ablegen.
         if(path==null || path.isEmpty()) {
