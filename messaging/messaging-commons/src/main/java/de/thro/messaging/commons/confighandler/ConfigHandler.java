@@ -49,6 +49,12 @@ public class ConfigHandler<T> implements IConfigHandler<T>{
         }
     }
 
+    /**
+     * Hilfsklasse um den Pfad in ein korrektes, OS-spezifisches Format zu bekommen. Keine checks ob korrekte Zeichen
+     * verwendet werden! Kann null und leere String-Eingaben handeln.
+     * @param path eingabe des Pfadstrings
+     * @return gibt korrekten Pfad aus
+     */
     private String buildPathFile(String path) {
 
         //Userverzeichnis vom System über Systemvariable ausgeben lassen
