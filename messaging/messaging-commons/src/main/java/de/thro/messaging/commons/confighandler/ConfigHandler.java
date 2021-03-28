@@ -51,7 +51,6 @@ public class ConfigHandler<T> implements IConfigHandler<T>{
     public boolean isFileAvailable(String path, T file) throws ConfigHandlerException {
         try (Reader reader = new FileReader(buildPathFile(path))){
             String read = reader.toString();
-            //abgleich ob strings gleich
             return true;
         } catch (IOException ie) {
             //return false wenn es Probleme Gab die Datei zu finden
