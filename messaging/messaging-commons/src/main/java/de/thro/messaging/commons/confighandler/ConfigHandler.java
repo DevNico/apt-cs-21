@@ -26,6 +26,11 @@ public class ConfigHandler<T> implements IConfigHandler<T>{
     }
 
     @Override
+    public T readConfig() throws ConfigHandlerException {
+        return this.readConfig(null);
+    }
+
+    @Override
     public void writeConfig(String path, T fileToSerialize) throws ConfigHandlerException {
         try (Writer writer = new FileWriter(buildPathFile(path))){
             //write into File:
@@ -34,6 +39,12 @@ public class ConfigHandler<T> implements IConfigHandler<T>{
         throw new ConfigHandlerException("Error while creating config-file, error-message: " + ex.getMessage());
         }
     }
+
+    @Override
+    public void writeConfig(T fileToSerialize) throws ConfigHandlerException {
+        this.writeConfig(null, fileToSerialize);
+    }
+
 
     @Override
     public boolean isFileAvailable(String path, T file) throws ConfigHandlerException {
@@ -47,6 +58,11 @@ public class ConfigHandler<T> implements IConfigHandler<T>{
         } catch (Exception ex) {
             throw new ConfigHandlerException("Error while reading config-file, error-message: " + ex.getMessage());
         }
+    }
+
+    @Override
+    public boolean isFileAvailable(T file) throws ConfigHandlerException {
+        return this.isFileAvailable(null, file);
     }
 
     /**
