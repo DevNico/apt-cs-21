@@ -3,7 +3,7 @@ package de.thro.messaging.commons.confighandler;
 /**
  * Rudimentäre Klasse zum Persistieren der Messaging-Anmeldeinfos
  */
-public class ConfigMessaging {
+public class ConfigMessaging{
 
     //gleich mal Standardwerte setzen ;)
     private static final String default_ip = "localhost";
