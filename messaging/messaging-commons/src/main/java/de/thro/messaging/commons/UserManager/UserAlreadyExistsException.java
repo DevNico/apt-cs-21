@@ -11,5 +11,9 @@ public class UserAlreadyExistsException extends Exception{
         super(msg);
     }
 
+    public UserAlreadyExistsException(){
+        super();
+    }
+
 
 }
