@@ -9,12 +9,14 @@ public class Message implements IMessage {
 
     private IUser sender;
     private String reciever;
+    private boolean isBroadcast;
     private String messageText;
     private LocalDateTime dateTime;
 
-    public Message (IUser sender, String reciever, String messageText){
+    public Message (IUser sender, String reciever, boolean isBroadcast, String messageText){
         this.sender = sender;
         this.reciever = reciever;
+        this.isBroadcast = isBroadcast;
         this.messageText = messageText;
         this.dateTime = LocalDateTime.now();
     }
@@ -37,5 +39,10 @@ public class Message implements IMessage {
     @Override
     public String getMessageText() {
         return this.messageText;
+    }
+
+    @Override
+    public boolean getIsBrodcast() {
+        return this.isBroadcast;
     }
 }
