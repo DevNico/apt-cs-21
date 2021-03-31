@@ -47,7 +47,7 @@ public class UserManager implements IUserManager {
     @Override
     public boolean isMainUserInConfig() throws ConfigHandlerException {
 
-        if(!configHandler.isFileAvailable() return false;
+        if(!configHandler.isFileAvailable()) return false;
 
         ConfigUser configUser = configHandler.readConfig(null);
 
