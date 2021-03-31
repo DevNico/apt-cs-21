@@ -1,7 +1,6 @@
 package de.thro.messaging.commons.network;
 
 import de.thro.messaging.commons.domain.IMessage;
-import de.thro.messaging.commons.domain.IUser;
 import java.util.List;
 
 /**
@@ -17,16 +16,16 @@ import java.util.List;
 public interface IMessaging extends AutoCloseable {
 
   /**
-   * Sende eine Direkt-Nachricht an einen angegebenen Benutzer.
+   * Sende eine Direkt-Nachricht an einen Benutzer.
    *
-   * @param user    Ziel-Benutzer für die Direkt-Nachricht
-   * @param message Nachricht welche versendet werden soll
+   * @param message Nachricht welche versendet werden soll <br>
+   *                Der Empfänger wird aus der Nachricht ausgelesen
    *
    * @throws NetworkException Nachricht konnte nicht versendet werden:
    * <li> Verbindung zu Nachrichtenbroker konnte nicht hergestellt werden </li>
    * <li> Der angegebene Benutzer konnte nicht gefunden werden </li>
    */
-  public void sendDirect(IUser user, IMessage message) throws NetworkException;
+  public void sendDirect(IMessage message) throws NetworkException;
 
   /**
    * Sende eine Rund-Nachricht an alle im Nachrichtenbroker registrierten Benutzer.

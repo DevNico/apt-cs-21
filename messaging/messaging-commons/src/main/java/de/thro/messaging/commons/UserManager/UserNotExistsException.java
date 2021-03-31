@@ -11,6 +11,9 @@ public class UserNotExistsException extends Exception{
         super(msg);
     }
 
+    public UserNotExistsException(){
+        super();
+    }
 
 
 }

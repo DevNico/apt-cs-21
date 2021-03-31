@@ -1,7 +1,7 @@
 package de.thro.messaging.commons.confighandler;
 import de.thro.messaging.commons.domain.UserType;
 
-public class ConfigUser {
+public class ConfigUser{
     private String name;
     private UserType type;
 
@@ -12,5 +12,13 @@ public class ConfigUser {
         if (type == null)
             this.type = UserType.TEACHER;
         else this.type = type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public UserType getType() {
+        return type;
     }
 }
