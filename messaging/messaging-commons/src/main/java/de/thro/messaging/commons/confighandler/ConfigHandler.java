@@ -59,10 +59,11 @@ public class ConfigHandler<T> implements IConfigHandler<T>{
 
     @Override
     public boolean isFileAvailable(String path) throws ConfigHandlerException {
-        try (Reader reader = new FileReader(buildPathFile(path))){
-            String read = reader.toString();
+        try {
+            //read file into string
+            String read = Files.readString(Path.of(buildPathFile(path)));
             return true;
-        } catch (IOException ie) {
+        } catch (IOException iex) {
             //return false wenn es Probleme Gab die Datei zu finden
             return false;
         } catch (Exception ex) {
