@@ -6,7 +6,9 @@ import de.thro.messaging.commons.confighandler.ConfigUser;
 import de.thro.messaging.commons.confighandler.IConfigHandler;
 import de.thro.messaging.commons.domain.IUser;
 import de.thro.messaging.commons.domain.UserType;
+import de.thro.messaging.commons.domain.impl.User;
 import de.thro.messaging.commons.serialization.ISerializer;
+import de.thro.messaging.commons.serialization.SerializerJson;
 
 /**
  * Diese Klasse implementiert das Interface IUserManager
@@ -33,9 +35,8 @@ public class UserManager implements IUserManager {
      */
     @Override
     public void createMainUser(String name, UserType type) throws UserAlreadyExistsException, ConfigHandlerException {
-        user = null; //TODO: User aus den Props erstellen
+        user = new User(name, type);
         createConfigFromUser(user);
-        //TODO: Eventuelle Meldung für RabbitMQ??
     }
 
     /**
@@ -45,7 +46,8 @@ public class UserManager implements IUserManager {
      */
     @Override
     public boolean isMainUserInConfig() throws ConfigHandlerException {
-        if(!configHandler.isFileAvailable(null, null)) return false;
+
+        if(!configHandler.isFileAvailable() return false;
 
         ConfigUser configUser = configHandler.readConfig(null);
 
@@ -66,15 +68,14 @@ public class UserManager implements IUserManager {
         if(!isMainUserInConfig()) throw new UserNotExistsException("Fehler: Es wurde noch kein Hauptbenutzer angelegt!");
 
         if(user == null){
-            ConfigUser configUser = configHandler.readConfig(null);
+            ConfigUser configUser = configHandler.readConfig();
             user = createUserFormConfig(configUser);
         }
         return user;
     }
 
     private IUser createUserFormConfig(ConfigUser configUser) {
-        //TODO: Kann man erst implementieren wenn der konkrete User steht und auch die ConfigUser Klasse auch getter hat dafür.
-        IUser user = null;
+        IUser user = new User(configUser.getName(), configUser.getType());
         return user;
     }
 
@@ -82,6 +83,6 @@ public class UserManager implements IUserManager {
         if(isMainUserInConfig()) throw new UserAlreadyExistsException("Es existiert bereits ein Hauptbenutzer in der Config");
         
         ConfigUser configUser = new ConfigUser(user.getName(), user.getUserType());
-        configHandler.writeConfig(null, configUser);
+        configHandler.writeConfig(configUser);
     }
 }
