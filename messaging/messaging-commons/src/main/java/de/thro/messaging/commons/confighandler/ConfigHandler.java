@@ -33,10 +33,12 @@ public class ConfigHandler<T> implements IConfigHandler<T>{
     @Override
     public void writeConfig(String path, T fileToSerialize) throws ConfigHandlerException {
         File file = new File(buildPathFile(path));
-        //generate Path:
-        if(!file.getParentFile().mkdirs())
-            throw new ConfigHandlerException("Error while creating parent folders. ");
-        System.out.println("Path" + file.getParentFile().getPath() + " succesfully created. ");#
+        if(!file.getParentFile().exists()) {
+            if (!file.getParentFile().mkdirs())
+                throw new ConfigHandlerException("Error while creating parent folders. ");
+            System.out.println("Path" + file.getParentFile().getPath() + " succesfully created. ");
+        } else
+            System.out.println("Path already exists. ");
         //try to write the configFile
         try (Writer writer = new FileWriter(file)){
             //write into File:
