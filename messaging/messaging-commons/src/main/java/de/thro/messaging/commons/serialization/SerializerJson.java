@@ -9,19 +9,19 @@ import com.google.gson.Gson;
 
 public class SerializerJson<T> implements ISerializer<T>{
 
-    private Class<T> cls;
+    private Class<? extends T> cls;
     private Gson gson;
 
-    private SerializerJson(Class<T> cls, Gson gson){
+    private SerializerJson(Class<? extends T> cls, Gson gson){
         this.cls = cls;
         this.gson = gson;
     }
 
-    public static <T> SerializerJson<T> forClass(Class<T> cls){
+    public static <T> SerializerJson<T> forClass(Class<? extends T> cls){
         return new SerializerJson<T>(cls, new Gson());
     }
 
-    public static <T> SerializerJson<T> forClass(Class<T> cls, Gson gson){
+    public static <T> SerializerJson<T> forClass(Class<? extends T> cls, Gson gson){
         return new SerializerJson<T>(cls, gson);
     }
 
