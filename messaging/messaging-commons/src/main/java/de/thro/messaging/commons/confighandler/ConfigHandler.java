@@ -2,6 +2,8 @@ package de.thro.messaging.commons.confighandler;
 import de.thro.messaging.commons.serialization.ISerializer;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class ConfigHandler<T> implements IConfigHandler<T>{
 
@@ -15,9 +17,9 @@ public class ConfigHandler<T> implements IConfigHandler<T>{
 
     @Override
     public T readConfig(String path) throws ConfigHandlerException {
-        try (Reader reader = new FileReader(buildPathFile(path))){
+        try {
             //read file into string
-            String read = reader.toString();
+            String read = Files.readString(Path.of(buildPathFile(path)));
 
             return serializer.deserialize(read);
         } catch (Exception ex) {
