@@ -43,7 +43,7 @@ public interface IConfigHandler<T> {
      * @return boolean-Wert ob es die Configdatei gibt
      * @throws ConfigHandlerException Exception falls es Probleme beim lesen der Configuration gab
      */
-        boolean isFileAvailable(String path, T file) throws ConfigHandlerException;
+        boolean isFileAvailable(String path) throws ConfigHandlerException;
 
     /**
      * Überprüft ob bereits eine Configdatei für T existiert. Man muss keinen Pfad angeben.
@@ -51,5 +51,5 @@ public interface IConfigHandler<T> {
      * @return boolean-Wert ob es die Configdatei gibt
      * @throws ConfigHandlerException Exception falls es Probleme beim lesen der Configuration gab
      */
-        boolean isFileAvailable(T file) throws ConfigHandlerException;
+        boolean isFileAvailable() throws ConfigHandlerException;
 }
