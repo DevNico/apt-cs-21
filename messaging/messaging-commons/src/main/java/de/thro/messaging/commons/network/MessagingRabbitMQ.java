@@ -157,19 +157,19 @@ public class MessagingRabbitMQ implements IMessaging {
   }
 
   /**
-   * Sende eine Direkt-Nachricht an einen angegebenen Benutzer.
+   * Sende eine Direkt-Nachricht an einen Benutzer.
    *
-   * @param user    Ziel-Benutzer für die Direkt-Nachricht
-   * @param message Nachricht welche versendet werden soll
+   * @param message Nachricht welche versendet werden soll <br>
+   *                Der Empfänger wird aus der Nachricht ausgelesen
    *
    * @throws NetworkException Nachricht konnte nicht versendet werden:
    * <li> Verbindung zu Nachrichtenbroker konnte nicht hergestellt werden </li>
    * <li> Der angegebene Benutzer konnte nicht gefunden werden </li>
    */
   @Override
-  public void sendDirect(IUser user, IMessage message) throws NetworkException {
+  public void sendDirect(IMessage message) throws NetworkException {
     try {
-      this.channel.basicPublish(EXCHANGE_DIRECT, user.getName(), null,
+      this.channel.basicPublish(EXCHANGE_DIRECT, message.getReciever(), null,
           this.serializer.serialize(message).getBytes());
     } catch (IOException e) {
       int errorCode = this.parseErrorCode(e);
