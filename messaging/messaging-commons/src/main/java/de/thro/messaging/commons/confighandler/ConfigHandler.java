@@ -2,6 +2,8 @@ package de.thro.messaging.commons.confighandler;
 import de.thro.messaging.commons.serialization.ISerializer;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class ConfigHandler<T> implements IConfigHandler<T>{
 
@@ -15,9 +17,9 @@ public class ConfigHandler<T> implements IConfigHandler<T>{
 
     @Override
     public T readConfig(String path) throws ConfigHandlerException {
-        try (Reader reader = new FileReader(buildPathFile(path))){
+        try {
             //read file into string
-            String read = reader.toString();
+            String read = Files.readString(Path.of(buildPathFile(path)));
 
             return serializer.deserialize(read);
         } catch (Exception ex) {
@@ -32,7 +34,15 @@ public class ConfigHandler<T> implements IConfigHandler<T>{
 
     @Override
     public void writeConfig(String path, T fileToSerialize) throws ConfigHandlerException {
-        try (Writer writer = new FileWriter(buildPathFile(path))){
+        File file = new File(buildPathFile(path));
+        if(!file.getParentFile().exists()) {
+            if (!file.getParentFile().mkdirs())
+                throw new ConfigHandlerException("Error while creating parent folders. ");
+            System.out.println("Path" + file.getParentFile().getPath() + " succesfully created. ");
+        } else
+            System.out.println("Path already exists. ");
+        //try to write the configFile
+        try (Writer writer = new FileWriter(file)){
             //write into File:
             writer.write(serializer.serialize(fileToSerialize));
             System.out.println("File succesfully saved at " + buildPathFile(path));
@@ -49,10 +59,11 @@ public class ConfigHandler<T> implements IConfigHandler<T>{
 
     @Override
     public boolean isFileAvailable(String path) throws ConfigHandlerException {
-        try (Reader reader = new FileReader(buildPathFile(path))){
-            String read = reader.toString();
+        try {
+            //read file into string
+            String read = Files.readString(Path.of(buildPathFile(path)));
             return true;
-        } catch (IOException ie) {
+        } catch (IOException iex) {
             //return false wenn es Probleme Gab die Datei zu finden
             return false;
         } catch (Exception ex) {
