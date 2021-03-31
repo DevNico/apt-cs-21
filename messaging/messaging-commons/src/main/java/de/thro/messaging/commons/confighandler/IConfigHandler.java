@@ -39,17 +39,15 @@ public interface IConfigHandler<T> {
     /**
      * Überprüft ob bereits eine Configdatei für T existiert
      * @param path gibt den Dateipfad an. Wenn null oder leerer String wird ein Pfad im Userverzeichnis abgecheckt
-     * @param file Datei die überprüft werden soll
      * @return boolean-Wert ob es die Configdatei gibt
      * @throws ConfigHandlerException Exception falls es Probleme beim lesen der Configuration gab
      */
-        boolean isFileAvailable(String path, T file) throws ConfigHandlerException;
+        boolean isFileAvailable(String path) throws ConfigHandlerException;
 
     /**
      * Überprüft ob bereits eine Configdatei für T existiert. Man muss keinen Pfad angeben.
-     * @param file Datei die überprüft werden soll
      * @return boolean-Wert ob es die Configdatei gibt
      * @throws ConfigHandlerException Exception falls es Probleme beim lesen der Configuration gab
      */
-        boolean isFileAvailable(T file) throws ConfigHandlerException;
+        boolean isFileAvailable() throws ConfigHandlerException;
 }

@@ -48,7 +48,7 @@ public class ConfigHandler<T> implements IConfigHandler<T>{
 
 
     @Override
-    public boolean isFileAvailable(String path, T file) throws ConfigHandlerException {
+    public boolean isFileAvailable(String path) throws ConfigHandlerException {
         try (Reader reader = new FileReader(buildPathFile(path))){
             String read = reader.toString();
             return true;
@@ -61,8 +61,8 @@ public class ConfigHandler<T> implements IConfigHandler<T>{
     }
 
     @Override
-    public boolean isFileAvailable(T file) throws ConfigHandlerException {
-        return this.isFileAvailable(null, file);
+    public boolean isFileAvailable() throws ConfigHandlerException {
+        return this.isFileAvailable(null);
     }
 
     /**
