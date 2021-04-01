@@ -92,6 +92,11 @@ public class ViewController {
         return new Message(null, null, false, null);
     }
 
+    /**
+     * Direktnachricht versenden.
+     * @param message Nachricht die versendet werden soll.
+     * @return Versenden erfolgreich?
+     */
     public boolean sendDirect (IMessage message){
         try {
             messaging.sendDirect(message);
@@ -102,6 +107,12 @@ public class ViewController {
         }
     }
 
+
+    /**
+     * Rundnachricht versenden.
+     * @param message Nachricht die versendet werden soll.
+     * @return Versenden erfolgreich?
+     */
     public boolean sendBroadcast(IMessage message){
         try {
             messaging.sendBroadcast(message);
@@ -112,6 +123,11 @@ public class ViewController {
         }
     }
 
+    /**
+     * Gibt alle Empfangen Nachrichten als Liste von String[] aus. Index 1 ist Sender, 2 ist Zeit und 3
+     * ist der Nachrichtentext.
+     * @return List<String[]>
+     */
     public List<String []> displayReceivedMessages(){
         List<IMessage> messages = new LinkedList<>();
         try {

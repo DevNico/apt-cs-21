@@ -46,6 +46,7 @@ public class Test {
             e.printStackTrace();
         }
 
+
         ISerializer<IMessage> serializer = new SerializerJson<>(Message.class, new Gson());
 
         IMessaging m = null;
@@ -59,7 +60,7 @@ public class Test {
         IUser someUser = vc.loadUser();
         IMessage messageToSb = vc.createDirektMessage(someUser.getName(), "Hauptsache da steht was");
         vc.sendDirect(messageToSb);
-        //List<String[]> myMessages = vc.displayReceivedMessages();
-        //System.out.println(myMessages.get(0)[1]);
+        List<String[]> myMessages = vc.displayReceivedMessages();
+        System.out.println(myMessages.get(0)[2]);
     }
 }
