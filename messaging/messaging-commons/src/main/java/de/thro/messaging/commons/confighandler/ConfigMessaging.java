@@ -7,7 +7,7 @@ public class ConfigMessaging{
 
     //gleich mal Standardwerte setzen ;)
     private static final String default_ip = "localhost";
-    private static final String default_port = "15672";
+    private static final String default_port = "5672";
     private static final String default_username = "guest";
     private static final String default_password = "guest";
 

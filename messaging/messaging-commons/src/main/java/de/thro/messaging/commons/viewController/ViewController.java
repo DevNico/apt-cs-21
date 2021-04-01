@@ -9,9 +9,7 @@ import de.thro.messaging.commons.domain.IUser;
 import de.thro.messaging.commons.domain.UserType;
 import de.thro.messaging.commons.domain.impl.Message;
 import de.thro.messaging.commons.network.IMessaging;
-import de.thro.messaging.commons.network.MessagingRabbitMQ;
 import de.thro.messaging.commons.network.NetworkException;
-import de.thro.messaging.commons.serialization.ISerializer;
 
 import java.util.LinkedList;
 import java.util.List;
