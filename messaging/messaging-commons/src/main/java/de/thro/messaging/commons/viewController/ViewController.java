@@ -13,6 +13,9 @@ import de.thro.messaging.commons.network.MessagingRabbitMQ;
 import de.thro.messaging.commons.network.NetworkException;
 import de.thro.messaging.commons.serialization.ISerializer;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Dieser Controller kümmert sich um die Verbindung von des user interface und der Implementierung.
  * Alle Ein- und Ausgaben der View werden hier verwaltet.
@@ -110,5 +113,21 @@ public class ViewController {
             return false;
         }
     }
+
+    public List<String []> displayReceivedMessages(){
+        List<IMessage> messages = new LinkedList<>();
+        try {
+            messages = messaging.receiveAll();
+        } catch (NetworkException e) {
+            e.printStackTrace();
+        }
+        List<String []> ouput = new LinkedList<>();
+        for (IMessage m: messages) {
+            ouput.add(new String[]{m.getSender().getName(), m.getTime().toString(), m.getMessageText()});
+        }
+        return ouput;
+    }
+
+
 
 }
