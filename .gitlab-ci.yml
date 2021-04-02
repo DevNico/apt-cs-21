@@ -13,3 +13,4 @@ build:
     - 17-CI-Pipline
     - master
     - development
+    - QA
