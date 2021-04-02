@@ -6,7 +6,7 @@ build:
   #image: alpine
   script:
   - echo Build
-  - ls messaging -la
+  - cd messaging
   - gradle assemble
   only:
     refs:
