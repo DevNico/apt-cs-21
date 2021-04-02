@@ -1,12 +1,12 @@
 stages:
   - build
-hello:
+build:
   stage: build
   #image: gradle:6.1-jdk11
   image: alpine
   script:
+  - echo Build
   - ls -la
-  - echo "Hallo"
   only:
     refs:
     - 17-CI-Pipline
