@@ -3,11 +3,13 @@ stages:
 build:
   stage: build
   image: gradle:6.1-jdk11
-  #image: alpine
   script:
   - echo Build
+  #change Directory to the Gradle main directory
   - cd messaging
   - gradle assemble
   only:
     refs:
     - 17-CI-Pipline
+    - master
+    - development
