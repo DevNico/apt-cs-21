@@ -1,5 +1,7 @@
 package de.thro.messaging.view;
 
+import de.thro.messaging.commons.domain.UserType;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -7,7 +9,8 @@ import java.io.InputStreamReader;
 public class Hauptmenue {
     public static void main(String[] args) {
         MenueManagement mm = new MenueManagement();
-        mm.start();
+        //mm.start();
+        mm.newUser();
     }
 
     enum UseCase{DirectMessage, Broadcast, ReadMeassage}
@@ -37,6 +40,51 @@ public class Hauptmenue {
             }
         }
 
+
+        private  void newUser(){
+            System.out.println("Geben Sie einen Benutzernamen an");
+            String userName = "";
+            String typ = "";
+            UserType userType = null;
+
+
+            BufferedReader obj = new BufferedReader(new InputStreamReader(System.in));
+
+            //Nutzername von Console einlesen
+            try {
+                userName = obj.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            //UserTyp von Console einlesen
+            boolean typeIsSet = false;
+            while (!typeIsSet) {
+                typ = getUserTyp();
+                if (typ.toUpperCase().equals("S")) {
+                    userType = UserType.STUDENT;
+                    typeIsSet = true;
+                } else if (typ.toUpperCase().equals("T")) {
+                    userType = UserType.TEACHER;
+                    typeIsSet = true;
+                } else {
+                    System.out.println("Das entspricht keiner Rolle. Versuchen sie es erneut.");
+                }
+            }
+            System.out.println(userName + " " + userType);
+        }
+
+        private String getUserTyp(){
+            String typ = "";
+            BufferedReader obj = new BufferedReader(new InputStreamReader(System.in));
+            System.out.println("Geben Sie ihre Rolle an. Professor = [T] Student = [S]");
+            try {
+                typ = obj.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return typ;
+        }
 
         /**
          * Was soll passieren, wenn der UC directMessage gerufen wird.
