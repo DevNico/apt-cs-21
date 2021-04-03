@@ -4,7 +4,8 @@ Repository für APT Projekt:  <a href="https://inf-git.fh-rosenheim.de/studlinnt
 
 Systemvorraussetzungen bzw. Konfiguration: 
 
-- RabbitMQ (üblicherweise über Docker) als Nachrichtenbroker (<a href="https://inf-git.fh-rosenheim.de/studlinnth6233/apt_nachrichtensystem/-/blob/master/Aufgabenstellung.pdf" target="_blank" rel="noopener noreferrer">Anleitung</a>)
+- <a href="https://www.docker.com/get-started" target="_blank" rel="noopener noreferrer">Docker</a>
+- RabbitMQ als Nachrichtenbroker (<a href="https://inf-git.fh-rosenheim.de/studlinnth6233/apt_nachrichtensystem/-/blob/master/Aufgabenstellung.pdf" target="_blank" rel="noopener noreferrer">Anleitung</a>)
     ``` bash
     # Docker Befehle
     # Installieren des Containers (einmalige Ausführung reicht aus)
