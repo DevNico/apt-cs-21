@@ -137,8 +137,8 @@ public class MainMenu {
                 // create a BufferedReader using System.in
                 BufferedReader obj = new BufferedReader(new InputStreamReader(System.in));
                 String input = "";
-                head("Haupmenü");
-                mainMenueText();
+                head("Hauptmenü");
+                mainMenuText();
                 try {
                      input = obj.readLine();
                 }catch (IOException e){}
@@ -164,7 +164,7 @@ public class MainMenu {
             System.out.println("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
         }
 
-        private void mainMenueText(){
+        private void mainMenuText(){
             System.out.println("D um eine Direktnachricht zu schreiben");
             System.out.println("B um eine Rundnachricht zu schreiben");
             System.out.println("R um die Nachrichten anzuzeigen");
