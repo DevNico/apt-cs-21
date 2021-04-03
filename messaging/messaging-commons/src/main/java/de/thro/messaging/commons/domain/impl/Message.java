@@ -7,13 +7,14 @@ import java.time.LocalDateTime;
 
 public class Message implements IMessage {
 
-    private IUser sender;
+    //IUser lässt sich nicht deserialisieren
+    private User sender;
     private String reciever;
     private boolean isBroadcast;
     private String messageText;
     private LocalDateTime dateTime;
 
-    public Message (IUser sender, String reciever, boolean isBroadcast, String messageText){
+    public Message (User sender, String reciever, boolean isBroadcast, String messageText){
         this.sender = sender;
         this.reciever = reciever;
         this.isBroadcast = isBroadcast;

@@ -7,6 +7,8 @@ public class User implements IUser {
     private String name;
     private UserType userType;
 
+    public User(){};
+
     public  User (String name, UserType type) throws IllegalArgumentException{
         if(name == null || name.isEmpty() || name.isBlank()) {throw new IllegalArgumentException("Name has to have a Value. Blank or empty string is not permitted");}
         this.name = name;

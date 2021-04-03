@@ -60,7 +60,7 @@ public class MessagingRabbitMQ implements IMessaging {
     this.serializer = serializer;
 
     String uri = String.format("amqp://%s:%s@%s:%s",
-        config.getUsername(), config.getPassword(), config.getIp(), config.getPort());
+        config.getUsername(), config.getPassword(), config.getIp(), "5672"/*config.getPort()*/);
 
     try {
       ConnectionFactory connectionFactory = new ConnectionFactory();
