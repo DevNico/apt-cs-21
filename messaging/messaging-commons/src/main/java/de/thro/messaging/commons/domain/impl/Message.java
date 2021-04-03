@@ -4,6 +4,7 @@ import de.thro.messaging.commons.domain.IMessage;
 import de.thro.messaging.commons.domain.IUser;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Message implements IMessage {
 
@@ -45,5 +46,30 @@ public class Message implements IMessage {
     @Override
     public boolean getIsBrodcast() {
         return this.isBroadcast;
+    }
+
+
+    /**
+     * Formatierte Ausgabe des Timestamps, des Empfängers, des Senders und der Nachricht
+     * @return
+     */
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(dateTime.getDayOfMonth() + " ");
+        stringBuilder.append(dateTime.getMonth() + " ");
+        stringBuilder.append(dateTime.getYear() + " ");
+        stringBuilder.append(dateTime.getHour() + ":");
+        stringBuilder.append(dateTime.getMinute());
+        stringBuilder.append("\n");
+        stringBuilder.append("An: ");
+        stringBuilder.append(isBroadcast ? "Broadcast" : reciever);
+        stringBuilder.append("\n");
+        stringBuilder.append("Von: " + sender.getName());
+        stringBuilder.append(" - UserTyp: " + sender.getUserType().toString());
+        stringBuilder.append("\n");
+        stringBuilder.append("Nachricht: " + messageText);
+
+        return stringBuilder.toString();
     }
 }
