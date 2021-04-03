@@ -13,7 +13,7 @@ Systemvorraussetzungen bzw. Konfiguration:
     # Zugriff auf RabbitMQ dann im Browser mit User="Guest" und Passwort="Guest" unter http://localhost:15672/
     ```
     
-- Gradle
+- Gradle Version 6.1
 - JDK 11 (Gradle auch darauf einstellen bspw. in IntelliJ)
 
 ![gradleSettingJDK](/gradleSettingJDK.png)
