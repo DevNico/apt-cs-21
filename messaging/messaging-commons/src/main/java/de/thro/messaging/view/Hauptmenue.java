@@ -16,10 +16,10 @@ public class Hauptmenue {
     enum UseCase{DirectMessage, Broadcast, ReadMeassage}
 
     /*
-    Hier wird das Hauptmenü geöfnet und alle weiteren UC verwaltet.
+    Hier wird das Hauptmenü geöffnet und alle weiteren UC verwaltet.
     Nach jedem UC kehrt das Programm zum Hauptmenü zurück.
      */
-    public static class MenueManagement{
+    public static class MenuManagement{
         public void start(){
             boolean end = false;
             while (!end){
@@ -35,7 +35,7 @@ public class Hauptmenue {
                         readMessage();
                         break;
                     default:
-                        System.out.println("Dont know");
+                        System.out.println("Das ist kein Menü");
                 }
             }
         }
@@ -68,7 +68,7 @@ public class Hauptmenue {
                     userType = UserType.TEACHER;
                     typeIsSet = true;
                 } else {
-                    System.out.println("Das entspricht keiner Rolle. Versuchen sie es erneut.");
+                    System.out.println("Das entspricht keiner Rolle. Versuchen Sie es erneut.");
                 }
             }
             System.out.println(userName + " " + userType);
@@ -77,7 +77,7 @@ public class Hauptmenue {
         private String getUserTyp(){
             String typ = "";
             BufferedReader obj = new BufferedReader(new InputStreamReader(System.in));
-            System.out.println("Geben Sie ihre Rolle an. Professor = [T] Student = [S]");
+            System.out.println("Geben Sie Ihre Rolle an. Professor = [T] Student = [S]");
             try {
                 typ = obj.readLine();
             } catch (IOException e) {
@@ -91,8 +91,9 @@ public class Hauptmenue {
          * Hier kann die Logik für Direktnachrichten hin.
          */
         private  void directMessage() {
-            System.out.println("Write your direct message");
+            System.out.println("Schreiben Sie Ihre Nachricht");
             try {
+                //TODO mach des gscheid
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -104,8 +105,9 @@ public class Hauptmenue {
          * Hier kann die Logik für Broadcasts rein.
          */
         private  void broadcast() {
-            System.out.println("Write your broadcast message");
+            System.out.println("Schreiben Sie Ihre Rundnachricht");
             try {
+                //TODO mach des gscheid
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -118,8 +120,9 @@ public class Hauptmenue {
          * Hier kann die Logik für readMessage rein.
          */
         private  void readMessage() {
-            System.out.println("These are your messages");
+            System.out.println("Das sind Ihre Nachrichten");
             try {
+                //TODO mach des gscheid
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -127,7 +130,7 @@ public class Hauptmenue {
         }
 
         /**
-         * Das Tatsächliche Hauptmenü. Hier wird der Menütext ausgegeben und auf eine Usereingabe gewartet.
+         * Das tatsächliche Hauptmenü. Hier wird der Menütext ausgegeben und auf eine Usereingabe gewartet.
          * @return Usecase der angibt was der User tun möchte.
          */
         private UseCase mainMenue(){
@@ -135,7 +138,7 @@ public class Hauptmenue {
                 // create a BufferedReader using System.in
                 BufferedReader obj = new BufferedReader(new InputStreamReader(System.in));
                 String input = "";
-                head("Main Menue");
+                head("Haupmenü");
                 mainMenueText();
                 try {
                      input = obj.readLine();
@@ -146,7 +149,7 @@ public class Hauptmenue {
                     case "B": return  UseCase.Broadcast;
                     case "R": return  UseCase.ReadMeassage;
                     default:
-                        System.out.println("Don't know");
+                        System.out.println("Das ist kein Menü");
                         break;
                 }
             }
@@ -154,7 +157,7 @@ public class Hauptmenue {
 
         /**
          * Allgemeiner Anfang für jede neue Seite.
-         * @param Description Was soll im head stehen.
+         * @param Description Was soll im Head stehen?
          */
         private  void head(String Description){
             System.out.println("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
@@ -163,9 +166,9 @@ public class Hauptmenue {
         }
 
         private void mainMenueText(){
-            System.out.println("D for direct message");
-            System.out.println("B for broadcast");
-            System.out.println("R for read message");
+            System.out.println("D um eine Direktnachricht zu schreiben");
+            System.out.println("B um eine Rundnachricht zu schreiben");
+            System.out.println("R um die Nachrichten anzuzeigen");
         }
     }
 
