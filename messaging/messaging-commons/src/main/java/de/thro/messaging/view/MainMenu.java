@@ -6,9 +6,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class Hauptmenue {
+public class MainMenu {
     public static void main(String[] args) {
-        MenueManagement mm = new MenueManagement();
+        MenuManagement mm = new MenuManagement();
         //mm.start();
         mm.newUser();
     }
@@ -47,7 +47,6 @@ public class Hauptmenue {
             String typ = "";
             UserType userType = null;
 
-
             BufferedReader obj = new BufferedReader(new InputStreamReader(System.in));
 
             //Nutzername von Console einlesen
@@ -60,11 +59,11 @@ public class Hauptmenue {
             //UserTyp von Console einlesen
             boolean typeIsSet = false;
             while (!typeIsSet) {
-                typ = getUserTyp();
+                typ = getUserType();
                 if (typ.toUpperCase().equals("S")) {
                     userType = UserType.STUDENT;
                     typeIsSet = true;
-                } else if (typ.toUpperCase().equals("T")) {
+                } else if (typ.toUpperCase().equals("P")) {
                     userType = UserType.TEACHER;
                     typeIsSet = true;
                 } else {
@@ -74,10 +73,10 @@ public class Hauptmenue {
             System.out.println(userName + " " + userType);
         }
 
-        private String getUserTyp(){
+        private String getUserType(){
             String typ = "";
             BufferedReader obj = new BufferedReader(new InputStreamReader(System.in));
-            System.out.println("Geben Sie Ihre Rolle an. Professor = [T] Student = [S]");
+            System.out.println("Geben Sie Ihre Rolle an. Professor = [P] Student = [S]");
             try {
                 typ = obj.readLine();
             } catch (IOException e) {
@@ -146,8 +145,8 @@ public class Hauptmenue {
 
                 switch (input.toUpperCase()){
                     case "D": return UseCase.DirectMessage;
-                    case "B": return  UseCase.Broadcast;
-                    case "R": return  UseCase.ReadMeassage;
+                    case "B": return UseCase.Broadcast;
+                    case "R": return UseCase.ReadMeassage;
                     default:
                         System.out.println("Das ist kein Menü");
                         break;
