@@ -59,8 +59,12 @@ public class Test {
         ViewController vc = new ViewController(um, m);
         IUser someUser = vc.loadUser();
         IMessage messageToSb = vc.createDirektMessage(someUser.getName(), "Hauptsache da steht was");
+        IMessage broadcastMessage = vc.createBroadcastMessage("Das ist ein Rundschreiben");
         vc.sendDirect(messageToSb);
+        vc.sendBroadcast(broadcastMessage);
         List<String[]> myMessages = vc.displayReceivedMessages();
         System.out.println(myMessages.get(0)[2]);
+        System.out.println(myMessages.get(1)[2]);
+
     }
 }
