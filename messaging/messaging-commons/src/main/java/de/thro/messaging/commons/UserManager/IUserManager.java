@@ -3,6 +3,7 @@ package de.thro.messaging.commons.UserManager;
 import de.thro.messaging.commons.confighandler.ConfigHandlerException;
 import de.thro.messaging.commons.domain.IUser;
 import de.thro.messaging.commons.domain.UserType;
+import de.thro.messaging.commons.domain.impl.User;
 
 import javax.naming.ConfigurationException;
 
@@ -45,6 +46,6 @@ public interface IUserManager {
      * @throws ConfigHandlerException Gibt einen Konfigurationsfehler zurück etwas schiefgelaufen ist
      * @throws UserNotExistsException wenn kein User in der Config Existiert
      */
-    public IUser getMainUser() throws ConfigHandlerException, UserNotExistsException;
+    public User getMainUser() throws ConfigHandlerException, UserNotExistsException;
 
 }

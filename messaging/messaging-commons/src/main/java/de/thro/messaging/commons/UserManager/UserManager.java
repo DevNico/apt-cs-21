@@ -1,5 +1,6 @@
 package de.thro.messaging.commons.UserManager;
 
+import com.google.gson.Gson;
 import de.thro.messaging.commons.confighandler.ConfigHandler;
 import de.thro.messaging.commons.confighandler.ConfigHandlerException;
 import de.thro.messaging.commons.confighandler.ConfigUser;
@@ -16,13 +17,20 @@ import de.thro.messaging.commons.serialization.SerializerJson;
  */
 public class UserManager implements IUserManager {
 
-    private static IUser user;
+    ISerializer<ConfigUser> serializer = new SerializerJson<>(ConfigUser.class, new Gson());
+    public UserManager(ISerializer<ConfigUser> serializer){
+        this.serializer = serializer;
+    }
+
+
+
+    private static User user;
 
     //TODO: Hinzufügen eines Serializers zum ConfigHandler
     /**
      * Anlegen einer ConfighandlerInstanz zum aufruf der Daten aus der UserConfig
      */
-    IConfigHandler<ConfigUser> configHandler = new ConfigHandler<>(null);
+    IConfigHandler<ConfigUser> configHandler = new ConfigHandler<>(serializer);
 
     /**
      *
@@ -64,7 +72,7 @@ public class UserManager implements IUserManager {
      * @throws ConfigHandlerException wird geworfen, wenn etwas im ConfigHandler nicht Funktioniert hat...
      */
     @Override
-    public IUser getMainUser() throws ConfigHandlerException, UserNotExistsException {
+    public User getMainUser() throws ConfigHandlerException, UserNotExistsException {
         if(!isMainUserInConfig()) throw new UserNotExistsException("Fehler: Es wurde noch kein Hauptbenutzer angelegt!");
 
         if(user == null){
@@ -74,8 +82,8 @@ public class UserManager implements IUserManager {
         return user;
     }
 
-    private IUser createUserFormConfig(ConfigUser configUser) {
-        IUser user = new User(configUser.getName(), configUser.getType());
+    private User createUserFormConfig(ConfigUser configUser) {
+        User user = new User(configUser.getName(), configUser.getType());
         return user;
     }
 
