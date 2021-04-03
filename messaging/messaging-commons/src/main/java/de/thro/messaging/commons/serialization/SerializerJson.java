@@ -25,17 +25,9 @@ class SerializerJson<T> implements ISerializer<T>{
         this.gson = gson;
     }
 
-    public static <T> SerializerJson<T> forClass(Class<? extends T> cls){
-        return new SerializerJson<T>(cls, new Gson());
-    }
-
-    public static <T> SerializerJson<T> forClass(Class<? extends T> cls, Gson gson){
-        return new SerializerJson<T>(cls, gson);
-    }
-
     /**
      * Die Methode serialize() wandelt eine Instanz in eine Json-Zeichenfolge um
-     * @param data
+     * @param data - Instanz, die in eine Json-Zeichenkette konvertiert werden soll
      * @return Gibt die der Methode serialize() übergebene Instanz als Json-Zeichenfolge zurück
      */
     @Override
@@ -46,7 +38,7 @@ class SerializerJson<T> implements ISerializer<T>{
 
     /**
      * Die Methode deserialize() wandelt eine Json-Zeichenfolge in eine entsprechende Java-Instanz um
-     * @param data
+     * @param data - Json-Zeichenkette, die in eine Java-Instanz konvertiert werden soll
      * @return Gibt die übergebene Json-Zeichenfolge als Java-Instanz zurück
      */
     @Override
