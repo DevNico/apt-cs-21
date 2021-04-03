@@ -13,7 +13,7 @@ public class MainMenu {
         mm.newUser();
     }
 
-    enum UseCase{DirectMessage, Broadcast, ReadMeassage}
+    enum UseCase{DirectMessage, Broadcast, ReadMessage}
 
     /*
     Hier wird das Hauptmenü geöffnet und alle weiteren UC verwaltet.
@@ -31,7 +31,7 @@ public class MainMenu {
                     case Broadcast:
                         broadcast();
                         break;
-                    case ReadMeassage:
+                    case ReadMessage:
                         readMessage();
                         break;
                     default:
@@ -146,7 +146,7 @@ public class MainMenu {
                 switch (input.toUpperCase()){
                     case "D": return UseCase.DirectMessage;
                     case "B": return UseCase.Broadcast;
-                    case "R": return UseCase.ReadMeassage;
+                    case "R": return UseCase.ReadMessage;
                     default:
                         System.out.println("Das ist kein Menü");
                         break;
