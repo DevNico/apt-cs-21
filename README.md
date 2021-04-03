@@ -19,3 +19,5 @@ Systemvorraussetzungen bzw. Konfiguration:
 - JDK 11 (Gradle auch darauf einstellen bspw. in IntelliJ)
 
 ![gradleSettingJDK](/gradleSettingJDK.png)
+
+Für weitere Informationen siehe <a href="https://inf-git.fh-rosenheim.de/studlinnth6233/apt_nachrichtensystem/-/wikis/home" target="_blank" rel="noopener noreferrer">Wiki</a>
