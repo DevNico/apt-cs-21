@@ -23,7 +23,7 @@ public class MainMenu {
         public void start(){
             boolean end = false;
             while (!end){
-                UseCase uc = mainMenue();
+                UseCase uc = mainMenu();
                 switch (uc){
                     case DirectMessage:
                         directMessage();
@@ -132,7 +132,7 @@ public class MainMenu {
          * Das tatsächliche Hauptmenü. Hier wird der Menütext ausgegeben und auf eine Usereingabe gewartet.
          * @return Usecase der angibt was der User tun möchte.
          */
-        private UseCase mainMenue(){
+        private UseCase mainMenu(){
             while (true){
                 // create a BufferedReader using System.in
                 BufferedReader obj = new BufferedReader(new InputStreamReader(System.in));
