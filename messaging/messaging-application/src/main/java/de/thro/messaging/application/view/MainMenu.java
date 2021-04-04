@@ -13,7 +13,7 @@ public class MainMenu {
         mm.newUser();
     }
 
-    enum UseCase{DirectMessage, Broadcast, ReadMessage}
+    enum UseCase{DirectMessage, Broadcast, ReadMessage, EndApp}
 
     /*
     Hier wird das Hauptmenü geöffnet und alle weiteren UC verwaltet.
@@ -27,7 +27,7 @@ public class MainMenu {
         public void startStudent(){
             boolean end = false;
             while (!end){
-                UseCase uc = mainMenu();
+                UseCase uc = mainMenu(true);
                 switch (uc){
                     case DirectMessage:
                         directMessage();
@@ -50,7 +50,7 @@ public class MainMenu {
         public void startTeacher(){
             boolean end = false;
             while (!end){
-                UseCase uc = mainMenu();
+                UseCase uc = mainMenu(false);
                 switch (uc){
                     case Broadcast:
                         broadcast();
@@ -113,6 +113,18 @@ public class MainMenu {
             return typ;
         }
 
+
+        /**
+         * App wird Beendet.
+         */
+        private void endApp(){
+            System.out.println("App Beendet.");
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         /**
          * Was soll passieren, wenn der UC directMessage gerufen wird.
          * Hier kann die Logik für Direktnachrichten hin.
@@ -160,27 +172,54 @@ public class MainMenu {
          * Das tatsächliche Hauptmenü. Hier wird der Menütext ausgegeben und auf eine Usereingabe gewartet.
          * @return Usecase der angibt was der User tun möchte.
          */
-        private UseCase mainMenu(){
+        private UseCase mainMenu(boolean isStudent){
             while (true){
                 // create a BufferedReader using System.in
                 BufferedReader obj = new BufferedReader(new InputStreamReader(System.in));
                 String input = "";
                 head("Hauptmenü");
-                mainMenuText();
-                try {
-                     input = obj.readLine();
-                }catch (IOException e){}
 
-                switch (input.toUpperCase()){
-                    case "D": return UseCase.DirectMessage;
-                    case "B": return UseCase.Broadcast;
-                    case "R": return UseCase.ReadMessage;
-                    default:
-                        System.out.println("Das ist kein Menü");
-                        break;
+                //ist der Nutzer ein Student?
+                if(isStudent) {
+                    mainMenuTextStudent();
+                    try {
+                        input = obj.readLine();
+                    } catch (IOException e) {
+                    }
+
+                    switch (input.toUpperCase()) {
+                        case "D":
+                            return UseCase.DirectMessage;
+                        case "B":
+                            return UseCase.Broadcast;
+                        case "R":
+                            return UseCase.ReadMessage;
+                        case "X":
+                            return UseCase.EndApp;
+                        default:
+                            System.out.println("Das ist kein Menü");
+                            break;
+                    }
+                }else{
+                    mainMenuTextTeacher();
+                    try {
+                        input = obj.readLine();
+                    } catch (IOException e) {
+                    }
+
+                    switch (input.toUpperCase()) {
+                        case "B":
+                            return UseCase.Broadcast;
+                        case "X":
+                            return UseCase.EndApp;
+                        default:
+                            System.out.println("Das ist kein Menü");
+                            break;
+                    }
                 }
             }
         }
+
 
         /**
          * Allgemeiner Anfang für jede neue Seite.
@@ -192,10 +231,16 @@ public class MainMenu {
             System.out.println("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
         }
 
-        private void mainMenuText(){
+        private void mainMenuTextStudent(){
             System.out.println("D um eine Direktnachricht zu schreiben");
             System.out.println("B um eine Rundnachricht zu schreiben");
             System.out.println("R um die Nachrichten anzuzeigen");
+            System.out.println("X um Programm zu beenden");
+        }
+
+        private void mainMenuTextTeacher(){
+            System.out.println("B um eine Rundnachricht zu schreiben");
+            System.out.println("X um Programm zu beenden");
         }
     }
 

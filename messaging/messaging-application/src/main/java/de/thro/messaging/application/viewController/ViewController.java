@@ -25,6 +25,13 @@ public class ViewController {
     IMessaging messaging;
 
     /**
+     * Beendet die Anwendung.
+     */
+    public void endApp(){
+        System.exit(0);
+    }
+
+    /**
      * Beim Erstellen des Kontrollers soll direkt die konkrete Implementierung für den UserManger und die
      * Netzwerkanbindung übergeben werden.
      * @param userManager Verwaltung der User.
