@@ -135,18 +135,14 @@ public class ViewController {
      * ist der Nachrichtentext.
      * @return List<String[]>
      */
-    public List<String []> displayReceivedMessages(){
+    public List<IMessage> displayReceivedMessages(){
         List<IMessage> messages = new LinkedList<>();
         try {
             messages = messaging.receiveAll();
         } catch (NetworkException e) {
             e.printStackTrace();
         }
-        List<String []> ouput = new LinkedList<>();
-        for (IMessage m: messages) {
-            ouput.add(new String[]{m.getSender().getName(), m.getTime().toString(), m.getMessageText()});
-        }
-        return ouput;
+        return messages;
     }
 
 

@@ -7,6 +7,7 @@ import de.thro.messaging.commons.domain.UserType;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
 public class MainMenu {
     public static void main(String[] args) {
@@ -182,11 +183,9 @@ public class MainMenu {
          */
         private  void readMessage() {
             System.out.println("Das sind Ihre Nachrichten");
-            try {
-                //TODO mach des gscheid
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            List<IMessage> messages = vc.displayReceivedMessages();
+            for (IMessage m: messages) {
+                System.out.println(m);
             }
         }
 
