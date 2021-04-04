@@ -1,5 +1,7 @@
 package de.thro.messaging.application.view;
 
+import de.thro.messaging.application.viewController.ViewController;
+import de.thro.messaging.commons.domain.IMessage;
 import de.thro.messaging.commons.domain.UserType;
 
 import java.io.BufferedReader;
@@ -8,9 +10,9 @@ import java.io.InputStreamReader;
 
 public class MainMenu {
     public static void main(String[] args) {
-        MenuManagement mm = new MenuManagement();
+        //MenuManagement mm = new MenuManagement();
         //mm.start();
-        mm.newUser();
+        //mm.newUser();
     }
 
     enum UseCase{DirectMessage, Broadcast, ReadMessage, EndApp}
@@ -20,6 +22,12 @@ public class MainMenu {
     Nach jedem UC kehrt das Programm zum Hauptmenü zurück.
      */
     public static class MenuManagement{
+
+        private ViewController vc;
+
+        public MenuManagement(ViewController vc ){
+            this.vc = vc;
+        }
 
         /**
          * Startet Menüführung für einen Studenten.
@@ -38,6 +46,9 @@ public class MainMenu {
                     case ReadMessage:
                         readMessage();
                         break;
+                    case EndApp:
+                        endApp();
+                        break;
                     default:
                         System.out.println("Das ist kein Menü");
                 }
@@ -54,6 +65,9 @@ public class MainMenu {
                 switch (uc){
                     case Broadcast:
                         broadcast();
+                        break;
+                    case EndApp:
+                        endApp();
                         break;
                     default:
                         System.out.println("Das ist kein Menü");
@@ -114,29 +128,35 @@ public class MainMenu {
         }
 
 
+        //Ein reader der für alle Usecases verwendet werden kann
+        BufferedReader readerForUc = new BufferedReader(new InputStreamReader(System.in));
         /**
          * App wird Beendet.
          */
         private void endApp(){
             System.out.println("App Beendet.");
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            vc.endApp();
         }
+
         /**
          * Was soll passieren, wenn der UC directMessage gerufen wird.
          * Hier kann die Logik für Direktnachrichten hin.
          */
         private  void directMessage() {
-            System.out.println("Schreiben Sie Ihre Nachricht");
+            String receiver = "";
+            String messageText = "";
+            System.out.println("Schreiben Sie Ihre Nachricht und bestätigen Sie mit 'Enter'");
             try {
-                //TODO mach des gscheid
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                messageText = readerForUc.readLine();
+                System.out.println("Bitte geben Sie einen Empfänger ein. Danach wird die Nachricht versendet.");
+                receiver = readerForUc.readLine();
+            } catch (IOException e) {
+                //Sollte die Eingabe ungültig sein, kehrt das System zum Hauptmenü zurück
+                System.out.println("Das war keine Korrekte eingabe.");
+                return;
             }
+            IMessage message = vc.createDirektMessage(receiver, messageText);
+            vc.sendDirect(message);
         }
 
         /**
