@@ -1,4 +1,4 @@
-package de.thro.messaging.commons.viewController;
+package de.thro.messaging.application.viewController;
 
 import com.google.gson.Gson;
 import de.thro.messaging.commons.UserManager.IUserManager;
@@ -18,7 +18,6 @@ import de.thro.messaging.commons.network.NetworkException;
 import de.thro.messaging.commons.serialization.ISerializer;
 import de.thro.messaging.commons.serialization.SerializerJson;
 
-import javax.swing.text.View;
 import java.util.List;
 
 public class Test {

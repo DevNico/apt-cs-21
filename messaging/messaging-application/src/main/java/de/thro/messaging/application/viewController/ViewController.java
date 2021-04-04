@@ -1,4 +1,4 @@
-package de.thro.messaging.commons.viewController;
+package de.thro.messaging.application.viewController;
 
 import de.thro.messaging.commons.UserManager.IUserManager;
 import de.thro.messaging.commons.UserManager.UserAlreadyExistsException;

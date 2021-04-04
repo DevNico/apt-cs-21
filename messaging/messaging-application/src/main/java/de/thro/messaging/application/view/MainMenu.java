@@ -1,4 +1,4 @@
-package de.thro.messaging.view;
+package de.thro.messaging.application.view;
 
 import de.thro.messaging.commons.domain.UserType;
 
