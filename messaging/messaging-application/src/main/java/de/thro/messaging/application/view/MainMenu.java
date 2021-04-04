@@ -164,13 +164,15 @@ public class MainMenu {
          * Hier kann die Logik für Broadcasts rein.
          */
         private  void broadcast() {
-            System.out.println("Schreiben Sie Ihre Rundnachricht");
+            String messageText = "";
+            System.out.println("Schreiben Sie Ihre Rundnachricht und versenden Sie mit 'Enter'");
             try {
-                //TODO mach des gscheid
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                messageText = readerForUc.readLine();
+            } catch (IOException e) {
+                System.out.println("Das war keine Korrekte eingabe.");
             }
+            IMessage message = vc.createBroadcastMessage(messageText);
+            vc.sendBroadcast(message);
         }
 
 
