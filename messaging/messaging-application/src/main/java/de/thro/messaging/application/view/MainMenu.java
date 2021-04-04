@@ -21,6 +21,9 @@ public class MainMenu {
      */
     public static class MenuManagement{
 
+        /**
+         * Startet Menüführung für einen Studenten.
+         */
         public void startStudent(){
             boolean end = false;
             while (!end){
@@ -41,6 +44,9 @@ public class MainMenu {
             }
         }
 
+        /**
+         * Startet Menüführung für einen Professor.
+         */
         public void startTeacher(){
             boolean end = false;
             while (!end){
@@ -55,7 +61,10 @@ public class MainMenu {
             }
         }
 
-
+        /**
+         * Wenn der User noch nie angemeldet war,
+         * wird ein Menü zur eingabe eine User aufgerufen.
+         */
         private  void newUser(){
             System.out.println("Geben Sie einen Benutzernamen an");
             String userName = "";
@@ -88,6 +97,10 @@ public class MainMenu {
             System.out.println(userName + " " + userType);
         }
 
+        /**
+         * Liest die Eingebe der Konsole ein und gibt den Buchstaben zurück der zur Nutzerrolle gehört.
+         * @return String Buchstabe für den Usertyp
+         */
         private String getUserType(){
             String typ = "";
             BufferedReader obj = new BufferedReader(new InputStreamReader(System.in));
