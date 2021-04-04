@@ -20,7 +20,8 @@ public class MainMenu {
     Nach jedem UC kehrt das Programm zum Hauptmenü zurück.
      */
     public static class MenuManagement{
-        public void start(){
+
+        public void startStudent(){
             boolean end = false;
             while (!end){
                 UseCase uc = mainMenu();
@@ -33,6 +34,20 @@ public class MainMenu {
                         break;
                     case ReadMessage:
                         readMessage();
+                        break;
+                    default:
+                        System.out.println("Das ist kein Menü");
+                }
+            }
+        }
+
+        public void startTeacher(){
+            boolean end = false;
+            while (!end){
+                UseCase uc = mainMenu();
+                switch (uc){
+                    case Broadcast:
+                        broadcast();
                         break;
                     default:
                         System.out.println("Das ist kein Menü");
