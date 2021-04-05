@@ -11,6 +11,7 @@ import de.thro.messaging.commons.confighandler.ConfigMessaging;
 import de.thro.messaging.commons.confighandler.ConfigUser;
 import de.thro.messaging.commons.domain.IMessage;
 import de.thro.messaging.commons.domain.IUser;
+import de.thro.messaging.commons.domain.UserType;
 import de.thro.messaging.commons.domain.impl.Message;
 import de.thro.messaging.commons.network.IMessaging;
 import de.thro.messaging.commons.network.MessagingRabbitMQ;
@@ -29,6 +30,7 @@ public class Startup
   static ConfigMessaging configMessaging = new ConfigMessaging();
   static IMessaging rmqMessaging;
   static MainMenu mainMenu;
+  static IUser user;
 
 
   public static void main(String[] args)  {
@@ -60,6 +62,21 @@ public class Startup
 
     ViewController vc = new ViewController(um, rmqMessaging);
     mainMenu = new MainMenu(vc);
+    try {
+      user = um.getMainUser();
+    } catch (ConfigHandlerException e) {
+      e.printStackTrace();
+    } catch (UserNotExistsException e) {
+      e.printStackTrace();
+    }
+    if(user.getUserType().equals(UserType.TEACHER)){
+      mainMenu.startTeacher();
+    }else if(user.getUserType().equals(UserType.STUDENT)){
+      mainMenu.startStudent();
+    }else {
+      System.out.println("Ups, da ist was schief gelaufen.");
+    }
+
 
   }
 }
