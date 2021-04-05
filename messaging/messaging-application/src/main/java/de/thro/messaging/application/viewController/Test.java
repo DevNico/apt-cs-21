@@ -16,11 +16,11 @@ import de.thro.messaging.commons.network.IMessaging;
 import de.thro.messaging.commons.network.MessagingRabbitMQ;
 import de.thro.messaging.commons.network.NetworkException;
 import de.thro.messaging.commons.serialization.ISerializer;
-import de.thro.messaging.commons.serialization.SerializerJson;
 
 import java.util.List;
 
 public class Test {
+    /*
     public static void main(String[] args) {
 
         ISerializer<ConfigUser> userISerializer = new SerializerJson<>(ConfigUser.class, new Gson());
@@ -66,4 +66,5 @@ public class Test {
         System.out.println(myMessages.get(1)[2]);
 
     }
+*/
 }

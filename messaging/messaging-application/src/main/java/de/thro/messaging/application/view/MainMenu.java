@@ -1,8 +1,8 @@
 package de.thro.messaging.application.view;
 
 import de.thro.messaging.application.viewController.ViewController;
+import de.thro.messaging.commons.UserManager.IUserManager;
 import de.thro.messaging.commons.domain.IMessage;
-import de.thro.messaging.commons.domain.UserType;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,11 +10,6 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 public class MainMenu {
-    public static void main(String[] args) {
-        //MenuManagement mm = new MenuManagement();
-        //mm.start();
-        //mm.newUser();
-    }
 
     enum UseCase{DirectMessage, Broadcast, ReadMessage, EndApp}
 
@@ -22,11 +17,11 @@ public class MainMenu {
     Hier wird das Hauptmenü geöffnet und alle weiteren UC verwaltet.
     Nach jedem UC kehrt das Programm zum Hauptmenü zurück.
      */
-    public static class MenuManagement{
+
 
         private ViewController vc;
 
-        public MenuManagement(ViewController vc ){
+        public MainMenu(ViewController vc){
             this.vc = vc;
         }
 
@@ -76,57 +71,6 @@ public class MainMenu {
             }
         }
 
-        /**
-         * Wenn der User noch nie angemeldet war,
-         * wird ein Menü zur eingabe eine User aufgerufen.
-         */
-        private  void newUser(){
-            System.out.println("Geben Sie einen Benutzernamen an");
-            String userName = "";
-            String typ = "";
-            UserType userType = null;
-
-            BufferedReader obj = new BufferedReader(new InputStreamReader(System.in));
-
-            //Nutzername von Console einlesen
-            try {
-                userName = obj.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            //UserTyp von Console einlesen
-            boolean typeIsSet = false;
-            while (!typeIsSet) {
-                typ = getUserType();
-                if (typ.toUpperCase().equals("S")) {
-                    userType = UserType.STUDENT;
-                    typeIsSet = true;
-                } else if (typ.toUpperCase().equals("P")) {
-                    userType = UserType.TEACHER;
-                    typeIsSet = true;
-                } else {
-                    System.out.println("Das entspricht keiner Rolle. Versuchen Sie es erneut.");
-                }
-            }
-            System.out.println(userName + " " + userType);
-        }
-
-        /**
-         * Liest die Eingebe der Konsole ein und gibt den Buchstaben zurück der zur Nutzerrolle gehört.
-         * @return String Buchstabe für den Usertyp
-         */
-        private String getUserType(){
-            String typ = "";
-            BufferedReader obj = new BufferedReader(new InputStreamReader(System.in));
-            System.out.println("Geben Sie Ihre Rolle an. Professor = [P] Student = [S]");
-            try {
-                typ = obj.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return typ;
-        }
 
 
         //Ein reader der für alle Usecases verwendet werden kann
@@ -265,4 +209,3 @@ public class MainMenu {
         }
     }
 
-}

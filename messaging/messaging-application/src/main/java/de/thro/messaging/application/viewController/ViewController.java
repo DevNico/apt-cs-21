@@ -42,25 +42,6 @@ public class ViewController {
         this.messaging = messaging;
     }
 
-    public IUser loadUser(){
-        try {
-            return userManager.getMainUser();
-        } catch (ConfigHandlerException | UserNotExistsException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public void createUser(String name, UserType userType) {
-        try {
-            userManager.createMainUser(name, userType);
-        } catch (UserAlreadyExistsException e) {
-            e.printStackTrace();
-        } catch (ConfigHandlerException e) {
-            e.printStackTrace();
-        }
-    }
-
     /**
      * Erstellen einer Direktnachricht.
      * @param reciever Empfänger als String.
