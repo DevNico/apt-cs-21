@@ -56,19 +56,18 @@ public class Message implements IMessage {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(dateTime.getDayOfMonth() + " ");
-        stringBuilder.append(dateTime.getMonth() + " ");
-        stringBuilder.append(dateTime.getYear() + " ");
-        stringBuilder.append(dateTime.getHour() + ":");
-        stringBuilder.append(dateTime.getMinute());
-        stringBuilder.append("\n");
-        stringBuilder.append("An: ");
-        stringBuilder.append(isBroadcast ? "Broadcast" : reciever);
-        stringBuilder.append("\n");
-        stringBuilder.append("Von: " + sender.getName());
-        stringBuilder.append(" - UserTyp: " + sender.getUserType().toString());
-        stringBuilder.append("\n");
-        stringBuilder.append("Nachricht: " + messageText);
+        stringBuilder.append(dateTime.format(DateTimeFormatter.ofPattern("yy-MM-dd HH:mm:ss")))
+                .append("\n")
+                .append("An: ")
+                .append(isBroadcast ? "Broadcast" : receiver)
+                .append("\n")
+                .append("Von: ")
+                .append(sender.getName())
+                .append(" - UserTyp: ")
+                .append(sender.getUserType().toString())
+                .append("\n")
+                .append("Nachricht: ")
+                .append(messageText);
 
         return stringBuilder.toString();
     }
