@@ -169,7 +169,7 @@ public class MessagingRabbitMQ implements IMessaging {
   @Override
   public void sendDirect(IMessage message) throws NetworkException {
     try {
-      this.channel.basicPublish(EXCHANGE_DIRECT, message.getReciever(), null,
+      this.channel.basicPublish(EXCHANGE_DIRECT, message.getReceiver(), null,
           this.serializer.serialize(message).getBytes());
     } catch (IOException e) {
       int errorCode = this.parseErrorCode(e);
