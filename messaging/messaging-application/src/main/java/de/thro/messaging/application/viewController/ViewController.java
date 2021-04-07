@@ -1,4 +1,4 @@
-package de.thro.messaging.commons.viewController;
+package de.thro.messaging.application.viewController;
 
 import de.thro.messaging.commons.UserManager.IUserManager;
 import de.thro.messaging.commons.UserManager.UserAlreadyExistsException;
@@ -25,6 +25,13 @@ public class ViewController {
     IMessaging messaging;
 
     /**
+     * Beendet die Anwendung.
+     */
+    public void endApp(){
+        System.exit(0);
+    }
+
+    /**
      * Beim Erstellen des Kontrollers soll direkt die konkrete Implementierung für den UserManger und die
      * Netzwerkanbindung übergeben werden.
      * @param userManager Verwaltung der User.
@@ -33,25 +40,6 @@ public class ViewController {
     public ViewController(IUserManager userManager, IMessaging messaging){
         this.userManager = userManager;
         this.messaging = messaging;
-    }
-
-    public IUser loadUser(){
-        try {
-            return userManager.getMainUser();
-        } catch (ConfigHandlerException | UserNotExistsException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public void createUser(String name, UserType userType) {
-        try {
-            userManager.createMainUser(name, userType);
-        } catch (UserAlreadyExistsException e) {
-            e.printStackTrace();
-        } catch (ConfigHandlerException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -128,18 +116,14 @@ public class ViewController {
      * ist der Nachrichtentext.
      * @return List<String[]>
      */
-    public List<String []> displayReceivedMessages(){
+    public List<IMessage> displayReceivedMessages(){
         List<IMessage> messages = new LinkedList<>();
         try {
             messages = messaging.receiveAll();
         } catch (NetworkException e) {
             e.printStackTrace();
         }
-        List<String []> ouput = new LinkedList<>();
-        for (IMessage m: messages) {
-            ouput.add(new String[]{m.getSender().getName(), m.getTime().toString(), m.getMessageText()});
-        }
-        return ouput;
+        return messages;
     }
 
 

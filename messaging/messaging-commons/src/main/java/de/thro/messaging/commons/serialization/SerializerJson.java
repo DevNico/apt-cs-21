@@ -9,7 +9,7 @@ import com.google.gson.Gson;
  * Außerdem wird mit der Methode getFileName() der Name einer Klasse als Dateiname sowie die Dateiendung ".json" (hardgecoded) zurückgegeben
  */
 
-class SerializerJson<T> implements ISerializer<T>{
+public class SerializerJson<T> implements ISerializer<T>{
 
     private Class<? extends T> cls;
     private Gson gson;
@@ -20,7 +20,7 @@ class SerializerJson<T> implements ISerializer<T>{
      * @param cls
      * @param gson
      */
-    SerializerJson(Class<? extends T> cls, Gson gson){
+    public SerializerJson(Class<? extends T> cls, Gson gson){
         this.cls = cls;
         this.gson = gson;
     }

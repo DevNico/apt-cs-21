@@ -7,7 +7,7 @@ import com.google.gson.Gson;
  * Mit dem Aufruf der Methoden in dieser Klasse werden SerializerJson-Instanzen erzeugt und zurückgegeben
  */
 
-class SerializerJsonFactory<T> implements ISerializerFactory<T> {
+public class SerializerJsonFactory<T> implements ISerializerFactory<T> {
 
     /**
      * Die Methode createSerializerJson() erstellt eine Instanz der Klasse SerializerJson

@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public interface IMessage {
     IUser getSender ();
-    String getReciever ();
+    String getReceiver();
 
     /**
      * Gibt an ob es sich bei der Nachricht um ein Rundschreiben handelt.

@@ -10,14 +10,14 @@ public class Message implements IMessage {
 
     //IUser lässt sich nicht deserialisieren
     private User sender;
-    private String reciever;
+    private String receiver;
     private boolean isBroadcast;
     private String messageText;
     private LocalDateTime dateTime;
 
-    public Message (User sender, String reciever, boolean isBroadcast, String messageText){
+    public Message (User sender, String receiver, boolean isBroadcast, String messageText){
         this.sender = sender;
-        this.reciever = reciever;
+        this.receiver = receiver;
         this.isBroadcast = isBroadcast;
         this.messageText = messageText;
         this.dateTime = LocalDateTime.now();
@@ -29,8 +29,8 @@ public class Message implements IMessage {
     }
 
     @Override
-    public String getReciever() {
-        return this.reciever;
+    public String getReceiver() {
+        return this.receiver;
     }
 
     @Override
