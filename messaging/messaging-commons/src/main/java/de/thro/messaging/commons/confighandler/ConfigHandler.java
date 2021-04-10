@@ -34,7 +34,9 @@ public class ConfigHandler<T> implements IConfigHandler<T>{
 
     @Override
     public void writeConfig(String path, T fileToSerialize) throws ConfigHandlerException {
+        //File erstellen um die Ordner des Paths bauen zu können
         File file = new File(buildPathFile(path));
+        //Wenn die Elternordner nicht existieren neuanlegen
         if(!file.getParentFile().exists()) {
             if (!file.getParentFile().mkdirs())
                 throw new ConfigHandlerException("Error while creating parent folders. ");
