@@ -10,7 +10,6 @@ build:
   - gradle assemble
   only:
     refs:
-    - 17-CI-Pipline
     - master
     - development
     - QA
