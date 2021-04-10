@@ -6,10 +6,10 @@ package de.thro.messaging.commons.confighandler;
 public class ConfigMessaging{
 
     //gleich mal Standardwerte setzen ;)
-    private static final String default_ip = "localhost";
-    private static final String default_port = "5672";
-    private static final String default_username = "guest";
-    private static final String default_password = "guest";
+    private static final String DEFAULT_IP = "localhost";
+    private static final String DEFAULT_PORT = "5672";
+    private static final String DEFAULT_USERNAME = "guest";
+    private static final String DEFAULT_PASSWORD = "guest";
 
     //lokale aktiv gesetzte Variablen
     private final String ip;
@@ -21,10 +21,10 @@ public class ConfigMessaging{
     public ConfigMessaging(String ip, String port, String username, String password) {
         //wenn die Strings null sind dann Standardwerte setzen
         if(ip == null || port == null || username == null || password == null) {
-            this.ip = default_ip;
-            this.port = default_port;
-            this.username = default_username;
-            this.password = default_password;
+            this.ip = DEFAULT_IP;
+            this.port = DEFAULT_PORT;
+            this.username = DEFAULT_USERNAME;
+            this.password = DEFAULT_PASSWORD;
         } else {
             this.ip = ip;
             this.port = port;
@@ -34,7 +34,7 @@ public class ConfigMessaging{
     }
 
     public ConfigMessaging() {
-        this(default_ip, default_port, default_username, default_password);
+        this(DEFAULT_IP, DEFAULT_PORT, DEFAULT_USERNAME, DEFAULT_PASSWORD);
     }
 
     //getter
