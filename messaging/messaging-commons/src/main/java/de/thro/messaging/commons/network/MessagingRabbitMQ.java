@@ -108,9 +108,6 @@ public class MessagingRabbitMQ implements IMessaging {
    * @throws NetworkException Fehler beim Erstellen oder Verbinden der Queue
    */
   private void registerUser(IUser user) throws NetworkException {
-    // Wir benötigen keine Queue für einen Professor, da dieser keine Nachrichten erhalten kann
-    if (user.getUserType() == UserType.TEACHER)
-      return;
 
     try {
       String queueName = user.getName();
@@ -119,8 +116,14 @@ public class MessagingRabbitMQ implements IMessaging {
       this.channel.queueDeclare(queueName, true, false, false, null);
 
       // Verbinde Queue mit Exchange für Direkt- und Rundnachrichten
-      this.channel.queueBind(queueName, EXCHANGE_DIRECT, queueName);
-      this.channel.queueBind(queueName, EXCHANGE_BROADCAST, "");
+      // Falls User vom Typ Professor ist, binde die Queue nur mit dem Exchange für Direktnachrichten an.
+      if(user.getUserType() == UserType.TEACHER){
+        this.channel.queueBind(queueName, EXCHANGE_DIRECT, queueName);
+      }
+      else{
+        this.channel.queueBind(queueName, EXCHANGE_DIRECT, queueName);
+        this.channel.queueBind(queueName, EXCHANGE_BROADCAST, "");
+      }
     } catch (IOException e) {
       throw new NetworkException("Error creating or binding queue for user: " + user.getName(), e);
     }
