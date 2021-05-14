@@ -57,11 +57,17 @@ public class MainMenu {
      */
     public void startTeacher() {
         var isInterrupted = false;
-        do {
+        while (!isInterrupted) {
             UseCase uc = mainMenu(false);
-            switch (uc) {
+            switch (uc){
+                case DirectMessage:
+                    directMessage();
+                    break;
                 case Broadcast:
                     broadcast();
+                    break;
+                case ReadMessage:
+                    readMessage();
                     break;
                 case EndApp:
                     isInterrupted = true;
@@ -71,8 +77,6 @@ public class MainMenu {
                     System.out.println("Das ist kein Menü");
             }
         }
-        while (isInterrupted);
-
     }
 
     //Ein reader der für alle Usecases verwendet werden kann
@@ -177,8 +181,12 @@ public class MainMenu {
                 }
 
                 switch (inputString.toUpperCase()) {
+                    case "D":
+                        return UseCase.DirectMessage;
                     case "B":
                         return UseCase.Broadcast;
+                    case "R":
+                        return UseCase.ReadMessage;
                     case "X":
                         return UseCase.EndApp;
                     default:
@@ -208,7 +216,9 @@ public class MainMenu {
     }
 
     private void mainMenuTextTeacher() {
+        System.out.println("D um eine Direktnachricht zu schreiben");
         System.out.println("B um eine Rundnachricht zu schreiben");
+        System.out.println("R um die Nachrichten anzuzeigen");
         System.out.println("X um Programm zu beenden");
     }
 }
