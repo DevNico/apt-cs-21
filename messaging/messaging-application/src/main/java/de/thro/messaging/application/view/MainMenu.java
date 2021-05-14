@@ -10,7 +10,7 @@ import java.util.List;
 
 public class MainMenu {
 
-    enum UseCase {DirectMessage, Broadcast, ReadMessage, EndApp}
+    enum UseCase {DIRECT_MESSAGE, BROADCAST, READ_MESSAGE, END_APP}
 
     /*
     Hier wird das Hauptmenü geöffnet und alle weiteren UC verwaltet.
@@ -18,10 +18,10 @@ public class MainMenu {
      */
 
 
-    private ViewController vc;
+    private final ViewController viewController;
 
-    public MainMenu(ViewController vc) {
-        this.vc = vc;
+    public MainMenu(ViewController viewController) {
+        this.viewController = viewController;
     }
 
     /**
@@ -32,16 +32,16 @@ public class MainMenu {
         while (!isInterrupted) {
             UseCase uc = mainMenu();
             switch (uc) {
-                case DirectMessage:
+                case DIRECT_MESSAGE:
                     directMessage();
                     break;
-                case Broadcast:
+                case BROADCAST:
                     broadcast();
                     break;
-                case ReadMessage:
+                case READ_MESSAGE:
                     readMessage();
                     break;
-                case EndApp:
+                case END_APP:
                     isInterrupted = true;
                     endApp();
                     break;
@@ -59,7 +59,7 @@ public class MainMenu {
      */
     private void endApp() {
         System.out.println("App Beendet.");
-        vc.endApp();
+        viewController.endApp();
     }
 
     /**
@@ -79,8 +79,8 @@ public class MainMenu {
             System.out.println("Das war keine Korrekte eingabe.");
             return;
         }
-        IMessage message = vc.createDirektMessage(receiver, messageText);
-        vc.sendDirect(message);
+        IMessage message = viewController.createDirektMessage(receiver, messageText);
+        viewController.sendDirect(message);
     }
 
     /**
@@ -95,8 +95,8 @@ public class MainMenu {
         } catch (IOException e) {
             System.out.println("Das war keine Korrekte eingabe.");
         }
-        IMessage message = vc.createBroadcastMessage(messageText);
-        vc.sendBroadcast(message);
+        IMessage message = viewController.createBroadcastMessage(messageText);
+        viewController.sendBroadcast(message);
     }
 
 
@@ -106,7 +106,7 @@ public class MainMenu {
      */
     private void readMessage() {
         System.out.println("Das sind Ihre Nachrichten");
-        List<IMessage> messages = vc.displayReceivedMessages();
+        List<IMessage> messages = viewController.displayReceivedMessages();
         for (IMessage m : messages) {
             System.out.println(m);
         }
@@ -132,13 +132,13 @@ public class MainMenu {
 
             switch (inputString.toUpperCase()) {
                 case "D":
-                    return UseCase.DirectMessage;
+                    return UseCase.DIRECT_MESSAGE;
                 case "B":
-                    return UseCase.Broadcast;
+                    return UseCase.BROADCAST;
                 case "R":
-                    return UseCase.ReadMessage;
+                    return UseCase.READ_MESSAGE;
                 case "X":
-                    return UseCase.EndApp;
+                    return UseCase.END_APP;
                 default:
                     System.out.println("Das ist kein Menü");
                     break;
