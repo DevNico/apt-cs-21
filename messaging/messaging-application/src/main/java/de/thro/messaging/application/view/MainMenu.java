@@ -91,8 +91,8 @@ public class MainMenu {
      * Hier kann die Logik für Direktnachrichten hin.
      */
     private void directMessage() {
-        String receiver = "";
-        String messageText = "";
+        var receiver = "";
+        var messageText = "";
         System.out.println("Schreiben Sie Ihre Nachricht und bestätigen Sie mit 'Enter'");
         try {
             messageText = readerForUc.readLine();
@@ -112,7 +112,7 @@ public class MainMenu {
      * Hier kann die Logik für Broadcasts rein.
      */
     private void broadcast() {
-        String messageText = "";
+        var messageText = "";
         System.out.println("Schreiben Sie Ihre Rundnachricht und versenden Sie mit 'Enter'");
         try {
             messageText = readerForUc.readLine();
@@ -144,19 +144,19 @@ public class MainMenu {
     private UseCase mainMenu(boolean isStudent) {
         while (true) {
             // create a BufferedReader using System.in
-            BufferedReader obj = new BufferedReader(new InputStreamReader(System.in));
-            String input = "";
+            var bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+            var inputString = "";
             head("Hauptmenü");
 
             //ist der Nutzer ein Student?
             if (isStudent) {
                 mainMenuTextStudent();
                 try {
-                    input = obj.readLine();
+                    inputString = bufferedReader.readLine();
                 } catch (IOException e) {
                 }
 
-                switch (input.toUpperCase()) {
+                switch (inputString.toUpperCase()) {
                     case "D":
                         return UseCase.DirectMessage;
                     case "B":
@@ -172,11 +172,11 @@ public class MainMenu {
             } else {
                 mainMenuTextTeacher();
                 try {
-                    input = obj.readLine();
+                    inputString = bufferedReader.readLine();
                 } catch (IOException e) {
                 }
 
-                switch (input.toUpperCase()) {
+                switch (inputString.toUpperCase()) {
                     case "B":
                         return UseCase.Broadcast;
                     case "X":
@@ -189,15 +189,14 @@ public class MainMenu {
         }
     }
 
-
     /**
      * Allgemeiner Anfang für jede neue Seite.
      *
-     * @param Description Was soll im Head stehen?
+     * @param description Was soll im Head stehen?
      */
-    private void head(String Description) {
+    private void head(String description) {
         System.out.println("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
-        System.out.println(Description);
+        System.out.println(description);
         System.out.println("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
     }
 
