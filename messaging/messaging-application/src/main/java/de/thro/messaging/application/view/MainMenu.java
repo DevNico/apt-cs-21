@@ -1,7 +1,6 @@
 package de.thro.messaging.application.view;
 
 import de.thro.messaging.application.viewController.ViewController;
-import de.thro.messaging.commons.UserManager.IUserManager;
 import de.thro.messaging.commons.domain.IMessage;
 
 import java.io.BufferedReader;
@@ -28,38 +27,11 @@ public class MainMenu {
     /**
      * Startet Menüführung für einen Studenten.
      */
-    public void startStudent() {
+    public void start() {
         var isInterrupted = false;
         while (!isInterrupted) {
-            UseCase uc = mainMenu(true);
+            UseCase uc = mainMenu();
             switch (uc) {
-                case DirectMessage:
-                    directMessage();
-                    break;
-                case Broadcast:
-                    broadcast();
-                    break;
-                case ReadMessage:
-                    readMessage();
-                    break;
-                case EndApp:
-                    isInterrupted = true;
-                    endApp();
-                    break;
-                default:
-                    System.out.println("Das ist kein Menü");
-            }
-        }
-    }
-
-    /**
-     * Startet Menüführung für einen Professor.
-     */
-    public void startTeacher() {
-        var isInterrupted = false;
-        while (!isInterrupted) {
-            UseCase uc = mainMenu(false);
-            switch (uc){
                 case DirectMessage:
                     directMessage();
                     break;
@@ -145,57 +117,36 @@ public class MainMenu {
      *
      * @return Usecase der angibt was der User tun möchte.
      */
-    private UseCase mainMenu(boolean isStudent) {
+    private UseCase mainMenu() {
         while (true) {
             // create a BufferedReader using System.in
             var bufferedReader = new BufferedReader(new InputStreamReader(System.in));
             var inputString = "";
             head("Hauptmenü");
 
-            //ist der Nutzer ein Student?
-            if (isStudent) {
-                mainMenuTextStudent();
-                try {
-                    inputString = bufferedReader.readLine();
-                } catch (IOException e) {
-                }
-
-                switch (inputString.toUpperCase()) {
-                    case "D":
-                        return UseCase.DirectMessage;
-                    case "B":
-                        return UseCase.Broadcast;
-                    case "R":
-                        return UseCase.ReadMessage;
-                    case "X":
-                        return UseCase.EndApp;
-                    default:
-                        System.out.println("Das ist kein Menü");
-                        break;
-                }
-            } else {
-                mainMenuTextTeacher();
-                try {
-                    inputString = bufferedReader.readLine();
-                } catch (IOException e) {
-                }
-
-                switch (inputString.toUpperCase()) {
-                    case "D":
-                        return UseCase.DirectMessage;
-                    case "B":
-                        return UseCase.Broadcast;
-                    case "R":
-                        return UseCase.ReadMessage;
-                    case "X":
-                        return UseCase.EndApp;
-                    default:
-                        System.out.println("Das ist kein Menü");
-                        break;
-                }
+            mainMenuText();
+            try {
+                inputString = bufferedReader.readLine();
+            } catch (IOException e) {
             }
+
+            switch (inputString.toUpperCase()) {
+                case "D":
+                    return UseCase.DirectMessage;
+                case "B":
+                    return UseCase.Broadcast;
+                case "R":
+                    return UseCase.ReadMessage;
+                case "X":
+                    return UseCase.EndApp;
+                default:
+                    System.out.println("Das ist kein Menü");
+                    break;
+            }
+
         }
     }
+
 
     /**
      * Allgemeiner Anfang für jede neue Seite.
@@ -208,14 +159,7 @@ public class MainMenu {
         System.out.println("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
     }
 
-    private void mainMenuTextStudent() {
-        System.out.println("D um eine Direktnachricht zu schreiben");
-        System.out.println("B um eine Rundnachricht zu schreiben");
-        System.out.println("R um die Nachrichten anzuzeigen");
-        System.out.println("X um Programm zu beenden");
-    }
-
-    private void mainMenuTextTeacher() {
+    private void mainMenuText() {
         System.out.println("D um eine Direktnachricht zu schreiben");
         System.out.println("B um eine Rundnachricht zu schreiben");
         System.out.println("R um die Nachrichten anzuzeigen");
