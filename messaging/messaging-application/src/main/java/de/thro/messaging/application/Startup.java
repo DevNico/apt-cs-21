@@ -69,14 +69,7 @@ public class Startup
     } catch (UserNotExistsException e) {
       e.printStackTrace();
     }
-    if(user.getUserType().equals(UserType.TEACHER)){
-      mainMenu.startTeacher();
-    }else if(user.getUserType().equals(UserType.STUDENT)){
-      mainMenu.startStudent();
-    }else {
-      System.out.println("Ups, da ist was schief gelaufen.");
-    }
 
-
+    mainMenu.start();
   }
 }
