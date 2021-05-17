@@ -108,7 +108,9 @@ public class MainMenu {
         System.out.println("Das sind Ihre Nachrichten");
         List<IMessage> messages = viewController.displayReceivedMessages();
         for (IMessage m : messages) {
-            System.out.println(m);
+            if(!m.getIsBrodcast()) {
+                System.out.println(m);
+            }
         }
     }
 
