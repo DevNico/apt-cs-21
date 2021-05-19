@@ -1,5 +1,8 @@
 # APT_Nachrichtensystem
 
+[![pipeline status](https://inf-git.fh-rosenheim.de/studlinnth6233/apt_nachrichtensystem/badges/master/pipeline.svg)](https://inf-git.fh-rosenheim.de/studlinnth6233/apt_nachrichtensystem/-/commits/master)
+[![coverage report](https://inf-git.fh-rosenheim.de/studlinnth6233/apt_nachrichtensystem/badges/master/coverage.svg)](https://inf-git.fh-rosenheim.de/studlinnth6233/apt_nachrichtensystem/-/commits/master)
+
 Repository für APT Projekt:  <a href="https://inf-git.fh-rosenheim.de/studlinnth6233/apt_nachrichtensystem/-/blob/master/Aufgabenstellung.pdf" target="_blank" rel="noopener noreferrer">Nachrichtensystem</a>
 
 Systemvorraussetzungen bzw. Konfiguration: 
