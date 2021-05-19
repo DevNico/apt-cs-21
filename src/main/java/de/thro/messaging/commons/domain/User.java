@@ -1,11 +1,10 @@
 package de.thro.messaging.commons.domain;
 
-public class User {
-    private String name;
-    private UserType userType;
+import java.util.Objects;
 
-    public User() {
-    }
+public class User {
+    private final String name;
+    private final UserType userType;
 
     public User(String name, UserType type) throws IllegalArgumentException {
         if (name == null || name.isEmpty() || name.isBlank()) {
@@ -22,15 +21,28 @@ public class User {
         return this.name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public UserType getUserType() {
         return this.userType;
     }
 
-    public void setUserType(UserType userType) {
-        this.userType = userType;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final var user = (User) o;
+        return Objects.equals(getName(), user.getName()) && Objects.equals(getUserType(), user.getUserType());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getUserType());
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", userType=" + userType +
+                '}';
     }
 }
