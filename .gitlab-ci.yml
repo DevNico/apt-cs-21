@@ -1,15 +1,46 @@
 stages:
   - build
+  - test
+  - dockerize
+
+variables:
+  JACOCO_CSV_LOCATION: '$CI_PROJECT_DIR/build/jacocoCsv'
+
 build:
   stage: build
-  image: gradle:6.1-jdk11
+  image: inf-docker.fh-rosenheim.de/studwinten4338/docker-images/gradle:6.8.3-jdk11
   script:
-  - echo Build
-  #change Directory to the Gradle main directory
-  - cd messaging
-  - gradle assemble
-  only:
-    refs:
-    - master
-    - development
-    - QA
+    - echo "Compiling"
+    - gradle assemble
+  artifacts:
+    paths:
+      - ./build/libs/*.jar
+    expire_in: 1 day
+
+test:
+  stage: test
+  image: inf-docker.fh-rosenheim.de/studwinten4338/docker-images/gradle:6.8.3-jdk11
+  script:
+    - echo "Running unit tests and static code analysis"
+    - gradle test
+    - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' $JACOCO_CSV_LOCATION
+  artifacts:
+    reports:
+      junit:
+        - ./build/test-results/test/TEST-*.xml
+    paths:
+      - ./build*
+    expire_in: 1 day
+
+docker-build:
+  image: inf-docker.fh-rosenheim.de/studwinten4338/docker-images/docker:latest
+  stage: dockerize
+  services:
+    - name: inf-docker.fh-rosenheim.de/studwinten4338/docker-images/docker:dind
+      alias: docker
+
+  before_script:
+    - echo $CI_BUILD_TOKEN | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
+  script:
+    - docker build --pull -t "$CI_REGISTRY_IMAGE" .
+    - docker push "$CI_REGISTRY_IMAGE"
