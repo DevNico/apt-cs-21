@@ -1,11 +1,11 @@
-package de.thro.messaging.application.view;
+package de.thro.messaging.view;
 
 import de.thro.messaging.commons.usermanager.UserManager;
 import de.thro.messaging.commons.usermanager.UserAlreadyExistsException;
-import de.thro.messaging.commons.usermanager.UserNotExistsException;
+import de.thro.messaging.domain.exceptions.UserNotExistsException;
 import de.thro.messaging.commons.confighandler.ConfigHandlerException;
-import de.thro.messaging.commons.domain.User;
-import de.thro.messaging.commons.domain.UserType;
+import de.thro.messaging.domain.models.User;
+import de.thro.messaging.domain.enums.UserType;
 
 import java.util.NoSuchElementException;
 import java.util.Scanner;

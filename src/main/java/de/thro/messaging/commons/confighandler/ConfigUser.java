@@ -1,6 +1,6 @@
 package de.thro.messaging.commons.confighandler;
 
-import de.thro.messaging.commons.domain.UserType;
+import de.thro.messaging.domain.enums.UserType;
 
 public class ConfigUser {
     private final String name;

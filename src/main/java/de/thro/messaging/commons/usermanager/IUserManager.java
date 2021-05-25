@@ -1,8 +1,9 @@
 package de.thro.messaging.commons.usermanager;
 
 import de.thro.messaging.commons.confighandler.ConfigHandlerException;
-import de.thro.messaging.commons.domain.UserType;
-import de.thro.messaging.commons.domain.User;
+import de.thro.messaging.domain.enums.UserType;
+import de.thro.messaging.domain.exceptions.UserNotExistsException;
+import de.thro.messaging.domain.models.User;
 
 /**
  * Zur verwaltung des Hauptusers in dem Programm

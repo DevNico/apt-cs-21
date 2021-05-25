@@ -1,4 +1,4 @@
-package de.thro.messaging.commons.domain;
+package de.thro.messaging.domain.enums;
 
 public enum UserType {
     STUDENT,

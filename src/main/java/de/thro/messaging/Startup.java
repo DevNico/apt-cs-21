@@ -1,18 +1,18 @@
-package de.thro.messaging.application;
+package de.thro.messaging;
 
-import de.thro.messaging.application.view.MainMenu;
-import de.thro.messaging.application.view.NewUserView;
-import de.thro.messaging.application.viewcontroller.ViewController;
+import de.thro.messaging.view.MainMenu;
+import de.thro.messaging.view.NewUserView;
+import de.thro.messaging.viewcontroller.ViewController;
 import de.thro.messaging.commons.usermanager.UserManager;
-import de.thro.messaging.commons.usermanager.UserNotExistsException;
+import de.thro.messaging.domain.exceptions.UserNotExistsException;
 import de.thro.messaging.commons.confighandler.ConfigHandlerException;
 import de.thro.messaging.commons.confighandler.ConfigMessaging;
 import de.thro.messaging.commons.confighandler.ConfigUser;
-import de.thro.messaging.commons.domain.Message;
-import de.thro.messaging.commons.domain.User;
-import de.thro.messaging.commons.network.IMessaging;
-import de.thro.messaging.commons.network.MessagingRabbitMQ;
-import de.thro.messaging.commons.network.NetworkException;
+import de.thro.messaging.domain.models.Message;
+import de.thro.messaging.domain.models.User;
+import de.thro.messaging.application.dependencies.messagequeue.IMessageQueue;
+import de.thro.messaging.infrastructure.messagequeue.RabbitMessageQueue;
+import de.thro.messaging.application.dependencies.messagequeue.exceptions.MessageQueueConnectionException;
 import de.thro.messaging.commons.serialization.ISerializer;
 import de.thro.messaging.commons.serialization.ISerializerFactory;
 import de.thro.messaging.commons.serialization.SerializerJsonFactory;
@@ -24,7 +24,7 @@ public class Startup {
     static UserManager um = new UserManager(userISerializer);
     static NewUserView userView = new NewUserView(um);
     static ConfigMessaging configMessaging = new ConfigMessaging();
-    static IMessaging rmqMessaging;
+    static IMessageQueue rmqMessaging;
     static MainMenu mainMenu;
     static User user;
 
@@ -51,8 +51,8 @@ public class Startup {
 
         // Erstellen einer neuen Messaginginstanz, geht erst mit User
         try {
-            rmqMessaging = new MessagingRabbitMQ(configMessaging, um.getMainUser(), messageISerializer);
-        } catch (NetworkException | ConfigHandlerException | UserNotExistsException e) {
+            rmqMessaging = new RabbitMessageQueue(configMessaging, um.getMainUser(), messageISerializer);
+        } catch (MessageQueueConnectionException | ConfigHandlerException | UserNotExistsException e) {
             e.printStackTrace();
         }
 

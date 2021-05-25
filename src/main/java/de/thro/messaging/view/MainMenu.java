@@ -1,7 +1,7 @@
-package de.thro.messaging.application.view;
+package de.thro.messaging.view;
 
-import de.thro.messaging.application.viewcontroller.ViewController;
-import de.thro.messaging.commons.domain.Message;
+import de.thro.messaging.viewcontroller.ViewController;
+import de.thro.messaging.domain.models.Message;
 
 import java.io.BufferedReader;
 import java.io.IOException;

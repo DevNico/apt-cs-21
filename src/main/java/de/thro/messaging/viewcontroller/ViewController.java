@@ -1,11 +1,14 @@
-package de.thro.messaging.application.viewcontroller;
+package de.thro.messaging.viewcontroller;
 
+import de.thro.messaging.application.dependencies.messagequeue.exceptions.MessageQueueConfigurationException;
+import de.thro.messaging.application.dependencies.messagequeue.exceptions.MessageQueueFetchException;
+import de.thro.messaging.application.dependencies.messagequeue.exceptions.MessageQueueSendException;
 import de.thro.messaging.commons.usermanager.UserManager;
-import de.thro.messaging.commons.usermanager.UserNotExistsException;
+import de.thro.messaging.domain.exceptions.UserNotExistsException;
 import de.thro.messaging.commons.confighandler.ConfigHandlerException;
-import de.thro.messaging.commons.domain.Message;
-import de.thro.messaging.commons.network.IMessaging;
-import de.thro.messaging.commons.network.NetworkException;
+import de.thro.messaging.domain.models.Message;
+import de.thro.messaging.application.dependencies.messagequeue.IMessageQueue;
+import de.thro.messaging.application.dependencies.messagequeue.exceptions.MessageQueueConnectionException;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -19,7 +22,7 @@ import java.util.List;
 public class ViewController {
 
     UserManager userManager;
-    IMessaging messaging;
+    IMessageQueue messaging;
 
     /**
      * Beendet die Anwendung.
@@ -35,7 +38,7 @@ public class ViewController {
      * @param userManager Verwaltung der User.
      * @param messaging   Verwaltung der Empfangenen und Gesendeten Nachrichten.
      */
-    public ViewController(UserManager userManager, IMessaging messaging) {
+    public ViewController(UserManager userManager, IMessageQueue messaging) {
         this.userManager = userManager;
         this.messaging = messaging;
     }
@@ -84,7 +87,7 @@ public class ViewController {
         try {
             messaging.sendDirect(message);
             return true;
-        } catch (NetworkException e) {
+        } catch (MessageQueueConnectionException | MessageQueueSendException | MessageQueueConfigurationException e) {
             e.printStackTrace();
             return false;
         }
@@ -101,7 +104,7 @@ public class ViewController {
         try {
             messaging.sendBroadcast(message);
             return true;
-        } catch (NetworkException e) {
+        } catch (MessageQueueConnectionException | MessageQueueSendException | MessageQueueConfigurationException e) {
             e.printStackTrace();
             return false;
         }
@@ -117,7 +120,7 @@ public class ViewController {
         List<Message> messages = new LinkedList<>();
         try {
             messages = messaging.receiveAll();
-        } catch (NetworkException e) {
+        } catch (MessageQueueConnectionException | MessageQueueFetchException | MessageQueueConfigurationException e) {
             e.printStackTrace();
         }
         return messages;

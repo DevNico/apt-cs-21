@@ -5,8 +5,9 @@ import de.thro.messaging.commons.confighandler.ConfigHandler;
 import de.thro.messaging.commons.confighandler.ConfigHandlerException;
 import de.thro.messaging.commons.confighandler.ConfigUser;
 import de.thro.messaging.commons.confighandler.IConfigHandler;
-import de.thro.messaging.commons.domain.User;
-import de.thro.messaging.commons.domain.UserType;
+import de.thro.messaging.domain.exceptions.UserNotExistsException;
+import de.thro.messaging.domain.models.User;
+import de.thro.messaging.domain.enums.UserType;
 import de.thro.messaging.commons.serialization.ISerializer;
 import de.thro.messaging.commons.serialization.SerializerJson;
 

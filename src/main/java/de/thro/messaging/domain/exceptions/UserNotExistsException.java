@@ -1,4 +1,4 @@
-package de.thro.messaging.commons.usermanager;
+package de.thro.messaging.domain.exceptions;
 
 /**
  * Fehler wenn noch kein Hauptbenutzer existiert!
@@ -7,7 +7,6 @@ package de.thro.messaging.commons.usermanager;
  */
 public class UserNotExistsException extends Exception {
 
-
     public UserNotExistsException(String msg) {
         super(msg);
     }
@@ -15,6 +14,5 @@ public class UserNotExistsException extends Exception {
     public UserNotExistsException() {
         super();
     }
-
 
 }

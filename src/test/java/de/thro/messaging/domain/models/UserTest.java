@@ -1,5 +1,6 @@
-package de.thro.messaging.commons.domain;
+package de.thro.messaging.domain.models;
 
+import de.thro.messaging.domain.enums.UserType;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
