@@ -1,4 +1,6 @@
-package de.thro.messaging.commons.domain;
+package de.thro.messaging.domain.models;
+
+import de.thro.messaging.domain.enums.UserType;
 
 import java.util.Objects;
 
