@@ -1,10 +1,12 @@
-package de.thro.messaging.commons.network;
+package de.thro.messaging.infrastructure.messagequeue;
 
 import com.rabbitmq.client.*;
+import de.thro.messaging.application.dependencies.messagequeue.IMessageQueue;
+import de.thro.messaging.application.dependencies.messagequeue.exceptions.MessageQueueConnectionException;
 import de.thro.messaging.commons.confighandler.ConfigMessaging;
-import de.thro.messaging.commons.domain.Message;
-import de.thro.messaging.commons.domain.User;
-import de.thro.messaging.commons.domain.UserType;
+import de.thro.messaging.domain.models.Message;
+import de.thro.messaging.domain.models.User;
+import de.thro.messaging.domain.enums.UserType;
 import de.thro.messaging.commons.serialization.ISerializer;
 
 import java.io.IOException;
@@ -17,12 +19,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * RabbitMQ Implementierung für die for {@link IMessaging} Nachrichtenbroker - Schnittstelle.
+ * RabbitMQ Implementierung für die for {@link IMessageQueue} Nachrichtenbroker - Schnittstelle.
  *
  * @author Thomas Linner
  * @see <a href="https://www.rabbitmq.com/">https://www.rabbitmq.com/</a>
  */
-public class MessagingRabbitMQ implements IMessaging {
+public class RabbitMessageQueue implements IMessageQueue {
 
     private static final String EXCHANGE_DIRECT = "exchange_direct";
     private static final String EXCHANGE_BROADCAST = "exchange_broadcast";
@@ -40,11 +42,11 @@ public class MessagingRabbitMQ implements IMessaging {
      * @param user       Benutzer, welcher im Nachrichtenbroker registriert / angemeldet werden soll
      * @param serializer Der RabbitMQ Nachrichtenbroker arbeitet auf String-Nachrichten. <br>
      *                   Der Serializer wird für die Konvertierung zwischen {@link Message} und {@link String} verwendet.
-     * @throws NetworkException Fehler beim Aufbau der Verbindung:
+     * @throws MessageQueueConnectionException Fehler beim Aufbau der Verbindung:
      *                          <li> URI konnte nicht konfiguriert werden </li>
      *                          <li> Verbindung / Kanal konnte nicht geöffnet werden </li>
      */
-    public MessagingRabbitMQ(ConfigMessaging config, User user, ISerializer<Message> serializer) throws NetworkException {
+    public RabbitMessageQueue(ConfigMessaging config, User user, ISerializer<Message> serializer) throws MessageQueueConnectionException {
         this.user = user;
         this.serializer = serializer;
 
@@ -61,9 +63,9 @@ public class MessagingRabbitMQ implements IMessaging {
             this.setupExchanges();
             this.registerUser(this.user);
         } catch (URISyntaxException | NoSuchAlgorithmException | KeyManagementException e) {
-            throw new NetworkException("Error setting uri: " + uri, e);
+            throw new MessageQueueConnectionException("Error setting uri: " + uri, e);
         } catch (IOException | TimeoutException e) {
-            throw new NetworkException("Error opening connection / channel to uri: " + uri, e);
+            throw new MessageQueueConnectionException("Error opening connection / channel to uri: " + uri, e);
         }
     }
 
@@ -73,9 +75,9 @@ public class MessagingRabbitMQ implements IMessaging {
      * <li> Direktnachricht -> EXCHANGE_DIRECT </li>
      * <li> Rundnachricht   -> EXCHANGE_BROADCAST </li>
      *
-     * @throws NetworkException Fehler beim Erstellen der Exchanges
+     * @throws MessageQueueConnectionException Fehler beim Erstellen der Exchanges
      */
-    private void setupExchanges() throws NetworkException {
+    private void setupExchanges() throws MessageQueueConnectionException {
         try {
             // Wir können die Methode "exchangeDeclare" hier sicher aufrufen:
             // - Exchange noch nicht vorhanden -> Exchange wird angelegt
@@ -83,7 +85,7 @@ public class MessagingRabbitMQ implements IMessaging {
             this.channel.exchangeDeclare(EXCHANGE_DIRECT, BuiltinExchangeType.DIRECT, true, false, null);
             this.channel.exchangeDeclare(EXCHANGE_BROADCAST, BuiltinExchangeType.FANOUT, true, false, null);
         } catch (IOException e) {
-            throw new NetworkException("Error creating exchange", e);
+            throw new MessageQueueConnectionException("Error creating exchange", e);
         }
     }
 
@@ -93,9 +95,9 @@ public class MessagingRabbitMQ implements IMessaging {
      * Für einen Professor wird keine Queue angelegt, da dieser keine Nachrichten empfangen kann.
      *
      * @param user Der Benutzer, welcher im Broker registriert werden soll
-     * @throws NetworkException Fehler beim Erstellen oder Verbinden der Queue
+     * @throws MessageQueueConnectionException Fehler beim Erstellen oder Verbinden der Queue
      */
-    private void registerUser(User user) throws NetworkException {
+    private void registerUser(User user) throws MessageQueueConnectionException {
 
         try {
             String queueName = user.getName();
@@ -112,7 +114,7 @@ public class MessagingRabbitMQ implements IMessaging {
                 this.channel.queueBind(queueName, EXCHANGE_BROADCAST, "");
             }
         } catch (IOException e) {
-            throw new NetworkException("Error creating or binding queue for user: " + user.getName(), e);
+            throw new MessageQueueConnectionException("Error creating or binding queue for user: " + user.getName(), e);
         }
     }
 
@@ -150,12 +152,12 @@ public class MessagingRabbitMQ implements IMessaging {
      *
      * @param message Nachricht welche versendet werden soll <br>
      *                Der Empfänger wird aus der Nachricht ausgelesen
-     * @throws NetworkException Nachricht konnte nicht versendet werden:
+     * @throws MessageQueueConnectionException Nachricht konnte nicht versendet werden:
      *                          <li> Verbindung zu Nachrichtenbroker konnte nicht hergestellt werden </li>
      *                          <li> Der angegebene Benutzer konnte nicht gefunden werden </li>
      */
     @Override
-    public void sendDirect(Message message) throws NetworkException {
+    public void sendDirect(Message message) throws MessageQueueConnectionException {
         try {
             this.channel.basicPublish(EXCHANGE_DIRECT, message.getReceiver(), null,
                     this.serializer.serialize(message).getBytes());
@@ -164,11 +166,11 @@ public class MessagingRabbitMQ implements IMessaging {
 
             switch (errorCode) {
                 case AMQP.CONNECTION_FORCED:
-                    throw new NetworkException("The messaging broker can not be reached", e);
+                    throw new MessageQueueConnectionException("The messaging broker can not be reached", e);
                 case AMQP.NOT_FOUND:
-                    throw new NetworkException("The given user does not exist: " + user.getName(), e);
+                    throw new MessageQueueConnectionException("The given user does not exist: " + user.getName(), e);
                 default:
-                    throw new NetworkException("Unidentified network error occurred", e);
+                    throw new MessageQueueConnectionException("Unidentified network error occurred", e);
             }
         }
     }
@@ -177,11 +179,11 @@ public class MessagingRabbitMQ implements IMessaging {
      * Sende eine Rund-Nachricht an alle im Nachrichtenbroker registrierten Benutzer.
      *
      * @param message Nachricht welche versendet werden soll
-     * @throws NetworkException Nachricht konnte nicht versendet werden:
+     * @throws MessageQueueConnectionException Nachricht konnte nicht versendet werden:
      *                          <li> Verbindung zum Nachrichtenbroker konnte nicht hergestellt werden </li>
      */
     @Override
-    public void sendBroadcast(Message message) throws NetworkException {
+    public void sendBroadcast(Message message) throws MessageQueueConnectionException {
         try {
             this.channel.basicPublish(EXCHANGE_BROADCAST, "", null,
                     this.serializer.serialize(message).getBytes());
@@ -190,9 +192,9 @@ public class MessagingRabbitMQ implements IMessaging {
 
             switch (errorCode) {
                 case AMQP.CONNECTION_FORCED:
-                    throw new NetworkException("The messaging broker can not be reached", e);
+                    throw new MessageQueueConnectionException("The messaging broker can not be reached", e);
                 default:
-                    throw new NetworkException("Unidentified network error occurred", e);
+                    throw new MessageQueueConnectionException("Unidentified network error occurred", e);
             }
         }
     }
@@ -202,11 +204,11 @@ public class MessagingRabbitMQ implements IMessaging {
      * Die Nachrichten sind nach dem Sende-Zeitstempel sortiert.
      *
      * @return Liste aller erhaltenen Nachrichten seit dem letzten Abruf
-     * @throws NetworkException Nachrichten konnten nicht empfangen werden:
+     * @throws MessageQueueConnectionException Nachrichten konnten nicht empfangen werden:
      *                          <li> Verbindung zum Nachrichtenbroker konnte nicht hergestellt werden </li>
      */
     @Override
-    public List<Message> receiveAll() throws NetworkException {
+    public List<Message> receiveAll() throws MessageQueueConnectionException {
         // Das TreeSet wird verwendet um die Nachrichten beim Hinzufügen automatisch
         // nach ihrem Zeitstempel zu sortieren
         Set<Message> messages = new TreeSet<>(Comparator.comparing(Message::getTime));
@@ -227,9 +229,9 @@ public class MessagingRabbitMQ implements IMessaging {
 
             switch (errorCode) {
                 case AMQP.CONNECTION_FORCED:
-                    throw new NetworkException("The messaging broker can not be reached", e);
+                    throw new MessageQueueConnectionException("The messaging broker can not be reached", e);
                 default:
-                    throw new NetworkException("Unidentified network error occurred", e);
+                    throw new MessageQueueConnectionException("Unidentified network error occurred", e);
             }
         }
 
@@ -241,15 +243,15 @@ public class MessagingRabbitMQ implements IMessaging {
     /**
      * Schließt die Verbindung zum Nachrichtenbroker.
      *
-     * @throws NetworkException Fehler beim Schließen der Verbindung
+     * @throws MessageQueueConnectionException Fehler beim Schließen der Verbindung
      */
     @Override
-    public void close() throws NetworkException {
+    public void close() throws MessageQueueConnectionException {
         try {
             this.channel.close();
             this.connection.close();
         } catch (IOException | TimeoutException e) {
-            throw new NetworkException("Error closing channel / connection", e);
+            throw new MessageQueueConnectionException("Error closing channel / connection", e);
         }
     }
 }
