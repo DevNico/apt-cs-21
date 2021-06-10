@@ -6,11 +6,15 @@ import de.thro.messaging.domain.exceptions.UserNotExistsException;
 import de.thro.messaging.commons.confighandler.ConfigHandlerException;
 import de.thro.messaging.domain.models.User;
 import de.thro.messaging.domain.enums.UserType;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class NewUserView {
+
+    static final Logger LOGGER = LogManager.getLogger(NewUserView.class);
 
     private UserManager um;
 
@@ -24,7 +28,7 @@ public class NewUserView {
      * Der User wird dann über den Usermanager im System erzeugt.
      */
     public void newUser() {
-        System.out.println("Geben Sie einen Benutzernamen an");
+        LOGGER.info("Geben Sie einen Benutzernamen an");
         var userName = "";
         UserType userType = null;
 
@@ -34,7 +38,7 @@ public class NewUserView {
 
             // UserTyp von Console einlesen
             while (userType == null) {
-                System.out.println("Geben Sie Ihre Rolle an. Professor = [P] Student = [S]");
+                LOGGER.info("Geben Sie Ihre Rolle an. Professor = [P] Student = [S]");
                 final var input = scanner.next().toLowerCase();
 
                 switch (input) {
@@ -45,7 +49,7 @@ public class NewUserView {
                         userType = UserType.TEACHER;
                         break;
                     default:
-                        System.out.println("Das entspricht keiner Rolle. Versuchen Sie es erneut.");
+                        LOGGER.error("Das entspricht keiner Rolle. Versuchen Sie es erneut.");
                         break;
                 }
             }

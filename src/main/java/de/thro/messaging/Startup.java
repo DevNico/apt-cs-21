@@ -16,8 +16,12 @@ import de.thro.messaging.application.dependencies.messagequeue.exceptions.Messag
 import de.thro.messaging.commons.serialization.ISerializer;
 import de.thro.messaging.commons.serialization.ISerializerFactory;
 import de.thro.messaging.commons.serialization.SerializerJsonFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Startup {
+    static final Logger LOGGER = LogManager.getLogger(Startup.class);
+
     static ISerializerFactory factory = new SerializerJsonFactory();
     static ISerializer<ConfigUser> userISerializer = factory.createSerializerJson(ConfigUser.class);
     static ISerializer<Message> messageISerializer = factory.createSerializerJson(Message.class);
@@ -30,8 +34,7 @@ public class Startup {
 
 
     public static void main(String[] args) {
-
-        System.out.println("Starting application ...");
+        LOGGER.info("Starting application ...");
         var userIsInConfig = false;
 
         //Prüfe ob User im Configfile vorhanden

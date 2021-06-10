@@ -2,6 +2,8 @@ package de.thro.messaging.view;
 
 import de.thro.messaging.viewcontroller.ViewController;
 import de.thro.messaging.domain.models.Message;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,6 +11,8 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 public class MainMenu {
+
+    static final Logger LOGGER = LogManager.getLogger(MainMenu.class);
 
     enum UseCase {DIRECT_MESSAGE, BROADCAST, READ_MESSAGE, END_APP}
 
@@ -46,7 +50,7 @@ public class MainMenu {
                     endApp();
                     break;
                 default:
-                    System.out.println("Das ist kein Menü");
+                    LOGGER.error("Das ist kein Menü");
             }
         }
     }
@@ -58,7 +62,7 @@ public class MainMenu {
      * App wird Beendet.
      */
     private void endApp() {
-        System.out.println("App Beendet.");
+        LOGGER.info("App Beendet.");
         viewController.endApp();
     }
 
@@ -69,14 +73,14 @@ public class MainMenu {
     private void directMessage() {
         var receiver = "";
         var messageText = "";
-        System.out.println("Schreiben Sie Ihre Nachricht und bestätigen Sie mit 'Enter'");
+        LOGGER.info("Schreiben Sie Ihre Nachricht und bestätigen Sie mit 'Enter'");
         try {
             messageText = readerForUc.readLine();
-            System.out.println("Bitte geben Sie einen Empfänger ein. Danach wird die Nachricht versendet.");
+            LOGGER.info("Bitte geben Sie einen Empfänger ein. Danach wird die Nachricht versendet.");
             receiver = readerForUc.readLine();
         } catch (IOException e) {
             //Sollte die Eingabe ungültig sein, kehrt das System zum Hauptmenü zurück
-            System.out.println("Das war keine Korrekte eingabe.");
+            LOGGER.error("Das war keine Korrekte eingabe.");
             return;
         }
         Message message = viewController.createDirektMessage(receiver, messageText);
@@ -89,11 +93,11 @@ public class MainMenu {
      */
     private void broadcast() {
         var messageText = "";
-        System.out.println("Schreiben Sie Ihre Rundnachricht und versenden Sie mit 'Enter'");
+        LOGGER.info("Schreiben Sie Ihre Rundnachricht und versenden Sie mit 'Enter'");
         try {
             messageText = readerForUc.readLine();
         } catch (IOException e) {
-            System.out.println("Das war keine Korrekte eingabe.");
+            LOGGER.error("Das war keine Korrekte eingabe.");
         }
         Message message = viewController.createBroadcastMessage(messageText);
         viewController.sendBroadcast(message);
@@ -105,11 +109,11 @@ public class MainMenu {
      * Hier kann die Logik für readMessage rein.
      */
     private void readMessage() {
-        System.out.println("Das sind Ihre Nachrichten");
+        LOGGER.info("Das sind Ihre Nachrichten");
         List<Message> messages = viewController.displayReceivedMessages();
         for (Message m : messages) {
             if (!m.getIsBroadcast()) {
-                System.out.println(m);
+                LOGGER.info(m);
             }
         }
     }
@@ -141,7 +145,7 @@ public class MainMenu {
                 case "X":
                     return UseCase.END_APP;
                 default:
-                    System.out.println("Das ist kein Menü");
+                    LOGGER.error("Das ist kein Menü");
                     break;
             }
 
