@@ -49,7 +49,7 @@ public class ChatService implements IChatService {
             } catch (MessageQueueSendException e) {
                 throw new ApplicationException("");
             } catch (MessageQueueConfigurationException e) {
-                throw new ;
+                throw new ApplicationException("");
             }
         }
 
