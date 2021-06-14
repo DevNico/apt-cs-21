@@ -28,7 +28,6 @@ public class ChatService implements IChatService {
     @Override
     public void sendDirectMessage(String receiver, String message) throws ApplicationException {
         Message message1 = new Message(this.userService.getUserName(), receiver, false, message);
-        message1.setTime();
         try {
             this.messageQueue.sendDirect(message1);
         } catch (MessageQueueConnectionException e) {
@@ -42,13 +41,22 @@ public class ChatService implements IChatService {
 
     @Override
     public void sendBroadCast(String message) throws ApplicationException {
-
-    }
+        Message message1 = new Message(this.userService.getUserName(),true,message);
+        try{
+            this.messageQueue.sendBroadcast(message1);
+            } catch (MessageQueueConnectionException e) {
+                retryFetchMessages();
+            } catch (MessageQueueSendException e) {
+                throw new ApplicationException("");
+            } catch (MessageQueueConfigurationException e) {
+                throw new ;
+            }
+        }
 
     @Override
     public List<Message> getMessages() throws ApplicationException {
         try {
-            List<Message> messages = this.messageQueue.getDirectMessages(this.userService.getUserName());
+            List<Message> messages = this.messageQueue.getDirectMessages(this.userService.getUserName().toString());
             if (this.userService.getUserType().equals(UserType.STUDENT)) {
                 messages.addAll(this.messageQueue.getBroadcastMessages());
             }
