@@ -3,6 +3,8 @@ package de.thro.messaging.viewcontroller;
 import de.thro.messaging.application.dependencies.messagequeue.exceptions.MessageQueueConfigurationException;
 import de.thro.messaging.application.dependencies.messagequeue.exceptions.MessageQueueFetchException;
 import de.thro.messaging.application.dependencies.messagequeue.exceptions.MessageQueueSendException;
+import de.thro.messaging.application.service.IChatService;
+import de.thro.messaging.application.service.IUserService;
 import de.thro.messaging.commons.usermanager.UserManager;
 import de.thro.messaging.domain.exceptions.UserNotExistsException;
 import de.thro.messaging.commons.confighandler.ConfigHandlerException;
@@ -21,8 +23,8 @@ import java.util.List;
  */
 public class ViewController {
 
-    UserManager userManager;
-    IMessageQueue messaging;
+    private IUserService userService;
+    private IChatService chatService;
 
     /**
      * Beendet die Anwendung.
@@ -38,9 +40,9 @@ public class ViewController {
      * @param userManager Verwaltung der User.
      * @param messaging   Verwaltung der Empfangenen und Gesendeten Nachrichten.
      */
-    public ViewController(UserManager userManager, IMessageQueue messaging) {
-        this.userManager = userManager;
-        this.messaging = messaging;
+    public ViewController(IUserService userService, IChatService chatService) {
+        this.userService = userService;
+        this.chatService = chatService;
     }
 
     /**

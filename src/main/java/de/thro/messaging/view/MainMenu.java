@@ -1,5 +1,8 @@
 package de.thro.messaging.view;
 
+import de.thro.messaging.application.exceptions.ApplicationException;
+import de.thro.messaging.application.service.IChatService;
+import de.thro.messaging.application.service.IUserService;
 import de.thro.messaging.viewcontroller.ViewController;
 import de.thro.messaging.domain.models.Message;
 
@@ -18,35 +21,39 @@ public class MainMenu {
      */
 
 
-    private final ViewController viewController;
+    private final IChatService chatService;
+    private final IUserService userService;
 
-    public MainMenu(ViewController viewController) {
-        this.viewController = viewController;
+    public MainMenu(IChatService chatService, IUserService userService) {
+        this.userService = userService;
+        this.chatService = chatService;
     }
 
     /**
      * Startet Menüführung für einen Studenten.
      */
     public void start() {
-        var isInterrupted = false;
-        while (!isInterrupted) {
-            UseCase uc = mainMenu();
-            switch (uc) {
-                case DIRECT_MESSAGE:
-                    directMessage();
-                    break;
-                case BROADCAST:
-                    broadcast();
-                    break;
-                case READ_MESSAGE:
-                    readMessage();
-                    break;
-                case END_APP:
-                    isInterrupted = true;
-                    endApp();
-                    break;
-                default:
-                    System.out.println("Das ist kein Menü");
+        while (Thread.currentThread().isAlive()) {
+            try {
+                UseCase uc = mainMenu();
+                switch (uc) {
+                    case DIRECT_MESSAGE:
+                        directMessage();
+                        break;
+                    case BROADCAST:
+                        broadcast();
+                        break;
+                    case READ_MESSAGE:
+                        readMessage();
+                        break;
+                    case END_APP:
+                        endApp();
+                        break;
+                    default:
+                        System.out.println("Das ist kein Menü");
+                }
+            } catch (ApplicationException e) {
+                System.out.println(e.getMessage());
             }
         }
     }
@@ -59,14 +66,14 @@ public class MainMenu {
      */
     private void endApp() {
         System.out.println("App Beendet.");
-        viewController.endApp();
+        System.exit(0);
     }
 
     /**
      * Was soll passieren, wenn der UC directMessage gerufen wird.
      * Hier kann die Logik für Direktnachrichten hin.
      */
-    private void directMessage() {
+    private void directMessage() throws ApplicationException {
         var receiver = "";
         var messageText = "";
         System.out.println("Schreiben Sie Ihre Nachricht und bestätigen Sie mit 'Enter'");
@@ -79,15 +86,14 @@ public class MainMenu {
             System.out.println("Das war keine Korrekte eingabe.");
             return;
         }
-        Message message = viewController.createDirektMessage(receiver, messageText);
-        viewController.sendDirect(message);
+        this.chatService.sendDirectMessage(receiver, messageText);
     }
 
     /**
      * Was soll passieren, wenn der UC broadcast gerufen wird.
      * Hier kann die Logik für Broadcasts rein.
      */
-    private void broadcast() {
+    private void broadcast() throws ApplicationException {
         var messageText = "";
         System.out.println("Schreiben Sie Ihre Rundnachricht und versenden Sie mit 'Enter'");
         try {
@@ -95,8 +101,7 @@ public class MainMenu {
         } catch (IOException e) {
             System.out.println("Das war keine Korrekte eingabe.");
         }
-        Message message = viewController.createBroadcastMessage(messageText);
-        viewController.sendBroadcast(message);
+        this.chatService.sendBroadCast(messageText);
     }
 
 
@@ -104,13 +109,11 @@ public class MainMenu {
      * Was soll passieren, wenn der UC readMessage gerufen wird.
      * Hier kann die Logik für readMessage rein.
      */
-    private void readMessage() {
+    private void readMessage() throws ApplicationException {
         System.out.println("Das sind Ihre Nachrichten");
-        List<Message> messages = viewController.displayReceivedMessages();
+        List<Message> messages = chatService.getMessages();
         for (Message m : messages) {
-            if (!m.getIsBroadcast()) {
-                System.out.println(m);
-            }
+            System.out.println(m.getMessageText());
         }
     }
 
@@ -141,7 +144,7 @@ public class MainMenu {
                 case "X":
                     return UseCase.END_APP;
                 default:
-                    System.out.println("Das ist kein Menü");
+                    System.out.println("Das ist kein Menüpunkt");
                     break;
             }
 

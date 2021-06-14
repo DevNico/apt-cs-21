@@ -2,7 +2,10 @@ package de.thro.messaging.infrastructure.messagequeue;
 
 import com.rabbitmq.client.*;
 import de.thro.messaging.application.dependencies.messagequeue.IMessageQueue;
+import de.thro.messaging.application.dependencies.messagequeue.exceptions.MessageQueueConfigurationException;
 import de.thro.messaging.application.dependencies.messagequeue.exceptions.MessageQueueConnectionException;
+import de.thro.messaging.application.dependencies.messagequeue.exceptions.MessageQueueFetchException;
+import de.thro.messaging.application.dependencies.messagequeue.exceptions.MessageQueueSendException;
 import de.thro.messaging.commons.confighandler.ConfigMessaging;
 import de.thro.messaging.domain.models.Message;
 import de.thro.messaging.domain.models.User;
@@ -29,7 +32,6 @@ public class RabbitMessageQueue implements IMessageQueue {
     private static final String EXCHANGE_DIRECT = "exchange_direct";
     private static final String EXCHANGE_BROADCAST = "exchange_broadcast";
 
-    private final User user;
     private final ISerializer<Message> serializer;
 
     private final Connection connection;
@@ -39,15 +41,13 @@ public class RabbitMessageQueue implements IMessageQueue {
      * Constructor - Erstellt einen neuen RabbitMQ Nachrichtenbroker.
      *
      * @param config     Konfigurationscontainer für die Einrichtung der Remote - Verbindung
-     * @param user       Benutzer, welcher im Nachrichtenbroker registriert / angemeldet werden soll
      * @param serializer Der RabbitMQ Nachrichtenbroker arbeitet auf String-Nachrichten. <br>
      *                   Der Serializer wird für die Konvertierung zwischen {@link Message} und {@link String} verwendet.
      * @throws MessageQueueConnectionException Fehler beim Aufbau der Verbindung:
      *                          <li> URI konnte nicht konfiguriert werden </li>
      *                          <li> Verbindung / Kanal konnte nicht geöffnet werden </li>
      */
-    public RabbitMessageQueue(ConfigMessaging config, User user, ISerializer<Message> serializer) throws MessageQueueConnectionException {
-        this.user = user;
+    public RabbitMessageQueue(ConfigMessaging config, ISerializer<Message> serializer) throws MessageQueueConnectionException {
         this.serializer = serializer;
 
         String uri = String.format("amqp://%s:%s@%s:%s",
@@ -61,7 +61,6 @@ public class RabbitMessageQueue implements IMessageQueue {
             this.channel = this.connection.createChannel();
 
             this.setupExchanges();
-            this.registerUser(this.user);
         } catch (URISyntaxException | NoSuchAlgorithmException | KeyManagementException e) {
             throw new MessageQueueConnectionException("Error setting uri: " + uri, e);
         } catch (IOException | TimeoutException e) {
@@ -157,7 +156,7 @@ public class RabbitMessageQueue implements IMessageQueue {
      *                          <li> Der angegebene Benutzer konnte nicht gefunden werden </li>
      */
     @Override
-    public void sendDirect(Message message) throws MessageQueueConnectionException {
+    public void sendDirect(Message message) throws MessageQueueConnectionException, MessageQueueSendException {
         try {
             this.channel.basicPublish(EXCHANGE_DIRECT, message.getReceiver(), null,
                     this.serializer.serialize(message).getBytes());
@@ -168,7 +167,8 @@ public class RabbitMessageQueue implements IMessageQueue {
                 case AMQP.CONNECTION_FORCED:
                     throw new MessageQueueConnectionException("The messaging broker can not be reached", e);
                 case AMQP.NOT_FOUND:
-                    throw new MessageQueueConnectionException("The given user does not exist: " + user.getName(), e);
+                    //throw new MessageQueueConnectionException("The given user does not exist: " + user.getName(), e);
+                    throw new MessageQueueSendException(e);
                 default:
                     throw new MessageQueueConnectionException("Unidentified network error occurred", e);
             }
@@ -208,12 +208,12 @@ public class RabbitMessageQueue implements IMessageQueue {
      *                          <li> Verbindung zum Nachrichtenbroker konnte nicht hergestellt werden </li>
      */
     @Override
-    public List<Message> receiveAll() throws MessageQueueConnectionException {
+    public List<Message> getDirectMessages(String userName) throws MessageQueueConnectionException {
         // Das TreeSet wird verwendet um die Nachrichten beim Hinzufügen automatisch
         // nach ihrem Zeitstempel zu sortieren
         Set<Message> messages = new TreeSet<>(Comparator.comparing(Message::getTime));
 
-        String queueName = this.user.getName();
+        String queueName = userName;
 
         try {
             // Wiederhole solange sich noch Nachrichten in der Queue des Brokers befinden
@@ -253,5 +253,10 @@ public class RabbitMessageQueue implements IMessageQueue {
         } catch (IOException | TimeoutException e) {
             throw new MessageQueueConnectionException("Error closing channel / connection", e);
         }
+    }
+
+    @Override
+    public List<Message> getBroadcastMessages() throws MessageQueueConnectionException, MessageQueueFetchException, MessageQueueConfigurationException {
+        return new ArrayList<>();
     }
 }
