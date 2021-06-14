@@ -28,6 +28,13 @@ public class Message {
         this.dateTime = LocalDateTime.now();
     }
 
+    public Message(User sender, boolean isBroadcast, String messageText) {
+        this.sender = sender;
+        this.isBroadcast = isBroadcast;
+        this.messageText = messageText;
+        this.dateTime = LocalDateTime.now();
+    }
+
     /**
      * Gets sender.
      *
