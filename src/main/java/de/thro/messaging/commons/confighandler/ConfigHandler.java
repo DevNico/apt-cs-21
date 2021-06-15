@@ -1,6 +1,8 @@
 package de.thro.messaging.commons.confighandler;
 
 import de.thro.messaging.commons.serialization.ISerializer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -9,6 +11,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class ConfigHandler<T> implements IConfigHandler<T> {
+
+    static final Logger LOGGER = LogManager.getLogger(ConfigHandler.class);
 
     //lokale Variable ISerializer, damit man die Daten persistieren kann in einem Format, die der Serializer bereitstellt.
     private final ISerializer<T> serializer;
@@ -45,16 +49,16 @@ public class ConfigHandler<T> implements IConfigHandler<T> {
                 throw new ConfigHandlerException("Error while creating parent folders. ");
             }
 
-            System.out.println("Path" + file.getParentFile().getPath() + " succesfully created. ");
+            LOGGER.info("Path" + file.getParentFile().getPath() + " succesfully created. ");
         } else {
-            System.out.println("Path already exists. ");
+            LOGGER.warn("Path already exists. ");
         }
 
         //try to write the configFile
         try (Writer writer = new FileWriter(file)) {
             //write into File:
             writer.write(serializer.serialize(fileToSerialize));
-            System.out.println("File succesfully saved at " + buildPathFile(path));
+            LOGGER.info("File succesfully saved at " + buildPathFile(path));
         } catch (Exception ex) {
             throw new ConfigHandlerException("Error while creating config-file, error-message: " + ex.getMessage());
         }
