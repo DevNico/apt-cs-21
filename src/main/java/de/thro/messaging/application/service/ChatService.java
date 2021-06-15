@@ -41,7 +41,7 @@ public class ChatService implements IChatService {
 
     @Override
     public void sendBroadCast(String message) throws ApplicationException {
-        Message message1 = new Message(this.userService.getUserName(),true,message);
+        Message message1 = new Message(this.userService.getUserName(),null,true,message);
         try{
             this.messageQueue.sendBroadcast(message1);
             } catch (MessageQueueConnectionException e) {
