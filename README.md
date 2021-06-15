@@ -24,3 +24,14 @@ Systemvorraussetzungen bzw. Konfiguration:
 ![gradleSettingJDK](/gradleSettingJDK.png)
 
 Für weitere Informationen siehe <a href="https://inf-git.fh-rosenheim.de/studlinnth6233/apt_nachrichtensystem/-/wikis/home" target="_blank" rel="noopener noreferrer">Wiki</a>
+
+## Benutzung des Loggers
+- In diesem Projekt wird der Logger von Log4j2 benutz.<br />
+  Die genaue Anleitung von Log4j2 liegt in der Ordnerstruktur src/main/resources und wird dort konfiguriert.
+  
+- Verwendung des Logger Log4j2:
+  ```java
+  Logger [variablen namen] = LogManager.getLogger(this.class);
+  ``` 
+    - Beim import des Loggers darauf achten, dass man das package **org.apache.logging.log4j.Logger** 
+    verwendet.
