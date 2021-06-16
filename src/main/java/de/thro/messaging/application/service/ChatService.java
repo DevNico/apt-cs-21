@@ -33,9 +33,9 @@ public class ChatService implements IChatService {
         } catch (MessageQueueConnectionException e) {
             e.printStackTrace();
         } catch (MessageQueueSendException e) {
-            e.printStackTrace();
+            throw new ApplicationException("Direktnachricht konnte nicht versendet werden", e);
         } catch (MessageQueueConfigurationException e) {
-            e.printStackTrace();
+            throw new ApplicationException("MessageQueue wurde falsch konfiguriert", e);
         }
     }
 
@@ -47,9 +47,9 @@ public class ChatService implements IChatService {
             } catch (MessageQueueConnectionException e) {
                 retryFetchMessages();
             } catch (MessageQueueSendException e) {
-                throw new ApplicationException("");
+                throw new ApplicationException("Broadcast Nachricht konnte nicht versendet werden", e);
             } catch (MessageQueueConfigurationException e) {
-                throw new ApplicationException("");
+                throw new ApplicationException("Broadcast Queue wurde falsch konfiguriert",e);
             }
         }
 
