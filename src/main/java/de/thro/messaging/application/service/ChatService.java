@@ -8,6 +8,8 @@ import de.thro.messaging.application.dependencies.messagequeue.exceptions.Messag
 import de.thro.messaging.application.exceptions.ApplicationException;
 import de.thro.messaging.domain.enums.UserType;
 import de.thro.messaging.domain.models.Message;
+import de.thro.messaging.infrastructure.messagequeue.RabbitMessageQueue;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,6 +1,7 @@
 package de.thro.messaging.domain.models;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * The type Message.
@@ -82,5 +83,18 @@ public class Message {
                 ", messageText='" + getMessageText() + '\'' +
                 ", dateTime=" + getTime() +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Message message = (Message) o;
+        return isBroadcast == message.isBroadcast && Objects.equals(sender, message.sender) && Objects.equals(receiver, message.receiver) && Objects.equals(messageText, message.messageText);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sender, receiver, isBroadcast, messageText, dateTime);
     }
 }
