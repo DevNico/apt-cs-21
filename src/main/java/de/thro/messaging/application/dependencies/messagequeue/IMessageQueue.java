@@ -48,5 +48,8 @@ public interface IMessageQueue extends AutoCloseable {
      * @throws MessageQueueConnectionException Nachrichten konnten nicht empfangen werden:
      *                                         <li> Verbindung zum Nachrichtenbroker konnte nicht hergestellt werden </li>
      */
-    List<Message> receiveAll() throws MessageQueueConnectionException, MessageQueueFetchException, MessageQueueConfigurationException;
+    List<Message> getDirectMessages(String userName) throws MessageQueueConnectionException, MessageQueueFetchException, MessageQueueConfigurationException;
+
+    List<Message> getBroadcastMessages() throws MessageQueueConnectionException, MessageQueueFetchException, MessageQueueConfigurationException;
+
 }
