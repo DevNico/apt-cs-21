@@ -5,11 +5,9 @@ import de.thro.messaging.application.dependencies.messagequeue.exceptions.Messag
 import de.thro.messaging.application.dependencies.messagequeue.exceptions.MessageQueueSendException;
 import de.thro.messaging.application.service.IChatService;
 import de.thro.messaging.application.service.IUserService;
-import de.thro.messaging.commons.usermanager.UserManager;
 import de.thro.messaging.domain.exceptions.UserNotExistsException;
 import de.thro.messaging.commons.confighandler.ConfigHandlerException;
 import de.thro.messaging.domain.models.Message;
-import de.thro.messaging.application.dependencies.messagequeue.IMessageQueue;
 import de.thro.messaging.application.dependencies.messagequeue.exceptions.MessageQueueConnectionException;
 
 import java.util.LinkedList;

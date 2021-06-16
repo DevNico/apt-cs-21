@@ -1,6 +1,7 @@
-package de.thro.messaging.commons.usermanager;
+package de.thro.messaging.application.service;
 
 import com.google.gson.Gson;
+import de.thro.messaging.application.exceptions.UserAlreadyExistsException;
 import de.thro.messaging.commons.confighandler.ConfigHandler;
 import de.thro.messaging.commons.confighandler.ConfigHandlerException;
 import de.thro.messaging.commons.confighandler.ConfigUser;

@@ -1,7 +1,7 @@
 package de.thro.messaging.view;
 
-import de.thro.messaging.commons.usermanager.UserManager;
-import de.thro.messaging.commons.usermanager.UserAlreadyExistsException;
+import de.thro.messaging.application.service.UserManager;
+import de.thro.messaging.application.exceptions.UserAlreadyExistsException;
 import de.thro.messaging.domain.exceptions.UserNotExistsException;
 import de.thro.messaging.commons.confighandler.ConfigHandlerException;
 import de.thro.messaging.domain.models.User;

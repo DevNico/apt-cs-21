@@ -3,7 +3,7 @@ package de.thro.messaging;
 import de.thro.messaging.view.MainMenu;
 import de.thro.messaging.view.NewUserView;
 import de.thro.messaging.viewcontroller.ViewController;
-import de.thro.messaging.commons.usermanager.UserManager;
+import de.thro.messaging.application.service.UserManager;
 import de.thro.messaging.domain.exceptions.UserNotExistsException;
 import de.thro.messaging.commons.confighandler.ConfigHandlerException;
 import de.thro.messaging.commons.confighandler.ConfigMessaging;
