@@ -5,6 +5,8 @@ import de.thro.messaging.application.service.IChatService;
 import de.thro.messaging.application.service.IUserService;
 import de.thro.messaging.viewcontroller.ViewController;
 import de.thro.messaging.domain.models.Message;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,6 +14,8 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 public class MainMenu {
+
+    static final Logger LOGGER = LogManager.getLogger(MainMenu.class);
 
     enum UseCase {DIRECT_MESSAGE, BROADCAST, READ_MESSAGE, END_APP}
 
@@ -76,14 +80,14 @@ public class MainMenu {
     private void directMessage() throws ApplicationException {
         var receiver = "";
         var messageText = "";
-        System.out.println("Schreiben Sie Ihre Nachricht und bestätigen Sie mit 'Enter'");
+        LOGGER.info("Schreiben Sie Ihre Nachricht und bestätigen Sie mit 'Enter'");
         try {
             messageText = readerForUc.readLine();
-            System.out.println("Bitte geben Sie einen Empfänger ein. Danach wird die Nachricht versendet.");
+            LOGGER.info("Bitte geben Sie einen Empfänger ein. Danach wird die Nachricht versendet.");
             receiver = readerForUc.readLine();
         } catch (IOException e) {
             //Sollte die Eingabe ungültig sein, kehrt das System zum Hauptmenü zurück
-            System.out.println("Das war keine Korrekte eingabe.");
+            LOGGER.error("Das war keine Korrekte eingabe.");
             return;
         }
         this.chatService.sendDirectMessage(receiver, messageText);
@@ -95,11 +99,11 @@ public class MainMenu {
      */
     private void broadcast() throws ApplicationException {
         var messageText = "";
-        System.out.println("Schreiben Sie Ihre Rundnachricht und versenden Sie mit 'Enter'");
+        LOGGER.info("Schreiben Sie Ihre Rundnachricht und versenden Sie mit 'Enter'");
         try {
             messageText = readerForUc.readLine();
         } catch (IOException e) {
-            System.out.println("Das war keine Korrekte eingabe.");
+            LOGGER.error("Das war keine Korrekte eingabe.");
         }
         this.chatService.sendBroadCast(messageText);
     }
@@ -144,7 +148,7 @@ public class MainMenu {
                 case "X":
                     return UseCase.END_APP;
                 default:
-                    System.out.println("Das ist kein Menüpunkt");
+                    LOGGER.error("Das ist kein Menü");
                     break;
             }
 
