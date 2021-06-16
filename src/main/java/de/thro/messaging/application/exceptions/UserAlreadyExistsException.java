@@ -1,4 +1,4 @@
-package de.thro.messaging.commons.usermanager;
+package de.thro.messaging.application.exceptions;
 
 /**
  * Fehler wenn ein Hauptbenutzer schon existiert!!
