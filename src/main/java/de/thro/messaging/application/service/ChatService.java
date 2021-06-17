@@ -6,9 +6,10 @@ import de.thro.messaging.application.dependencies.messagequeue.exceptions.Messag
 import de.thro.messaging.application.dependencies.messagequeue.exceptions.MessageQueueFetchException;
 import de.thro.messaging.application.dependencies.messagequeue.exceptions.MessageQueueSendException;
 import de.thro.messaging.application.exceptions.ApplicationException;
+import de.thro.messaging.common.DateTimeFactory;
 import de.thro.messaging.domain.enums.UserType;
 import de.thro.messaging.domain.models.Message;
-import de.thro.messaging.infrastructure.messagequeue.RabbitMessageQueue;
+import de.thro.messaging.domain.models.User;
 
 import java.util.Comparator;
 import java.util.List;
@@ -19,17 +20,17 @@ public class ChatService implements IChatService {
     public static final int MAX_FETCH_TRIES = 5;
 
     private final IMessageQueue messageQueue;
-    private final IUserService userService;
+    private final User user;
     private int sendTries = 0;
 
-    public ChatService(IMessageQueue messageQueue, IUserService userService) {
+    public ChatService(IMessageQueue messageQueue, User user) {
         this.messageQueue = messageQueue;
-        this.userService = userService;
+        this.user = user;
     }
 
     @Override
     public void sendDirectMessage(String receiver, String message) throws ApplicationException {
-        Message message1 = new Message(this.userService.getUserName(), receiver, false, message);
+        Message message1 = new Message(user, receiver, false, message, DateTimeFactory.getDateTime());
         try {
             this.messageQueue.sendDirect(message1);
         } catch (MessageQueueConnectionException e) {
@@ -43,23 +44,23 @@ public class ChatService implements IChatService {
 
     @Override
     public void sendBroadCast(String message) throws ApplicationException {
-        Message message1 = new Message(this.userService.getUserName(),null,true,message);
-        try{
+        Message message1 = new Message(user, null, true, message, DateTimeFactory.getDateTime());
+        try {
             this.messageQueue.sendBroadcast(message1);
-            } catch (MessageQueueConnectionException e) {
-                retryFetchMessages();
-            } catch (MessageQueueSendException e) {
-                throw new ApplicationException("Broadcast Nachricht konnte nicht versendet werden", e);
-            } catch (MessageQueueConfigurationException e) {
-                throw new ApplicationException("Broadcast Queue wurde falsch konfiguriert",e);
-            }
+        } catch (MessageQueueConnectionException e) {
+            retryFetchMessages();
+        } catch (MessageQueueSendException e) {
+            throw new ApplicationException("Broadcast Nachricht konnte nicht versendet werden", e);
+        } catch (MessageQueueConfigurationException e) {
+            throw new ApplicationException("Broadcast Queue wurde falsch konfiguriert", e);
         }
+    }
 
     @Override
     public List<Message> getMessages() throws ApplicationException {
         try {
-            List<Message> messages = this.messageQueue.getDirectMessages(this.userService.getUserName().toString());
-            if (this.userService.getUserType().equals(UserType.STUDENT)) {
+            List<Message> messages = this.messageQueue.getDirectMessages(this.user.getName());
+            if (user.getUserType().equals(UserType.STUDENT)) {
                 messages.addAll(this.messageQueue.getBroadcastMessages());
             }
             return messages

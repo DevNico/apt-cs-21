@@ -21,12 +21,12 @@ public class Message {
      * @param isBroadcast the is broadcast
      * @param messageText the message text
      */
-    public Message(User sender, String receiver, boolean isBroadcast, String messageText) {
+    public Message(User sender, String receiver, boolean isBroadcast, String messageText, LocalDateTime dateTime) {
         this.sender = sender;
         this.receiver = receiver;
         this.isBroadcast = isBroadcast;
         this.messageText = messageText;
-        this.dateTime = LocalDateTime.now();
+        this.dateTime = dateTime;
     }
 
     /**

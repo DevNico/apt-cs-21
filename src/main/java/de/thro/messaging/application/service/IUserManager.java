@@ -1,7 +1,7 @@
 package de.thro.messaging.application.service;
 
 import de.thro.messaging.application.exceptions.UserAlreadyExistsException;
-import de.thro.messaging.commons.confighandler.ConfigHandlerException;
+import de.thro.messaging.common.confighandler.ConfigHandlerException;
 import de.thro.messaging.domain.enums.UserType;
 import de.thro.messaging.domain.exceptions.UserNotExistsException;
 import de.thro.messaging.domain.models.User;
@@ -25,8 +25,9 @@ public interface IUserManager {
      *             UserAlreadyExistsException Gibt eine Fehlermeldung zurück wenn bereits
      *             ein User existiert und versucht wird einen neuen User anzulegen!
      * @throws ConfigHandlerException Außerdem gibt es einen Fehler wenn irgendetwas in dem Aufruf der Config.write falsch gelaufen ist!
+     * @return
      */
-    void createMainUser(String name, UserType type) throws UserAlreadyExistsException, ConfigHandlerException;
+    User createMainUser(String name, UserType type) throws UserAlreadyExistsException, ConfigHandlerException;
 
     /**
      * Auf vorhandenen User checken:

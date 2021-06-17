@@ -15,4 +15,7 @@ public class MessageQueueConnectionException extends Exception {
     public MessageQueueConnectionException(String message, Exception e) {
         super(message, e);
     }
+
+    public MessageQueueConnectionException(String message) {
+    }
 }

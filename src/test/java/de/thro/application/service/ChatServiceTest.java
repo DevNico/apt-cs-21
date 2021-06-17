@@ -7,7 +7,7 @@ import de.thro.messaging.application.dependencies.messagequeue.exceptions.Messag
 import de.thro.messaging.application.exceptions.ApplicationException;
 import de.thro.messaging.application.service.ChatService;
 import de.thro.messaging.application.service.IChatService;
-import de.thro.messaging.application.service.IUserService;
+import de.thro.messaging.common.DateTimeFactory;
 import de.thro.messaging.domain.enums.UserType;
 import de.thro.messaging.domain.models.Message;
 import de.thro.messaging.domain.models.User;
@@ -26,7 +26,6 @@ public class ChatServiceTest {
          *  IUserService userServiceMock
          */
         IMessageQueue messageQueueMock = mock(IMessageQueue.class);
-        IUserService userServiceMock = mock(IUserService.class);
         /*
          * Next up we configure the mocks. This is phase one, where we capture (program) a behaviour
          * so we can later replay it.
@@ -35,15 +34,14 @@ public class ChatServiceTest {
         final String receiver = UUID.randomUUID().toString();
         final User user = new User(userMail, UserType.STUDENT);
         final String messageText = UUID.randomUUID().toString();
-        when(userServiceMock.getUserName()).thenReturn(user);
-        Message message = new Message(user,receiver, false, messageText);
+
+        Message message = new Message(user, receiver, false, messageText, DateTimeFactory.getDateTime());
         // We need to define the object that will be passed to the messageQueueMock.
         doNothing().when(messageQueueMock).sendDirect(message);
         // Let's create the service and execute the sendDirectMessage function
-        IChatService chatService = new ChatService(messageQueueMock, userServiceMock);
-        chatService.sendDirectMessage(receiver,messageText);
+        IChatService chatService = new ChatService(messageQueueMock, user);
+        chatService.sendDirectMessage(receiver, messageText);
         verify(messageQueueMock, times(1)).sendDirect(message);
-        verify(userServiceMock, times(1)).getUserName();
-        verify(messageQueueMock,times(0)).sendBroadcast(any(Message.class));
+        verify(messageQueueMock, times(0)).sendBroadcast(any(Message.class));
     }
 }

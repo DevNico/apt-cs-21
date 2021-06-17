@@ -1,6 +1,6 @@
-package de.thro.messaging.commons.confighandler;
+package de.thro.messaging.common.confighandler;
 
-import de.thro.messaging.commons.serialization.ISerializer;
+import de.thro.messaging.common.serialization.ISerializer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
