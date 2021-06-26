@@ -8,14 +8,14 @@ Repository für APT Projekt:  <a href="https://inf-git.fh-rosenheim.de/studlinnt
 Systemvorraussetzungen bzw. Konfiguration: 
 
 - <a href="https://www.docker.com/get-started" target="_blank" rel="noopener noreferrer">Docker</a>
-- RabbitMQ als Nachrichtenbroker (<a href="https://inf-git.fh-rosenheim.de/studlinnth6233/apt_nachrichtensystem/-/blob/master/Aufgabenstellung.pdf" target="_blank" rel="noopener noreferrer">Anleitung</a>)
+- ActiveMQ als Nachrichtenbroker
     ``` bash
     # Docker Befehle
-    # Installieren des Containers (einmalige Ausführung reicht aus)
-    docker run --name rabbitmq -d -p 15672:15672 -p 5672:5672 rabbitmq:3-management
+    # Installieren und startden des Containers als daemon Prozess (einmalige Ausführung reicht aus)
+    docker run --name activemq -d -p 8161:8161 -p 61616:61616 webcenter/activemq
     # Starten des Containers (falls bereits vorhanden und nicht aktiv)
-    docker start rabbitmq   
-    # Zugriff auf RabbitMQ dann im Browser mit User="guest" und Passwort="guest" unter http://localhost:15672/
+    docker start activemq
+    # Zugriff auf ActiveMQ dann im Browser mit User="admin" und Passwort="admin" unter http://localhost:8161/
     ```
     
 - Gradle Version 6.1

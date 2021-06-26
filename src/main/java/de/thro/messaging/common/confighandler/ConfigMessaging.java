@@ -1,4 +1,4 @@
-package de.thro.messaging.commons.confighandler;
+package de.thro.messaging.common.confighandler;
 
 /**
  * Rudimentäre Klasse zum Persistieren der Messaging-Anmeldeinfos

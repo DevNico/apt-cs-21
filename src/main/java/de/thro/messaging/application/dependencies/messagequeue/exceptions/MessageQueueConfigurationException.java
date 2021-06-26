@@ -4,4 +4,7 @@ public class MessageQueueConfigurationException extends Exception {
     public MessageQueueConfigurationException(Throwable cause) {
         super(cause);
     }
+    public MessageQueueConfigurationException(String error, Throwable cause) {
+        super(error, cause);
+    }
 }

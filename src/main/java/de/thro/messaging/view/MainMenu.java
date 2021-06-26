@@ -2,9 +2,8 @@ package de.thro.messaging.view;
 
 import de.thro.messaging.application.exceptions.ApplicationException;
 import de.thro.messaging.application.service.IChatService;
-import de.thro.messaging.application.service.IUserService;
-import de.thro.messaging.viewcontroller.ViewController;
 import de.thro.messaging.domain.models.Message;
+import de.thro.messaging.domain.models.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,10 +25,10 @@ public class MainMenu {
 
 
     private final IChatService chatService;
-    private final IUserService userService;
+    private final User user;
 
-    public MainMenu(IChatService chatService, IUserService userService) {
-        this.userService = userService;
+    public MainMenu(IChatService chatService, User user) {
+        this.user = user;
         this.chatService = chatService;
     }
 

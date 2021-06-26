@@ -6,11 +6,11 @@ import de.thro.messaging.application.dependencies.messagequeue.exceptions.Messag
 import de.thro.messaging.application.dependencies.messagequeue.exceptions.MessageQueueConnectionException;
 import de.thro.messaging.application.dependencies.messagequeue.exceptions.MessageQueueFetchException;
 import de.thro.messaging.application.dependencies.messagequeue.exceptions.MessageQueueSendException;
-import de.thro.messaging.commons.confighandler.ConfigMessaging;
+import de.thro.messaging.common.confighandler.ConfigMessaging;
 import de.thro.messaging.domain.models.Message;
 import de.thro.messaging.domain.models.User;
 import de.thro.messaging.domain.enums.UserType;
-import de.thro.messaging.commons.serialization.ISerializer;
+import de.thro.messaging.common.serialization.ISerializer;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

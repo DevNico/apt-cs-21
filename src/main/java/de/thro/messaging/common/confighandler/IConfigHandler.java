@@ -1,4 +1,4 @@
-package de.thro.messaging.commons.confighandler;
+package de.thro.messaging.common.confighandler;
 
 /**
  * Dieses Interface stellt die Schnittstelle zum ConfigHandler bereit.

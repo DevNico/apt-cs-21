@@ -1,4 +1,4 @@
-package de.thro.messaging.commons.serialization;
+package de.thro.messaging.common.serialization;
 
 import com.google.gson.Gson;
 

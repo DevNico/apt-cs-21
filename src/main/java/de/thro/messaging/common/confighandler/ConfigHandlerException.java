@@ -1,4 +1,4 @@
-package de.thro.messaging.commons.confighandler;
+package de.thro.messaging.common.confighandler;
 
 /**
  * Exception falls es probleme beim Auslesen oder Schreiben der Configuration gab

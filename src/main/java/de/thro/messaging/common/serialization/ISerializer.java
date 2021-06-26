@@ -1,4 +1,4 @@
-package de.thro.messaging.commons.serialization;
+package de.thro.messaging.common.serialization;
 
 /**
  * Dieses Interface stellt die Schnittstelle dar,

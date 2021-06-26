@@ -3,7 +3,7 @@ package de.thro.messaging.view;
 import de.thro.messaging.application.service.UserManager;
 import de.thro.messaging.application.exceptions.UserAlreadyExistsException;
 import de.thro.messaging.domain.exceptions.UserNotExistsException;
-import de.thro.messaging.commons.confighandler.ConfigHandlerException;
+import de.thro.messaging.common.confighandler.ConfigHandlerException;
 import de.thro.messaging.domain.models.User;
 import de.thro.messaging.domain.enums.UserType;
 import org.apache.logging.log4j.LogManager;
@@ -26,6 +26,7 @@ public class NewUserView {
      * Wenn der User noch nie angemeldet war,
      * wird ein Menü zur eingabe eine User aufgerufen.
      * Der User wird dann über den Usermanager im System erzeugt.
+     * @return
      */
     public void newUser() {
         LOGGER.info("Geben Sie einen Benutzernamen an");
@@ -54,7 +55,7 @@ public class NewUserView {
                 }
             }
 
-            um.createMainUser(userName, userType);
+             um.createMainUser(userName, userType);
         } catch (NoSuchElementException | UserAlreadyExistsException | ConfigHandlerException e) {
             e.printStackTrace();
         }

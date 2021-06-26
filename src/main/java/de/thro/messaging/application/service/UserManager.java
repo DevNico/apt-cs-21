@@ -2,15 +2,15 @@ package de.thro.messaging.application.service;
 
 import com.google.gson.Gson;
 import de.thro.messaging.application.exceptions.UserAlreadyExistsException;
-import de.thro.messaging.commons.confighandler.ConfigHandler;
-import de.thro.messaging.commons.confighandler.ConfigHandlerException;
-import de.thro.messaging.commons.confighandler.ConfigUser;
-import de.thro.messaging.commons.confighandler.IConfigHandler;
+import de.thro.messaging.common.confighandler.ConfigHandler;
+import de.thro.messaging.common.confighandler.ConfigHandlerException;
+import de.thro.messaging.common.confighandler.ConfigUser;
+import de.thro.messaging.common.confighandler.IConfigHandler;
 import de.thro.messaging.domain.exceptions.UserNotExistsException;
 import de.thro.messaging.domain.models.User;
 import de.thro.messaging.domain.enums.UserType;
-import de.thro.messaging.commons.serialization.ISerializer;
-import de.thro.messaging.commons.serialization.SerializerJson;
+import de.thro.messaging.common.serialization.ISerializer;
+import de.thro.messaging.common.serialization.SerializerJson;
 
 /**
  * Diese Klasse implementiert das Interface UserManager
@@ -41,11 +41,13 @@ public class UserManager implements IUserManager {
      *             ein User existiert und versucht wird einen neuen User anzulegen!
      * @throws UserAlreadyExistsException
      * @throws ConfigHandlerException
+     * @return
      */
     @Override
-    public void createMainUser(String name, UserType type) throws UserAlreadyExistsException, ConfigHandlerException {
+    public User createMainUser(String name, UserType type) throws UserAlreadyExistsException, ConfigHandlerException {
         user = new User(name, type);
         createConfigFromUser(user);
+        return user;
     }
 
     /**
