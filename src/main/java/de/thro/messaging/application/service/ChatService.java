@@ -11,6 +11,7 @@ import de.thro.messaging.domain.enums.UserType;
 import de.thro.messaging.domain.models.Message;
 import de.thro.messaging.domain.models.User;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -59,7 +60,7 @@ public class ChatService implements IChatService {
     @Override
     public List<Message> getMessages() throws ApplicationException {
         try {
-            List<Message> messages = this.messageQueue.getDirectMessages(this.user.getName());
+            List<Message> messages = new ArrayList<>(this.messageQueue.getDirectMessages(this.user.getName()));
             if (user.getUserType().equals(UserType.STUDENT)) {
                 messages.addAll(this.messageQueue.getBroadcastMessages());
             }

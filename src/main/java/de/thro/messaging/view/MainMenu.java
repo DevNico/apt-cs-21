@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Scanner;
 
 public class MainMenu {
 
@@ -79,14 +80,14 @@ public class MainMenu {
     private void directMessage() throws ApplicationException {
         var receiver = "";
         var messageText = "";
-        LOGGER.info("Schreiben Sie Ihre Nachricht und bestätigen Sie mit 'Enter'");
+        System.out.println("Schreiben Sie Ihre Nachricht und bestätigen Sie mit 'Enter'");
         try {
             messageText = readerForUc.readLine();
-            LOGGER.info("Bitte geben Sie einen Empfänger ein. Danach wird die Nachricht versendet.");
+            System.out.println("Bitte geben Sie einen Empfänger ein. Danach wird die Nachricht versendet.");
             receiver = readerForUc.readLine();
         } catch (IOException e) {
             //Sollte die Eingabe ungültig sein, kehrt das System zum Hauptmenü zurück
-            LOGGER.error("Das war keine Korrekte eingabe.");
+            System.out.println("Das war keine Korrekte eingabe.");
             return;
         }
         this.chatService.sendDirectMessage(receiver, messageText);
@@ -98,11 +99,11 @@ public class MainMenu {
      */
     private void broadcast() throws ApplicationException {
         var messageText = "";
-        LOGGER.info("Schreiben Sie Ihre Rundnachricht und versenden Sie mit 'Enter'");
+        System.out.println("Schreiben Sie Ihre Rundnachricht und versenden Sie mit 'Enter'");
         try {
             messageText = readerForUc.readLine();
         } catch (IOException e) {
-            LOGGER.error("Das war keine Korrekte eingabe.");
+            System.out.println("Das war keine Korrekte eingabe.");
         }
         this.chatService.sendBroadCast(messageText);
     }
@@ -128,14 +129,14 @@ public class MainMenu {
     private UseCase mainMenu() {
         while (true) {
             // create a BufferedReader using System.in
-            var bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+            final var scanner = new Scanner(System.in);
             var inputString = "";
             head("Hauptmenü");
 
             mainMenuText();
-            try {
-                inputString = bufferedReader.readLine();
-            } catch (IOException ignored) {}
+
+            inputString = scanner.nextLine();
+
 
             switch (inputString.toUpperCase()) {
                 case "D":

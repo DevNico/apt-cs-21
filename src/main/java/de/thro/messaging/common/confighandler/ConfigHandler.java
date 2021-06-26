@@ -24,6 +24,7 @@ public class ConfigHandler<T> implements IConfigHandler<T> {
 
     @Override
     public T readConfig(String path) throws ConfigHandlerException {
+        System.out.println(Path.of(buildPathFile(path)));
         try {
             //read file into string
             final var read = Files.readString(Path.of(buildPathFile(path)));

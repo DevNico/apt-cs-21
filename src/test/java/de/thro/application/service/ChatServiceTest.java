@@ -9,11 +9,14 @@ import de.thro.messaging.application.exceptions.ApplicationException;
 import de.thro.messaging.application.service.ChatService;
 import de.thro.messaging.application.service.IChatService;
 import de.thro.messaging.common.DateTimeFactory;
+import de.thro.messaging.common.confighandler.ConfigHandlerException;
 import de.thro.messaging.domain.enums.UserType;
+import de.thro.messaging.domain.exceptions.UserNotExistsException;
 import de.thro.messaging.domain.models.Message;
 import de.thro.messaging.domain.models.User;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -52,17 +55,17 @@ public class ChatServiceTest {
     }
 
     @Test
-    void  itShouldGetDirectMessages() throws MessageQueueFetchException, MessageQueueConnectionException, MessageQueueConfigurationException, ApplicationException {
+    void itShouldGetDirectMessages() throws MessageQueueFetchException, MessageQueueConnectionException, MessageQueueConfigurationException, ApplicationException, ConfigHandlerException, UserNotExistsException {
         /*  We need mocks for the following services:
          *  IMessageQueue messageQueueMock,
          *  IUserService userServiceMock
          */
         IMessageQueue messageQueueMock = mock(IMessageQueue.class);
-        IUserService userServiceMock = mock(IUserService.class);
 
         final String userName = UUID.randomUUID().toString();
         final UserType userType = UserType.TEACHER;
         final User user = new User(userName, userType);
+        final var localDateTime = LocalDateTime.now();
 
         final String receiver = UUID.randomUUID().toString();
         final int amountMessages = 2;
@@ -71,27 +74,25 @@ public class ChatServiceTest {
         List<Message> directMessages = new ArrayList<>();
 
         for (int i = 0; i < amountMessages / 2; i++) {
-            message = new Message(user,receiver, false, Integer.toString(i));
+            message = new Message(user, receiver, false, Integer.toString(i), localDateTime);
             directMessages.add(message);
         }
 
         List<Message> broadcastMessages = new ArrayList<>();
 
         for (int i = 0; i < amountMessages; i++) {
-            message = new Message(user,receiver, true, Integer.toString(i));
+            message = new Message(user, receiver, true, Integer.toString(i), localDateTime);
             broadcastMessages.add(message);
         }
 
         when(messageQueueMock.getDirectMessages(any())).thenReturn(directMessages);
         when(messageQueueMock.getBroadcastMessages()).thenReturn(broadcastMessages);
-        when(userServiceMock.getUserName()).thenReturn(user);
-        when(userServiceMock.getUserType()).thenReturn(userType);
 
-        ChatService chatService = new ChatService(messageQueueMock, userServiceMock);
+        ChatService chatService = new ChatService(messageQueueMock, user);
         List<Message> messages = chatService.getMessages();
 
-        verify(messageQueueMock,times(1)).getDirectMessages(userServiceMock.getUserName().toString());
-        verify(messageQueueMock,times(0)).getBroadcastMessages();
+        verify(messageQueueMock, times(1)).getDirectMessages(user.getName());
+        verify(messageQueueMock, times(0)).getBroadcastMessages();
 
         List<Message> expectedMessages = directMessages;
         expectedMessages = expectedMessages
@@ -103,17 +104,17 @@ public class ChatServiceTest {
     }
 
     @Test
-    void  itShouldGetDirectAndBroadcastMessages() throws MessageQueueFetchException, MessageQueueConnectionException, MessageQueueConfigurationException, ApplicationException {
+    void itShouldGetDirectAndBroadcastMessages() throws MessageQueueFetchException, MessageQueueConnectionException, MessageQueueConfigurationException, ApplicationException {
         /*  We need mocks for the following services:
          *  IMessageQueue messageQueueMock,
          *  IUserService userServiceMock
          */
         IMessageQueue messageQueueMock = mock(IMessageQueue.class);
-        IUserService userServiceMock = mock(IUserService.class);
 
         final String userName = UUID.randomUUID().toString();
         final UserType userType = UserType.STUDENT;
         final User user = new User(userName, userType);
+        final var localDateTime = LocalDateTime.now();
 
         final String receiver = UUID.randomUUID().toString();
         final int amountMessages = 2;
@@ -121,25 +122,23 @@ public class ChatServiceTest {
         List<Message> directMessages = new ArrayList<>();
 
         for (int i = 0; i < (amountMessages / 2); i++) {
-            directMessages.add(new Message(user,receiver, false, Integer.toString(i)));
+            directMessages.add(new Message(user, receiver, false, Integer.toString(i), localDateTime));
         }
 
         List<Message> broadcastMessages = new ArrayList<>();
 
         for (int i = 0; i < (amountMessages / 2); i++) {
-            broadcastMessages.add(new Message(user,receiver, true, Integer.toString(i)));
+            broadcastMessages.add(new Message(user, receiver, true, Integer.toString(i), localDateTime));
         }
 
         when(messageQueueMock.getDirectMessages(any())).thenReturn(new ArrayList<>(directMessages));
         when(messageQueueMock.getBroadcastMessages()).thenReturn(new ArrayList<>(broadcastMessages));
-        when(userServiceMock.getUserName()).thenReturn(user);
-        when(userServiceMock.getUserType()).thenReturn(userType);
 
-        ChatService chatService = new ChatService(messageQueueMock, userServiceMock);
+        ChatService chatService = new ChatService(messageQueueMock, user);
         List<Message> messages = chatService.getMessages();
 
-        verify(messageQueueMock,times(1)).getDirectMessages(userServiceMock.getUserName().toString());
-        verify(messageQueueMock,times(1)).getBroadcastMessages();
+        verify(messageQueueMock, times(1)).getDirectMessages(user.getName());
+        verify(messageQueueMock, times(1)).getBroadcastMessages();
 
         List<Message> expectedMessages = directMessages;
         expectedMessages.addAll(broadcastMessages);

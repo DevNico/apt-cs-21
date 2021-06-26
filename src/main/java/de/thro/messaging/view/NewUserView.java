@@ -29,7 +29,7 @@ public class NewUserView {
      * @return
      */
     public void newUser() {
-        LOGGER.info("Geben Sie einen Benutzernamen an");
+        System.out.println("Geben Sie einen Benutzernamen an");
         var userName = "";
         UserType userType = null;
 
@@ -39,7 +39,7 @@ public class NewUserView {
 
             // UserTyp von Console einlesen
             while (userType == null) {
-                LOGGER.info("Geben Sie Ihre Rolle an. Professor = [P] Student = [S]");
+                System.out.println("Geben Sie Ihre Rolle an. Professor = [P] Student = [S]");
                 final var input = scanner.next().toLowerCase();
 
                 switch (input) {
@@ -50,7 +50,7 @@ public class NewUserView {
                         userType = UserType.TEACHER;
                         break;
                     default:
-                        LOGGER.error("Das entspricht keiner Rolle. Versuchen Sie es erneut.");
+                        System.out.println("Das entspricht keiner Rolle. Versuchen Sie es erneut.");
                         break;
                 }
             }

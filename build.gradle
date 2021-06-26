@@ -25,6 +25,8 @@ dependencies {
     testImplementation 'org.hamcrest:hamcrest:2.2'
     testImplementation 'org.mockito:mockito-inline:3.7.7'
     testImplementation 'nl.jqno.equalsverifier:equalsverifier:3.6'
+    // https://mvnrepository.com/artifact/org.awaitility/awaitility
+    testImplementation group: 'org.awaitility', name: 'awaitility', version: '4.1.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 }
 
