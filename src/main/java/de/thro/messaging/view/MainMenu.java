@@ -162,16 +162,16 @@ public class MainMenu {
      * @param description Was soll im Head stehen?
      */
     private void head(String description) {
-        System.out.println("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
-        System.out.println(description);
-        System.out.println("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+        LOGGER.info("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+        LOGGER.info(description);
+        LOGGER.info("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
     }
 
     private void mainMenuText() {
-        System.out.println("D um eine Direktnachricht zu schreiben");
-        System.out.println("B um eine Rundnachricht zu schreiben");
-        System.out.println("R um die Nachrichten anzuzeigen");
-        System.out.println("X um Programm zu beenden");
+        LOGGER.info("D um eine Direktnachricht zu schreiben");
+        LOGGER.info("B um eine Rundnachricht zu schreiben");
+        LOGGER.info("R um die Nachrichten anzuzeigen");
+        LOGGER.info("X um Programm zu beenden");
     }
 }
 
