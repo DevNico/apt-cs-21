@@ -90,11 +90,11 @@ public class Message {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Message message = (Message) o;
-        return isBroadcast == message.isBroadcast && Objects.equals(sender, message.sender) && Objects.equals(receiver, message.receiver) && Objects.equals(messageText, message.messageText);
+        return isBroadcast == message.isBroadcast && Objects.equals(getSender(), message.getSender()) && Objects.equals(getReceiver(), message.getReceiver()) && Objects.equals(getMessageText(), message.getMessageText()) && Objects.equals(dateTime, message.dateTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sender, receiver, isBroadcast, messageText, dateTime);
+        return Objects.hash(getSender(), getReceiver(), isBroadcast, getMessageText(), dateTime);
     }
 }
