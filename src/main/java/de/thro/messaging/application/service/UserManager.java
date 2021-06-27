@@ -18,13 +18,11 @@ import de.thro.messaging.common.serialization.SerializerJson;
  * @author Franz Murner
  */
 public class UserManager implements IUserManager {
-
     ISerializer<ConfigUser> serializer = new SerializerJson<>(ConfigUser.class, new Gson());
 
     public UserManager(ISerializer<ConfigUser> serializer) {
         this.serializer = serializer;
     }
-
 
     private static User user;
 
