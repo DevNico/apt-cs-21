@@ -169,7 +169,7 @@ public class ChatServiceTest {
          *  IUserService userServiceMock
          */
         IMessageQueue messageQueueMock = mock(IMessageQueue.class);
-        IUserService userServiceMock = mock(IUserService.class);
+        IDateTimeFactory dateTimeFactory = mock(IDateTimeFactory.class);
         /*
          * Next up we configure the mocks. This is phase one, where we capture (program) a behaviour
          * so we can later replay it.
@@ -177,15 +177,17 @@ public class ChatServiceTest {
         final String userMail = UUID.randomUUID().toString();
         final User user = new User(userMail, UserType.STUDENT);
         final String messageText = UUID.randomUUID().toString();
-        when(userServiceMock.getUserName()).thenReturn(user);
-        Message message = new Message(user,null, true, messageText);
+        final var localDateTime = LocalDateTime.now();
+
+        when(dateTimeFactory.getDateTime()).thenReturn(localDateTime);
+
+        Message message = new Message(user,null, true, messageText, dateTimeFactory.getDateTime());
         // We need to define the object that will be passed to the messageQueueMock.
         doNothing().when(messageQueueMock).sendBroadcast(message);
         // Let's create the service and execute the sendDirectMessage function
-        IChatService chatService = new ChatService(messageQueueMock, userServiceMock);
+        IChatService chatService = new ChatService(messageQueueMock, user,dateTimeFactory);
         chatService.sendBroadCast(messageText);
         verify(messageQueueMock, times(1)).sendBroadcast(message);
-        verify(userServiceMock, times(1)).getUserName();
         verify(messageQueueMock,times(0)).sendDirect(any(Message.class));
     }
 }
