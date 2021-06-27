@@ -83,9 +83,10 @@ public class ChatService implements IChatService {
             throw new ApplicationException("Chatserver kann nicht erreicht werden");
         }
         try {
-            Thread.currentThread().wait(100);
+            Thread.sleep(100);
             return getMessages();
         } catch (InterruptedException ie) {
+            Thread.currentThread().interrupt();
             throw new ApplicationException("Interrupt reveived...", ie);
         }
     }
