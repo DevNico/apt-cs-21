@@ -29,10 +29,10 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-public class ChatServiceTest {
+class ChatServiceTest {
 
     @Test
-    public void itShouldSendADirectMessage() throws ApplicationException, MessageQueueConnectionException, MessageQueueConfigurationException, MessageQueueSendException, UserNotExistsException, ConfigHandlerException, UserAlreadyExistsException {
+    void itShouldSendADirectMessage() throws ApplicationException, MessageQueueConnectionException, MessageQueueConfigurationException, MessageQueueSendException, UserNotExistsException, ConfigHandlerException, UserAlreadyExistsException {
         /*  We need mocks for the following services:
          *  IMessageQueue messageQueueMock,
          *  IUserService userServiceMock
@@ -163,7 +163,7 @@ public class ChatServiceTest {
     }
 
     @Test
-    public void itShouldSendABroadCastMessage() throws ApplicationException, MessageQueueConnectionException, MessageQueueConfigurationException, MessageQueueSendException {
+    void itShouldSendABroadCastMessage() throws ApplicationException, MessageQueueConnectionException, MessageQueueConfigurationException, MessageQueueSendException {
         /*  We need mocks for the following services:
          *  IMessageQueue messageQueueMock,
          *  IUserService userServiceMock
