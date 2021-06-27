@@ -36,7 +36,7 @@ public class ChatService implements IChatService {
 
     @Override
     public void sendDirectMessage(String receiver, String message) throws ApplicationException {
-        Message message1 = new Message(user, receiver, false,message, dateTimeFactory.getDateTime());
+        var message1 = new Message(user, receiver, false,message, dateTimeFactory.getDateTime());
         try {
             this.messageQueue.sendDirect(message1);
         } catch (MessageQueueConnectionException e) {
@@ -50,7 +50,7 @@ public class ChatService implements IChatService {
 
     @Override
     public void sendBroadCast(String message) throws ApplicationException {
-        Message message1 = new Message(user, null, true, message, dateTimeFactory.getDateTime());
+        var message1 = new Message(user, null, true, message, dateTimeFactory.getDateTime());
         try {
             this.messageQueue.sendBroadcast(message1);
         } catch (MessageQueueConnectionException e) {

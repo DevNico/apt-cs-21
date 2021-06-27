@@ -58,7 +58,7 @@ public class UserManager implements IUserManager {
 
         if (!configHandler.isFileAvailable()) return false;
 
-        ConfigUser configUser = configHandler.readConfig(null);
+        var configUser = configHandler.readConfig(null);
 
         return configUser != null;
     }
@@ -77,7 +77,7 @@ public class UserManager implements IUserManager {
             throw new UserNotExistsException("Fehler: Es wurde noch kein Hauptbenutzer angelegt!");
 
         if (user == null) {
-            ConfigUser configUser = configHandler.readConfig();
+            var configUser = configHandler.readConfig();
             user = createUserFromConfig(configUser);
         }
         return user;
@@ -91,7 +91,7 @@ public class UserManager implements IUserManager {
         if (isMainUserInConfig())
             throw new UserAlreadyExistsException("Es existiert bereits ein Hauptbenutzer in der Config");
 
-        ConfigUser configUser = new ConfigUser(user.getName(), user.getUserType());
+        var configUser = new ConfigUser(user.getName(), user.getUserType());
         configHandler.writeConfig(configUser);
     }
 }
