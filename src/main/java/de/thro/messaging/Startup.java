@@ -71,7 +71,7 @@ public class Startup {
         }
 
         chatService = new ChatService(messageQueue, user, new DateTimeFactory());
-        mainMenu = new MainMenu(chatService, user);
+        mainMenu = new MainMenu(chatService);
         mainMenu.start();
     }
 }
