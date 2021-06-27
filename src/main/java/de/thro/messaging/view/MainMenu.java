@@ -54,7 +54,7 @@ public class MainMenu {
                         endApp();
                         break;
                     default:
-                        System.out.println("Das ist kein Menü");
+                        LOGGER.error("Das ist kein Menü");
                 }
             } catch (ApplicationException e) {
                 System.out.println(e.getMessage());
@@ -69,7 +69,7 @@ public class MainMenu {
      * App wird Beendet.
      */
     private void endApp() {
-        System.out.println("App Beendet.");
+        LOGGER.info("App Beendet.");
         System.exit(0);
     }
 
@@ -80,14 +80,14 @@ public class MainMenu {
     private void directMessage() throws ApplicationException {
         var receiver = "";
         var messageText = "";
-        System.out.println("Schreiben Sie Ihre Nachricht und bestätigen Sie mit 'Enter'");
+        LOGGER.info("Schreiben Sie Ihre Nachricht und bestätigen Sie mit 'Enter'");
         try {
             messageText = readerForUc.readLine();
-            System.out.println("Bitte geben Sie einen Empfänger ein. Danach wird die Nachricht versendet.");
+            LOGGER.info("Bitte geben Sie einen Empfänger ein. Danach wird die Nachricht versendet.");
             receiver = readerForUc.readLine();
         } catch (IOException e) {
             //Sollte die Eingabe ungültig sein, kehrt das System zum Hauptmenü zurück
-            System.out.println("Das war keine Korrekte eingabe.");
+            LOGGER.error("Das war keine Korrekte eingabe.");
             return;
         }
         this.chatService.sendDirectMessage(receiver, messageText);
@@ -99,11 +99,11 @@ public class MainMenu {
      */
     private void broadcast() throws ApplicationException {
         var messageText = "";
-        System.out.println("Schreiben Sie Ihre Rundnachricht und versenden Sie mit 'Enter'");
+        LOGGER.info("Schreiben Sie Ihre Rundnachricht und versenden Sie mit 'Enter'");
         try {
             messageText = readerForUc.readLine();
         } catch (IOException e) {
-            System.out.println("Das war keine Korrekte eingabe.");
+            LOGGER.error("Das war keine Korrekte eingabe.");
         }
         this.chatService.sendBroadCast(messageText);
     }
@@ -114,7 +114,7 @@ public class MainMenu {
      * Hier kann die Logik für readMessage rein.
      */
     private void readMessage() throws ApplicationException {
-        System.out.println("Das sind Ihre Nachrichten");
+        LOGGER.info("Das sind Ihre Nachrichten");
         List<Message> messages = chatService.getMessages();
         for (Message m : messages) {
             System.out.println(m.getMessageText());
