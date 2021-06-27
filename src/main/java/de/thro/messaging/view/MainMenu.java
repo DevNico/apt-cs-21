@@ -54,10 +54,10 @@ public class MainMenu {
                         endApp();
                         break;
                     default:
-                        LOGGER.error("Das ist kein Menü");
+                        LOGGER.warn("Das ist kein Menü");
                 }
             } catch (ApplicationException e) {
-                System.out.println(e.getMessage());
+                LOGGER.error(e.getMessage());
             }
         }
     }
@@ -117,7 +117,7 @@ public class MainMenu {
         LOGGER.info("Das sind Ihre Nachrichten");
         List<Message> messages = chatService.getMessages();
         for (Message m : messages) {
-            System.out.println(m.getMessageText());
+            LOGGER.error(m.getMessageText());
         }
     }
 
@@ -148,7 +148,7 @@ public class MainMenu {
                 case "X":
                     return UseCase.END_APP;
                 default:
-                    LOGGER.error("Das ist kein Menü");
+                    LOGGER.warn("Das ist kein Menü");
                     break;
             }
 
