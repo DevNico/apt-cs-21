@@ -21,7 +21,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Startup {
-    static final Logger LOGGER = LogManager.getLogger(Startup.class);
+    private static final Logger LOGGER = LogManager.getLogger(Startup.class);
 
     static ISerializerFactory serializerJsonFactory = new SerializerJsonFactory();
     static ISerializer<ConfigUser> userISerializer = serializerJsonFactory.createSerializerJson(ConfigUser.class);
@@ -41,7 +41,7 @@ public class Startup {
         try {
             userIsInConfig = um.isMainUserInConfig();
         } catch (ConfigHandlerException e) {
-            e.printStackTrace();
+            LOGGER.error("Couldn't find UserConfigFile.", e);
             System.exit(1);
         }
 
@@ -56,7 +56,7 @@ public class Startup {
         try {
             user = um.getMainUser();
         } catch (ConfigHandlerException | UserNotExistsException e) {
-            e.printStackTrace();
+            LOGGER.error("Failed to load user.", e);
             System.exit(1);
         }
 
@@ -65,7 +65,7 @@ public class Startup {
             final var config = new MessageQueueConfiguration("localhost", "61616", "admin", "admin");
             messageQueue = new ActiveMQ(config, user);
         } catch (MessageQueueConnectionException e) {
-            e.printStackTrace();
+            LOGGER.error("An error occurred while creating the messaging instance.",e);
             System.exit(1);
         }
 

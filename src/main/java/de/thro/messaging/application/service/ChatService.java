@@ -10,12 +10,15 @@ import de.thro.messaging.common.DateTimeFactory;
 import de.thro.messaging.domain.enums.UserType;
 import de.thro.messaging.domain.models.Message;
 import de.thro.messaging.domain.models.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ChatService implements IChatService {
+    private static final Logger LOGGER = LogManager.getLogger(ChatService.class);
 
     public static final int MAX_FETCH_TRIES = 5;
 
@@ -34,7 +37,7 @@ public class ChatService implements IChatService {
         try {
             this.messageQueue.sendDirect(message1);
         } catch (MessageQueueConnectionException e) {
-            e.printStackTrace();
+            LOGGER.error("A connection to the message queue could not be established.",e);
         } catch (MessageQueueSendException e) {
             throw new ApplicationException("Direktnachricht konnte nicht versendet werden", e);
         } catch (MessageQueueConfigurationException e) {

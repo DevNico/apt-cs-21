@@ -10,12 +10,15 @@ import de.thro.messaging.application.dependencies.messagequeue.exceptions.Messag
 import de.thro.messaging.domain.models.Message;
 import de.thro.messaging.domain.models.User;
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.jms.*;
 import java.util.LinkedList;
 import java.util.List;
 
 public class ActiveMQ implements IMessageQueue {
+    private static final Logger LOGGER = LogManager.getLogger(ActiveMQ.class);
     private static final String BROADCAST_TOPIC = "broadcast";
 
     private final Connection connection;
@@ -95,7 +98,7 @@ public class ActiveMQ implements IMessageQueue {
             try {
                 list.add(fromTextMessage((TextMessage) message));
             } catch (MessageQueueFetchException e) {
-                e.printStackTrace();
+                LOGGER.error("An error occurred while fetching the message queue.",e);
             }
         }
     }
