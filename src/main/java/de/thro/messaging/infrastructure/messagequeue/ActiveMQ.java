@@ -26,12 +26,10 @@ public class ActiveMQ implements IMessageQueue {
 
     private final MessageProducer broadcastProducer;
 
-    private final User user;
     private final List<Message> directMessages;
     private final List<Message> broadcastMessages;
 
     public ActiveMQ(MessageQueueConfiguration configuration, User user) throws MessageQueueConnectionException {
-        this.user = user;
         directMessages = new LinkedList<>();
         broadcastMessages = new LinkedList<>();
 

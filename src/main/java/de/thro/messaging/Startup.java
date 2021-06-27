@@ -6,6 +6,7 @@ import de.thro.messaging.application.dependencies.messagequeue.exceptions.Messag
 import de.thro.messaging.application.service.ChatService;
 import de.thro.messaging.application.service.IChatService;
 import de.thro.messaging.application.service.UserManager;
+import de.thro.messaging.common.DateTimeFactory;
 import de.thro.messaging.common.confighandler.ConfigHandlerException;
 import de.thro.messaging.common.confighandler.ConfigUser;
 import de.thro.messaging.common.serialization.ISerializer;
@@ -69,7 +70,7 @@ public class Startup {
             System.exit(1);
         }
 
-        chatService = new ChatService(messageQueue, user);
+        chatService = new ChatService(messageQueue, user, new DateTimeFactory());
         mainMenu = new MainMenu(chatService, user);
         mainMenu.start();
     }

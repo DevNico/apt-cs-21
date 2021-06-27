@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Scanner;
 
 public class MainMenu {
 
@@ -53,10 +54,10 @@ public class MainMenu {
                         endApp();
                         break;
                     default:
-                        System.out.println("Das ist kein Menü");
+                        LOGGER.warn("Das ist kein Menü");
                 }
             } catch (ApplicationException e) {
-                System.out.println(e.getMessage());
+                LOGGER.error(e.getMessage());
             }
         }
     }
@@ -68,7 +69,7 @@ public class MainMenu {
      * App wird Beendet.
      */
     private void endApp() {
-        System.out.println("App Beendet.");
+        LOGGER.info("App Beendet.");
         System.exit(0);
     }
 
@@ -113,10 +114,10 @@ public class MainMenu {
      * Hier kann die Logik für readMessage rein.
      */
     private void readMessage() throws ApplicationException {
-        System.out.println("Das sind Ihre Nachrichten");
+        LOGGER.info("Das sind Ihre Nachrichten");
         List<Message> messages = chatService.getMessages();
         for (Message m : messages) {
-            System.out.println(m.getMessageText());
+            LOGGER.error(m.getMessageText());
         }
     }
 
@@ -128,14 +129,14 @@ public class MainMenu {
     private UseCase mainMenu() {
         while (true) {
             // create a BufferedReader using System.in
-            var bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+            final var scanner = new Scanner(System.in);
             var inputString = "";
             head("Hauptmenü");
 
             mainMenuText();
-            try {
-                inputString = bufferedReader.readLine();
-            } catch (IOException ignored) {}
+
+            inputString = scanner.nextLine();
+
 
             switch (inputString.toUpperCase()) {
                 case "D":
@@ -147,7 +148,7 @@ public class MainMenu {
                 case "X":
                     return UseCase.END_APP;
                 default:
-                    LOGGER.error("Das ist kein Menü");
+                    LOGGER.warn("Das ist kein Menü");
                     break;
             }
 
@@ -161,16 +162,16 @@ public class MainMenu {
      * @param description Was soll im Head stehen?
      */
     private void head(String description) {
-        System.out.println("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
-        System.out.println(description);
-        System.out.println("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+        LOGGER.info("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+        LOGGER.info(description);
+        LOGGER.info("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
     }
 
     private void mainMenuText() {
-        System.out.println("D um eine Direktnachricht zu schreiben");
-        System.out.println("B um eine Rundnachricht zu schreiben");
-        System.out.println("R um die Nachrichten anzuzeigen");
-        System.out.println("X um Programm zu beenden");
+        LOGGER.info("D um eine Direktnachricht zu schreiben");
+        LOGGER.info("B um eine Rundnachricht zu schreiben");
+        LOGGER.info("R um die Nachrichten anzuzeigen");
+        LOGGER.info("X um Programm zu beenden");
     }
 }
 

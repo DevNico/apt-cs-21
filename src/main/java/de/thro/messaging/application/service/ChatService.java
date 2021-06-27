@@ -6,13 +6,14 @@ import de.thro.messaging.application.dependencies.messagequeue.exceptions.Messag
 import de.thro.messaging.application.dependencies.messagequeue.exceptions.MessageQueueFetchException;
 import de.thro.messaging.application.dependencies.messagequeue.exceptions.MessageQueueSendException;
 import de.thro.messaging.application.exceptions.ApplicationException;
-import de.thro.messaging.common.DateTimeFactory;
+import de.thro.messaging.common.IDateTimeFactory;
 import de.thro.messaging.domain.enums.UserType;
 import de.thro.messaging.domain.models.Message;
 import de.thro.messaging.domain.models.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,15 +26,17 @@ public class ChatService implements IChatService {
     private final IMessageQueue messageQueue;
     private final User user;
     private int sendTries = 0;
+    private final IDateTimeFactory dateTimeFactory;
 
-    public ChatService(IMessageQueue messageQueue, User user) {
+    public ChatService(IMessageQueue messageQueue, User user, IDateTimeFactory dateTimeFactory) {
         this.messageQueue = messageQueue;
         this.user = user;
+        this.dateTimeFactory = dateTimeFactory;
     }
 
     @Override
     public void sendDirectMessage(String receiver, String message) throws ApplicationException {
-        Message message1 = new Message(user, receiver, false, message, DateTimeFactory.getDateTime());
+        Message message1 = new Message(user, receiver, false,message, dateTimeFactory.getDateTime());
         try {
             this.messageQueue.sendDirect(message1);
         } catch (MessageQueueConnectionException e) {
@@ -47,7 +50,7 @@ public class ChatService implements IChatService {
 
     @Override
     public void sendBroadCast(String message) throws ApplicationException {
-        Message message1 = new Message(user, null, true, message, DateTimeFactory.getDateTime());
+        Message message1 = new Message(user, null, true, message, dateTimeFactory.getDateTime());
         try {
             this.messageQueue.sendBroadcast(message1);
         } catch (MessageQueueConnectionException e) {
@@ -62,7 +65,7 @@ public class ChatService implements IChatService {
     @Override
     public List<Message> getMessages() throws ApplicationException {
         try {
-            List<Message> messages = this.messageQueue.getDirectMessages(this.user.getName());
+            List<Message> messages = new ArrayList<>(this.messageQueue.getDirectMessages(this.user.getName()));
             if (user.getUserType().equals(UserType.STUDENT)) {
                 messages.addAll(this.messageQueue.getBroadcastMessages());
             }
