@@ -50,7 +50,7 @@ public class ConfigHandler<T> implements IConfigHandler<T> {
                 throw new ConfigHandlerException("Error while creating parent folders. ");
             }
 
-            LOGGER.info("Path" + file.getParentFile().getPath() + " succesfully created. ");
+            LOGGER.info("Path {} succesfully created.", file.getParentFile().getPath());
         } else {
             LOGGER.warn("Path already exists. ");
         }
@@ -59,7 +59,7 @@ public class ConfigHandler<T> implements IConfigHandler<T> {
         try (Writer writer = new FileWriter(file)) {
             //write into File:
             writer.write(serializer.serialize(fileToSerialize));
-            LOGGER.info("File succesfully saved at " + buildPathFile(path));
+            LOGGER.info("File succesfully saved at {}", buildPathFile(path));
         } catch (Exception ex) {
             throw new ConfigHandlerException("Error while creating config-file, error-message: " + ex.getMessage());
         }
