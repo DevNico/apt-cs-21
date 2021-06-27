@@ -24,7 +24,7 @@ public class UserManager implements IUserManager {
         this.serializer = serializer;
     }
 
-    private static User user;
+    private User user;
 
     /**
      * Anlegen einer ConfighandlerInstanz zum aufruf der Daten aus der UserConfig
