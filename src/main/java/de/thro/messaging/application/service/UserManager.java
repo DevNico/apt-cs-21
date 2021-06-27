@@ -28,7 +28,6 @@ public class UserManager implements IUserManager {
 
     private static User user;
 
-    //TODO: Hinzufügen eines Serializers zum ConfigHandler
     /**
      * Anlegen einer ConfighandlerInstanz zum aufruf der Daten aus der UserConfig
      */
