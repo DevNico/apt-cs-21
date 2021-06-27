@@ -81,14 +81,13 @@ public class UserManager implements IUserManager {
 
         if (user == null) {
             ConfigUser configUser = configHandler.readConfig();
-            user = createUserFormConfig(configUser);
+            user = createUserFromConfig(configUser);
         }
         return user;
     }
 
-    private User createUserFormConfig(ConfigUser configUser) {
-        User user = new User(configUser.getName(), configUser.getType());
-        return user;
+    private User createUserFromConfig(ConfigUser configUser) {
+        return new User(configUser.getName(), configUser.getType());
     }
 
     private void createConfigFromUser(User user) throws ConfigHandlerException, UserAlreadyExistsException {
