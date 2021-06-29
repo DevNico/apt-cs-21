@@ -25,6 +25,9 @@ Systemvorraussetzungen bzw. Konfiguration:
 
 Für weitere Informationen siehe <a href="https://inf-git.fh-rosenheim.de/studlinnth6233/apt_nachrichtensystem/-/wikis/home" target="_blank" rel="noopener noreferrer">Wiki</a>
 
+## Pfad zur User-Config
+Beim erstmaligem Starten der Anwendung wird geprüft ob der User bereits schon einmal am System angemeldet war. Falls nicht, wird eine ConfigUser.json Datei unter folgendem Pfad (Windows) angelegt: C:\Users\XYZ\messaging\config 
+
 ## Benutzung des Loggers
 - In diesem Projekt wird der Logger von Log4j2 benutz.<br />
   Die genaue Anleitung von Log4j2 liegt in der Ordnerstruktur src/main/resources und wird dort konfiguriert.
@@ -35,3 +38,6 @@ Für weitere Informationen siehe <a href="https://inf-git.fh-rosenheim.de/studli
   ``` 
     - Beim import des Loggers darauf achten, dass man das package **org.apache.logging.log4j.Logger** 
     verwendet.
+
+## Starten des Projekts
+Zum Starten des Projekts muss lediglich die main Methode in der Klasse MainMenu (de/thro/messaging/view/MainMenu.java) aufgerufen- und der Docker-Container für ActiveMQ gestartet werden.
