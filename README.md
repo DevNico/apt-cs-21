@@ -40,4 +40,4 @@ Beim erstmaligem Starten der Anwendung wird geprüft ob der User bereits schon e
     verwendet.
 
 ## Starten des Projekts
-Zum Starten des Projekts muss lediglich die main Methode in der Klasse MainMenu (de/thro/messaging/view/MainMenu.java) aufgerufen- und der Docker-Container für ActiveMQ gestartet werden.
+Zum Starten des Projekts muss lediglich die main Methode in der Klasse Startup.java (de/thro/messaging/Startup.java) aufgerufen- und der Docker-Container für ActiveMQ gestartet werden.
