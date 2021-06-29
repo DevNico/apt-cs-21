@@ -3,7 +3,6 @@ package de.thro.messaging.infrastructure.messagequeue;
 import com.google.gson.GsonBuilder;
 import de.thro.messaging.application.dependencies.messagequeue.IMessageQueue;
 import de.thro.messaging.application.dependencies.messagequeue.MessageQueueConfiguration;
-import de.thro.messaging.application.dependencies.messagequeue.exceptions.MessageQueueConfigurationException;
 import de.thro.messaging.application.dependencies.messagequeue.exceptions.MessageQueueConnectionException;
 import de.thro.messaging.application.dependencies.messagequeue.exceptions.MessageQueueFetchException;
 import de.thro.messaging.application.dependencies.messagequeue.exceptions.MessageQueueSendException;
@@ -30,24 +29,31 @@ public class ActiveMQ implements IMessageQueue {
         directMessages = new LinkedList<>();
         broadcastMessages = new LinkedList<>();
 
+        // Initialise activemq connection configuration
         final var factory = new ActiveMQConnectionFactory();
         factory.setBrokerURL(String.format("tcp://%s:%s", configuration.getIp(), configuration.getPort()));
         factory.setUserName(configuration.getUsername());
         factory.setPassword(configuration.getPassword());
 
         try {
+            // Connect to ActiveMQ
             connection = factory.createConnection();
             connection.start();
 
+            // Open session
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
+            // Open topic for direct messaging with current user
             final var directDestination = session.createTopic(user.getName());
             final var directConsumer = session.createConsumer(directDestination);
+            // Register message listener for direct messages
             directConsumer.setMessageListener(message -> messageListener(directMessages, message));
 
+            // Open topic for broadcast messages
             final var broadcastDestination = session.createTopic(BROADCAST_TOPIC);
             broadcastProducer = session.createProducer(broadcastDestination);
             final var broadcastConsumer = session.createConsumer(broadcastDestination);
+            // Register message listener for broadcast messages
             broadcastConsumer.setMessageListener(message -> messageListener(broadcastMessages, message));
         } catch (JMSException e) {
             throw new MessageQueueConnectionException("Error connecting to ActiveMQ", e);
@@ -55,7 +61,7 @@ public class ActiveMQ implements IMessageQueue {
     }
 
     @Override
-    public void sendDirect(Message message) throws MessageQueueConnectionException, MessageQueueSendException, MessageQueueConfigurationException {
+    public void sendDirect(Message message) throws MessageQueueSendException {
         final var textMessage = toTextMessage(message);
 
         try {
@@ -68,7 +74,7 @@ public class ActiveMQ implements IMessageQueue {
     }
 
     @Override
-    public void sendBroadcast(Message message) throws MessageQueueConnectionException, MessageQueueSendException, MessageQueueConfigurationException {
+    public void sendBroadcast(Message message) throws MessageQueueSendException {
         final var textMessage = toTextMessage(message);
 
         try {
@@ -79,7 +85,7 @@ public class ActiveMQ implements IMessageQueue {
     }
 
     @Override
-    public List<Message> getDirectMessages(String userName) throws MessageQueueConnectionException, MessageQueueFetchException, MessageQueueConfigurationException {
+    public List<Message> getDirectMessages(String userName) {
         return directMessages;
     }
 
@@ -98,6 +104,13 @@ public class ActiveMQ implements IMessageQueue {
         }
     }
 
+    /**
+     * Serialises a Message object as json and converts it to a jms TextMessage.
+     *
+     * @param message
+     * @return TextMessage
+     * @throws MessageQueueSendException
+     */
     private TextMessage toTextMessage(Message message) throws MessageQueueSendException {
         final var gson = new GsonBuilder().create();
         try {
@@ -107,6 +120,15 @@ public class ActiveMQ implements IMessageQueue {
         }
     }
 
+
+    /**
+     * Deserialises a jms TextMessage to Message instance by deserialising
+     * the JSON in the TextMessage.
+     *
+     * @param message
+     * @return Message
+     * @throws MessageQueueFetchException
+     */
     private Message fromTextMessage(TextMessage message) throws MessageQueueFetchException {
         final var gson = new GsonBuilder().create();
 
