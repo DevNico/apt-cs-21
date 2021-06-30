@@ -10,6 +10,8 @@ import de.thro.messaging.common.IDateTimeFactory;
 import de.thro.messaging.domain.enums.UserType;
 import de.thro.messaging.domain.models.Message;
 import de.thro.messaging.domain.models.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -17,6 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ChatService implements IChatService {
+    private static final Logger LOGGER = LogManager.getLogger(ChatService.class);
 
     public static final int MAX_FETCH_TRIES = 5;
 
@@ -33,11 +36,11 @@ public class ChatService implements IChatService {
 
     @Override
     public void sendDirectMessage(String receiver, String message) throws ApplicationException {
-        Message message1 = new Message(user, receiver, false,message, dateTimeFactory.getDateTime());
+        var message1 = new Message(user, receiver, false,message, dateTimeFactory.getDateTime());
         try {
             this.messageQueue.sendDirect(message1);
         } catch (MessageQueueConnectionException e) {
-            e.printStackTrace();
+            LOGGER.error("A connection to the message queue could not be established.",e);
         } catch (MessageQueueSendException e) {
             throw new ApplicationException("Direktnachricht konnte nicht versendet werden", e);
         } catch (MessageQueueConfigurationException e) {
@@ -47,7 +50,7 @@ public class ChatService implements IChatService {
 
     @Override
     public void sendBroadCast(String message) throws ApplicationException {
-        Message message1 = new Message(user, null, true, message, dateTimeFactory.getDateTime());
+        var message1 = new Message(user, null, true, message, dateTimeFactory.getDateTime());
         try {
             this.messageQueue.sendBroadcast(message1);
         } catch (MessageQueueConnectionException e) {
@@ -83,9 +86,10 @@ public class ChatService implements IChatService {
             throw new ApplicationException("Chatserver kann nicht erreicht werden");
         }
         try {
-            Thread.currentThread().wait(100);
+            Thread.sleep(100);
             return getMessages();
         } catch (InterruptedException ie) {
+            Thread.currentThread().interrupt();
             throw new ApplicationException("Interrupt reveived...", ie);
         }
     }

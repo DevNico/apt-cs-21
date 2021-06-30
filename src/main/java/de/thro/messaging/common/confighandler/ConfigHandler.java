@@ -24,7 +24,6 @@ public class ConfigHandler<T> implements IConfigHandler<T> {
 
     @Override
     public T readConfig(String path) throws ConfigHandlerException {
-        System.out.println(Path.of(buildPathFile(path)));
         try {
             //read file into string
             final var read = Files.readString(Path.of(buildPathFile(path)));
@@ -50,7 +49,7 @@ public class ConfigHandler<T> implements IConfigHandler<T> {
                 throw new ConfigHandlerException("Error while creating parent folders. ");
             }
 
-            LOGGER.info("Path" + file.getParentFile().getPath() + " succesfully created. ");
+            LOGGER.info("Path {} succesfully created.", file.getParentFile().getPath());
         } else {
             LOGGER.warn("Path already exists. ");
         }
@@ -59,7 +58,8 @@ public class ConfigHandler<T> implements IConfigHandler<T> {
         try (Writer writer = new FileWriter(file)) {
             //write into File:
             writer.write(serializer.serialize(fileToSerialize));
-            LOGGER.info("File succesfully saved at " + buildPathFile(path));
+            String correctPath = buildPathFile(path);
+            LOGGER.info("File succesfully saved at {}", correctPath);
         } catch (Exception ex) {
             throw new ConfigHandlerException("Error while creating config-file, error-message: " + ex.getMessage());
         }

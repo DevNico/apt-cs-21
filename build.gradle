@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'jacoco'
+    id "org.sonarqube" version "3.0"
 }
 
 group 'de.thro.messaging'
@@ -29,6 +30,14 @@ dependencies {
     // https://mvnrepository.com/artifact/org.awaitility/awaitility
     testImplementation group: 'org.awaitility', name: 'awaitility', version: '4.1.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "apt"
+        property "sonar.host.url", "http://localhost:4010/"
+        property "sonar.login", "af26f56caf51840f13c05d214cdb58180afe4500"
+    }
 }
 
 test {

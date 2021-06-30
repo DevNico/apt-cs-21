@@ -13,8 +13,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class NewUserView {
-
-    static final Logger LOGGER = LogManager.getLogger(NewUserView.class);
+    private static final Logger LOGGER = LogManager.getLogger(NewUserView.class);
 
     private UserManager um;
 
@@ -57,7 +56,7 @@ public class NewUserView {
 
              um.createMainUser(userName, userType);
         } catch (NoSuchElementException | UserAlreadyExistsException | ConfigHandlerException e) {
-            e.printStackTrace();
+            LOGGER.error("An error occurred while creating the user.", e);
         }
     }
 
@@ -65,7 +64,7 @@ public class NewUserView {
         try {
             return um.getMainUser();
         } catch (ConfigHandlerException | UserNotExistsException e) {
-            e.printStackTrace();
+            LOGGER.error("An error occurred while loading the user.", e);
         }
         return null;
     }

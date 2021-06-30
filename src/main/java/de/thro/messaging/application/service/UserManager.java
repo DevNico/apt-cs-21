@@ -18,17 +18,14 @@ import de.thro.messaging.common.serialization.SerializerJson;
  * @author Franz Murner
  */
 public class UserManager implements IUserManager {
-
     ISerializer<ConfigUser> serializer = new SerializerJson<>(ConfigUser.class, new Gson());
 
     public UserManager(ISerializer<ConfigUser> serializer) {
         this.serializer = serializer;
     }
 
+    private User user;
 
-    private static User user;
-
-    //TODO: Hinzufügen eines Serializers zum ConfigHandler
     /**
      * Anlegen einer ConfighandlerInstanz zum aufruf der Daten aus der UserConfig
      */
@@ -61,7 +58,7 @@ public class UserManager implements IUserManager {
 
         if (!configHandler.isFileAvailable()) return false;
 
-        ConfigUser configUser = configHandler.readConfig(null);
+        var configUser = configHandler.readConfig(null);
 
         return configUser != null;
     }
@@ -80,22 +77,21 @@ public class UserManager implements IUserManager {
             throw new UserNotExistsException("Fehler: Es wurde noch kein Hauptbenutzer angelegt!");
 
         if (user == null) {
-            ConfigUser configUser = configHandler.readConfig();
-            user = createUserFormConfig(configUser);
+            var configUser = configHandler.readConfig();
+            user = createUserFromConfig(configUser);
         }
         return user;
     }
 
-    private User createUserFormConfig(ConfigUser configUser) {
-        User user = new User(configUser.getName(), configUser.getType());
-        return user;
+    private User createUserFromConfig(ConfigUser configUser) {
+        return new User(configUser.getName(), configUser.getType());
     }
 
     private void createConfigFromUser(User user) throws ConfigHandlerException, UserAlreadyExistsException {
         if (isMainUserInConfig())
             throw new UserAlreadyExistsException("Es existiert bereits ein Hauptbenutzer in der Config");
 
-        ConfigUser configUser = new ConfigUser(user.getName(), user.getUserType());
+        var configUser = new ConfigUser(user.getName(), user.getUserType());
         configHandler.writeConfig(configUser);
     }
 }

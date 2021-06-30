@@ -89,7 +89,7 @@ public class Message {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Message message = (Message) o;
+        var message = (Message) o;
         return isBroadcast == message.isBroadcast && Objects.equals(getSender(), message.getSender()) && Objects.equals(getReceiver(), message.getReceiver()) && Objects.equals(getMessageText(), message.getMessageText()) && Objects.equals(dateTime, message.dateTime);
     }
 

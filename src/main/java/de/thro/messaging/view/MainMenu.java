@@ -26,10 +26,8 @@ public class MainMenu {
 
 
     private final IChatService chatService;
-    private final User user;
 
-    public MainMenu(IChatService chatService, User user) {
-        this.user = user;
+    public MainMenu(IChatService chatService) {
         this.chatService = chatService;
     }
 
